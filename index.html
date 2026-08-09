@@ -31,6 +31,19 @@
   .stat b{display:block;font-size:19px;color:var(--accent)}
   .stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
 
+  /* Difficulty level selector */
+  .levelbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;justify-content:space-between;
+            background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px}
+  .lvl-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);width:100%;margin-bottom:2px}
+  .lvl-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .lvl-chip{cursor:pointer;user-select:none;border:1px solid var(--line);background:var(--chip);color:var(--txt);
+            padding:7px 13px;border-radius:9px;font-size:13.5px;font-weight:600;transition:.12s;display:flex;flex-direction:column;line-height:1.2}
+  .lvl-chip small{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  .lvl-chip:hover{border-color:var(--accent);color:#fff}
+  .lvl-chip.on{background:var(--chip-on);border-color:var(--accent);color:#eafff9}
+  .lvl-chip.on small{color:#a7f3d0}
+  .lvl-quip{color:var(--muted);font-size:12.5px;font-style:italic;flex:1;min-width:180px;text-align:right}
+
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:820px){.grid{grid-template-columns:1fr}}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
@@ -126,9 +139,16 @@
     <div class="score">
       <div class="stat"><b id="s-ok">0</b><span>Aciertos</span></div>
       <div class="stat"><b id="s-streak">0</b><span>Racha</span></div>
+      <div class="stat"><b id="s-record">0</b><span>Récord</span></div>
       <div class="stat"><b id="s-total">0</b><span>Jugadas</span></div>
     </div>
   </header>
+
+  <section class="levelbar" id="levelbar">
+    <div class="lvl-title">Nivel de dificultad</div>
+    <div class="lvl-chips" id="lvl-chips"></div>
+    <div class="lvl-quip" id="lvl-quip"></div>
+  </section>
 
   <div class="grid">
     <!-- MOLECULE -->
@@ -391,8 +411,10 @@ function weightedSmall(min,max){ // bias toward smaller lengths
   return pick(pool);
 }
 
-function placeSubs(n, bonds, want){
+function placeSubs(n, bonds, want, cap){
   // valence-aware, keeps main chain as the (unique-enough) longest path
+  // `cap` (optional) limits the maximum radical arm length (e.g. 1 = only metil)
+  const capLen = cap || 5;
   const chainOrder = Array(n+1).fill(0);
   for(let i=1;i<n;i++){ const b=bonds.find(x=>x.pos===i); const o=b?b.order:1; chainOrder[i]+=o; chainOrder[i+1]+=o; }
   const freeOf = i => 4-chainOrder[i];
@@ -406,7 +428,7 @@ function placeSubs(n, bonds, want){
     const used = placedAt[p]||0;
     if(freeOf(p)-used < 1) continue;
     const maxArm = Math.min(p-1, n-p);
-    let maxLen = Math.min(5, maxArm);
+    let maxLen = Math.min(5, maxArm, capLen);
     if(maxLen<1) continue;
     let L = weightedSmall(1,maxLen);
     if(used>0) L=1; // gem substituents kept as methyl
@@ -415,55 +437,98 @@ function placeSubs(n, bonds, want){
   return subs;
 }
 
-function generate(){
-  const families=['alcano','alcano','alqueno','alqueno','dieno','alquino','ciclo','aromatico'];
+/* ---------- Difficulty presets ----------
+   Cada nivel define qué familias pueden salir y los rangos de tamaño,
+   ramificaciones (sub) y longitud máxima de radical (cap). El motor de
+   nomenclatura no cambia; solo se restringe qué moléculas se generan. */
+const LEVELS = {
+  facil:{
+    id:'facil', label:'Fácil',
+    name:'Nivel Wöhler',
+    quip:'El que probó que la química orgánica no era brujería.',
+    families:['alcano'],
+    alk:{straightChance:0.4, straight:[1,6], branched:[3,6], sub:[0,1], cap:1}
+  },
+  medio:{
+    id:'medio', label:'Medio',
+    name:'Nivel Kekulé',
+    quip:'Soñó con serpientes y salió el benceno.',
+    families:['alcano','alqueno','alquino','ciclo'],
+    alk:{straightChance:0.3, straight:[4,10], branched:[4,9], sub:[1,2], cap:2},
+    ene:{n:[4,9], subChance:0.5, sub:[1,2], cap:2},
+    yne:{n:[4,9], subChance:0.45, sub:[1,2], cap:2},
+    cyc:{R:[3,6], subChance:0.75, sub:[1,2], cap:2}
+  },
+  dificil:{
+    id:'dificil', label:'Difícil',
+    name:"Nivel Le Bel–Van't Hoff",
+    quip:'Si llegaste acá, ya no necesitás la tabla de reglas.',
+    families:['alcano','alcano','alqueno','alqueno','dieno','alquino','ciclo','aromatico'],
+    alk:{straightChance:0.22, straight:[5,15], branched:[5,12], sub:[1,3], cap:5},
+    ene:{n:[4,10], subChance:0.55, sub:[1,2], cap:5},
+    yne:{n:[4,10], subChance:0.5, sub:[1,2], cap:5},
+    dien:{n:[5,10], subChance:0.5},
+    cyc:{R:[3,6], subChance:0.75, sub:[1,2], cap:3},
+    arom:{sub:[1,2], cap:3}
+  }
+};
+
+function generate(level){
+  const cfg = LEVELS[level] || LEVELS.facil;
   for(let attempt=0; attempt<400; attempt++){
-    const fam = pick(families);
+    const fam = pick(cfg.families);
     let mol=null, famLabel='', analysis=null;
 
     if(fam==='alcano'){
-      if(Math.random()<0.22){ // straight chain
-        const n=rnd(5,15); mol={kind:'chain',n,bonds:[],subs:[]};
+      const a=cfg.alk;
+      if(Math.random()<a.straightChance){ // straight chain
+        const n=rnd(a.straight[0],a.straight[1]); mol={kind:'chain',n,bonds:[],subs:[]};
       } else {
-        const n=rnd(5,12); const subs=placeSubs(n,[],rnd(1,3));
+        const n=rnd(a.branched[0],a.branched[1]);
+        const subs=placeSubs(n,[],rnd(a.sub[0],a.sub[1]),a.cap);
         mol={kind:'chain',n,bonds:[],subs};
       }
       famLabel='Alcano';
       analysis=analyzeChain(mol);
     }
     else if(fam==='alqueno'){
-      const n=rnd(4,10); const p=rnd(1,n-1);
+      const e=cfg.ene;
+      const n=rnd(e.n[0],e.n[1]); const p=rnd(1,n-1);
       const bonds=[{pos:p,order:2}];
-      const subs = Math.random()<0.55 ? placeSubs(n,bonds,rnd(1,2)) : [];
+      const subs = Math.random()<e.subChance ? placeSubs(n,bonds,rnd(e.sub[0],e.sub[1]),e.cap) : [];
       mol={kind:'chain',n,bonds,subs}; famLabel='Alqueno';
       analysis=analyzeChain(mol);
     }
     else if(fam==='dieno'){
-      const n=rnd(5,10); const p1=rnd(1,n-3); const p2=rnd(p1+2,n-1);
+      const d=cfg.dien;
+      const n=rnd(d.n[0],d.n[1]); const p1=rnd(1,n-3); const p2=rnd(p1+2,n-1);
       const bonds=[{pos:p1,order:2},{pos:p2,order:2}];
-      const subs = Math.random()<0.5 ? placeSubs(n,bonds,1) : [];
+      const subs = Math.random()<d.subChance ? placeSubs(n,bonds,1) : [];
       mol={kind:'chain',n,bonds,subs}; famLabel='Dieno';
       analysis=analyzeChain(mol);
     }
     else if(fam==='alquino'){
-      const n=rnd(4,10); const p=rnd(1,n-1);
+      const y=cfg.yne;
+      const n=rnd(y.n[0],y.n[1]); const p=rnd(1,n-1);
       const bonds=[{pos:p,order:3}];
-      const subs = Math.random()<0.5 ? placeSubs(n,bonds,rnd(1,2)) : [];
+      const subs = Math.random()<y.subChance ? placeSubs(n,bonds,rnd(y.sub[0],y.sub[1]),y.cap) : [];
       mol={kind:'chain',n,bonds,subs}; famLabel='Alquino';
       analysis=analyzeChain(mol);
     }
     else if(fam==='ciclo'){
-      const R=rnd(3,6);
-      const nsub=(Math.random()<0.25)?0:rnd(1,2);
+      const c=cfg.cyc;
+      const R=rnd(c.R[0],c.R[1]);
+      const nsub=(Math.random()<(1-c.subChance))?0:rnd(c.sub[0],c.sub[1]);
       const verts=[]; while(verts.length<nsub){ const v=rnd(1,R); if(!verts.includes(v)) verts.push(v); }
-      const subs=verts.map(v=>({pos:v,len:weightedSmall(1,Math.min(3,R))}));
+      const subs=verts.map(v=>({pos:v,len:weightedSmall(1,Math.min(c.cap,R))}));
       mol={kind:'cycle',n:R,subs}; famLabel='Cicloalcano';
       analysis={struct:nameRing(mol)};
     }
     else { // aromatico
-      const R=6; const nsub=rnd(1,2);
+      const ar=cfg.arom;
+      const R=6; const nsub=rnd(ar.sub[0],ar.sub[1]);
       const verts=[]; while(verts.length<nsub){ const v=rnd(1,R); if(!verts.includes(v)) verts.push(v); }
-      const subs=verts.map(v=>({pos:v,len:weightedSmall(1,3)}));
+      const subs=verts.map(v=>({pos:v,len:weightedSmall(1,ar.cap)}));
       mol={kind:'aromatic',n:R,subs}; famLabel='Aromático (benceno)';
       analysis={struct:nameRing(mol)};
     }
@@ -533,9 +598,19 @@ function renderMolecule(mol){
 const state = {
   current:null,
   user:{ kind:'chain', root:null, suffix:null, bondLocants:[], subs:[] },
+  level:'facil', record:0,
   ok:0, streak:0, total:0, solved:false
 };
 const $ = id => document.getElementById(id);
+
+/* ---------- Persistencia (localStorage, tolerante a fallos) ---------- */
+const LS = {
+  get(k,def){ try{ const v=localStorage.getItem(k); return v===null?def:v; }catch(e){ return def; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+};
+const recordKey = () => 'nq_record_'+state.level;
+function saveScore(){ LS.set('nq_ok', state.ok); LS.set('nq_total', state.total); }
+function loadRecord(){ state.record = parseInt(LS.get(recordKey(),'0'),10)||0; $('s-record').textContent=state.record; }
 
 const KINDS=[{k:'chain',t:'Cadena abierta'},{k:'cycle',t:'Cicloalcano'},{k:'aromatic',t:'Aromático'}];
 const SUFFIXES=[{s:'ano',t:'-ano'},{s:'eno',t:'-eno'},{s:'ino',t:'-ino'},{s:'dieno',t:'-dieno'}];
@@ -803,10 +878,35 @@ function solve(){
   showFeedback('sol','<span class="h">🔎 Solución</span>El nombre correcto es <code>'+state.current.name+'</code>. '+chosenChain+alfa);
 }
 
-function updateScore(){ $('s-ok').textContent=state.ok; $('s-streak').textContent=state.streak; $('s-total').textContent=state.total; }
+function updateScore(){
+  $('s-ok').textContent=state.ok; $('s-streak').textContent=state.streak; $('s-total').textContent=state.total;
+  if(state.streak>state.record){ state.record=state.streak; LS.set(recordKey(), state.record); $('s-record').textContent=state.record; }
+  saveScore();
+}
+
+/* ---------- Selector de nivel de dificultad ---------- */
+function renderLevelChips(){
+  const c=$('lvl-chips'); c.innerHTML='';
+  ['facil','medio','dificil'].forEach(id=>{
+    const lv=LEVELS[id];
+    const el=document.createElement('div');
+    el.className='lvl-chip'+(state.level===id?' on':'');
+    el.innerHTML='<small>'+lv.label+'</small>'+lv.name;
+    el.title=lv.quip;
+    el.onclick=()=>{
+      if(state.level===id) return;
+      state.level=id; LS.set('nq_level', id);
+      state.streak=0; loadRecord();
+      renderLevelChips(); updateLevelQuip(); updateScore();
+      newMolecule();
+    };
+    c.appendChild(el);
+  });
+}
+function updateLevelQuip(){ $('lvl-quip').textContent='«'+LEVELS[state.level].quip+'»'; }
 
 function newMolecule(){
-  state.current=generate();
+  state.current=generate(state.level);
   resetUser();
   const disp=renderMolecule(state.current.mol);
   const md=$('mol-display');
@@ -867,8 +967,17 @@ function runSelfTests(){
 }
 
 /* boot */
-runSelfTests();
-newMolecule();
+function boot(){
+  const savedLevel = LS.get('nq_level','facil');
+  state.level = ['facil','medio','dificil'].includes(savedLevel) ? savedLevel : 'facil';
+  state.ok = parseInt(LS.get('nq_ok','0'),10)||0;
+  state.total = parseInt(LS.get('nq_total','0'),10)||0;
+  loadRecord();
+  renderLevelChips(); updateLevelQuip(); updateScore();
+  runSelfTests();
+  newMolecule();
+}
+boot();
 </script>
 </body>
 </html>

@@ -33,6 +33,18 @@ Al pulsar **Verificar**, si hay un error el juego **no revela la respuesta**: da
 
 El nombre correcto se **calcula algorítmicamente** desde el grafo molecular (no hay respuestas memorizadas), y cada molécula generada pasa un filtro anti-ambigüedad: solo se aceptan ejercicios con una única respuesta correcta.
 
+## Niveles de dificultad
+
+El jugador elige contra qué se enfrenta, con una progresión pedagógica (el nombre de cada nivel homenajea a un químico + una frase de guiño):
+
+| Nivel | Homenaje | Qué genera |
+|---|---|---|
+| **Fácil** | Nivel Wöhler | Solo alcanos cortos (1–6 C), sin ramificar o con un único radical metil. Sin anillos ni enlaces múltiples. |
+| **Medio** | Nivel Kekulé | Alcanos, alquenos, alquinos y cicloalcanos. Cadenas de 4–10 C, 1–2 radicales, un solo enlace múltiple. |
+| **Difícil** | Nivel Le Bel–Van't Hoff | Todo el alcance: dienos, aromáticos, cadenas de hasta 15 C, 2–3 radicales y casos con conflicto de numeración. |
+
+El marcador (aciertos, jugadas) y el **récord de racha por nivel** se guardan en el navegador (`localStorage`), así que no se pierden al recargar.
+
 ## ¿Cómo ayuda a practicar?
 
 - **Práctica infinita:** el generador crea moléculas nuevas cada vez, dentro del alcance del curso.
