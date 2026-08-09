@@ -2,7 +2,7 @@
 
 **▶️ [Jugar ahora en el navegador](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/)**
 
-Videojuego web educativo en 2D, estilo rompecabezas interactivo, para practicar la **nomenclatura IUPAC de química orgánica** (hidrocarburos). Es un **proyecto escolar** desarrollado para la **Exposición Anual** del colegio san José.
+Videojuego web educativo en 2D, estilo rompecabezas interactivo, para practicar la **nomenclatura IUPAC de química orgánica**. Un selector de **Unidad/Tema** permite elegir entre **Hidrocarburos (Cap. 1–2)** y **Compuestos oxigenados (Cap. 3)**, cada uno con su propia dificultad. Es un **proyecto escolar** desarrollado para la **Exposición Anual** del colegio san José.
 
 ## ¿Qué es?
 
@@ -32,6 +32,17 @@ Al pulsar **Verificar**, si hay un error el juego **no revela la respuesta**: da
 - **Anillos:** numeración que da el conjunto de localizadores más bajo; en anillos monosustituidos el localizador se omite.
 
 El nombre correcto se **calcula algorítmicamente** desde el grafo molecular (no hay respuestas memorizadas), y cada molécula generada pasa un filtro anti-ambigüedad: solo se aceptan ejercicios con una única respuesta correcta.
+
+## Unidades / Temas
+
+El selector superior separa el contenido en unidades independientes (cada una con su marcador y récord propios):
+
+| Unidad | Contenido |
+|---|---|
+| **Hidrocarburos (Cap. 1–2)** | Alcanos, alquenos, dienos, alquinos, cicloalcanos y aromáticos (lo descrito arriba). |
+| **Compuestos oxigenados (Cap. 3)** | **Alcoholes** de cadena abierta (Fase 3A): estilo escolar `2-butanol`. El **grupo funcional (–OH) tiene prioridad** para el localizador más bajo, por encima de los radicales. `metanol` y `etanol` van sin localizador. |
+
+> **Roadmap Cap. 3:** una familia por entrega, reusando el mismo motor algorítmico — alcoholes ✓, luego aldehídos, cetonas y ácidos carboxílicos.
 
 ## Niveles de dificultad
 
@@ -65,4 +76,4 @@ El marcador (aciertos, jugadas) y el **récord de racha por nivel** se guardan e
 
 ---
 
-*Proyecto educativo sin fines de lucro. El motor de nomenclatura incluye una batería de auto-tests (19 casos) que se ejecuta al cargar la página; el resultado se muestra al pie.*
+*Proyecto educativo sin fines de lucro. El motor de nomenclatura incluye baterías de auto-tests (19 casos de hidrocarburos + 11 de alcoholes, todos verificados a mano) que se ejecutan al cargar la página; el resultado se muestra al pie.*
