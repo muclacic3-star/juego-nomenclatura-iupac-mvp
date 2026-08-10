@@ -200,7 +200,7 @@
       </div>
 
       <div class="field hidden" id="fgloc-field">
-        <div class="flabel"><span class="n">5</span> Localizador del grupo funcional (–OH)</div>
+        <div class="flabel"><span class="n">5</span> Localizador del grupo funcional (posición del –OH o C=O)</div>
         <div class="chips" id="fgloc-chips"></div>
       </div>
 
@@ -226,7 +226,9 @@
       <li><b>Orden alfabético:</b> los radicales se ordenan alfabéticamente <b>ignorando</b> los prefijos multiplicadores (<code>di-</code>, <code>tri-</code>, <code>tetra-</code>). Ej.: <code>etil</code> va antes que <code>dimetil</code> (se compara por «metil»).</li>
       <li><b>Alcance:</b> alcanos, alquenos, dienos, alquinos, cicloalcanos (hasta ciclohexano) y bencenos sustituidos. Cadenas de 1 a 15 C. Radicales lineales: metil, etil, propil, butil, pentil.</li>
       <li><b>Sin mezclar</b> dobles y triples en la misma molécula. Los dienos llevan dos dobles enlaces.</li>
-      <li><b>Grupos funcionales (Cap. 3):</b> el <b>grupo funcional</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. Alcoholes → sufijo <code>-ol</code> con su localizador (<code>2-butanol</code>); <b>metanol</b> y <b>etanol</b> no llevan localizador.</li>
+      <li><b>Grupos funcionales (Cap. 3):</b> el <b>grupo funcional</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. <b>Alcoholes</b> → <code>-ol</code> con localizador (<code>2-butanol</code>); metanol/etanol sin nº. <b>Aldehídos</b> → <code>-al</code>, el –CHO va <b>siempre en C1</b> (sin número: <code>propanal</code>, <code>2-metilbutanal</code>). <b>Cetonas</b> → <code>-ona</code>, el carbonilo lleva el número más bajo (<code>2-pentanona</code>); propanona/butanona sin nº.</li>
+      <li><b>Aldehído vs. cetona:</b> el mismo grupo <b>C=O</b> es <b>aldehído</b> si está en la <b>punta</b> de la cadena y <b>cetona</b> si está <b>entre dos carbonos</b>.</li>
+      <li>🧪 <b>Sabías que…</b> la <b>propanona</b> es la <i>acetona</i> del quitaesmalte; el <b>metanal</b> es el <i>formol</i>; la <b>butanona</b> es un solvente común; y los aromas a <i>vainilla</i> y <i>almendras</i> vienen de aldehídos aromáticos (todavía no jugables acá).</li>
     </ul>
   </details>
 
@@ -241,6 +243,7 @@
 
   <div id="selftest"></div>
   <div id="selftest-ox"></div>
+  <div id="selftest-carbonyl"></div>
   <div class="foot">MVP educativo · Un solo archivo HTML/CSS/JS · Sin dependencias externas</div>
 </div>
 
@@ -432,6 +435,68 @@ function analyzeAlcohol(mol){
   return {struct: nameAlcoholChain(adj, main, fgNode)};
 }
 
+/* ---------- Name a carbonyl parent chain (Cap. 3 · Fase 3B: aldehídos y cetonas) ----------
+   Mismo patrón que nameAlcoholChain: el grupo funcional (C=O) tiene prioridad para
+   el localizador más bajo, por encima de los radicales. type = 'al' | 'ona'.
+   Aldehído: el CHO es terminal, así que la numeración le da naturalmente fgLocant=1.
+   NO toca el camino de alcoholes ni el de hidrocarburos. */
+function nameCarbonylChain(adj, path, fgNode, type){
+  const k = path.length;
+  const pathSet = new Set(path);
+  const fgIndex = path.indexOf(fgNode);
+  const subsRaw = [];
+  for(let j=0;j<k;j++){
+    for(const nb of adj[path[j]]) if(!pathSet.has(nb.to)){
+      const sz = subtreeSize(adj, nb.to, pathSet);
+      subsRaw.push({index:j, len:sz});
+    }
+  }
+  const dir = (forward)=>{
+    const fgLoc = forward ? fgIndex+1 : (k-fgIndex);
+    const subs = subsRaw.map(s=>({name:ALKYL[s.len], loc: forward ? s.index+1 : (k-s.index)}));
+    return {fgLoc, subs};
+  };
+  const fwd=dir(true), rev=dir(false);
+  const subLocs = d => d.subs.map(s=>s.loc).sort((a,b)=>a-b);
+  const firstAlpha = d => {
+    if(!d.subs.length) return Infinity;
+    const names=[...new Set(d.subs.map(s=>s.name))].sort();
+    return Math.min(...d.subs.filter(s=>s.name===names[0]).map(s=>s.loc));
+  };
+  let useFwd;
+  if(fwd.fgLoc!==rev.fgLoc){ useFwd = fwd.fgLoc < rev.fgLoc; }        // prioridad del carbonilo
+  else { const c2=cmpList(subLocs(fwd),subLocs(rev));
+    useFwd = c2!==0 ? c2<0 : firstAlpha(fwd)<=firstAlpha(rev); }
+  const chosen = useFwd ? fwd : rev;
+  const map={};
+  for(const s of chosen.subs){ (map[s.name]=map[s.name]||[]).push(s.loc); }
+  const substituents = Object.keys(map).sort()
+    .map(name=>({name, locants: map[name].sort((a,b)=>a-b)}));
+  return {kind:'chain', root:k, suffix:type, fgLocant:chosen.fgLoc, bondLocants:[], substituents};
+}
+
+/* ---------- Analyze a carbonyl compound: parent = longest chain THROUGH the C=O ---------- */
+function analyzeCarbonyl(mol){
+  const type = mol.fg.type;
+  if(mol.n===1) return {struct:{kind:'chain',root:1,suffix:type,fgLocant:1,bondLocants:[],substituents:[]}};
+  const {adj, main} = buildGraph(mol);
+  const fgNode = main[mol.fg.pos-1];
+  const leaves = Object.keys(adj).map(Number).filter(id=>adj[id].length===1);
+  const paths=[];
+  for(let i=0;i<leaves.length;i++)
+    for(let j=i+1;j<leaves.length;j++){
+      const p=getPath(adj,leaves[i],leaves[j]);
+      if(p.includes(fgNode)) paths.push(p);          // la cadena principal debe contener el carbonilo
+    }
+  if(!paths.length) return null;
+  const maxL = Math.max(...paths.map(p=>p.length));
+  const cand = paths.filter(p=>p.length===maxL);
+  if(!(main.includes(fgNode) && main.length===maxL)) return null;
+  const names = cand.map(p=>assembleName(nameCarbonylChain(adj,p,fgNode,type)));
+  if(new Set(names).size!==1) return null;
+  return {struct: nameCarbonylChain(adj, main, fgNode, type)};
+}
+
 /* ---------- Ring / aromatic naming ---------- */
 function nameRing(mol){
   const R=mol.n, kind=mol.kind;
@@ -472,6 +537,34 @@ function assembleName(s){
       return locs+'-'+mult+sub.name;
     });
     return parts.join('-') + '-' + olPart;                // "2-metil" + "-" + "2-propanol"
+  }
+  // Aldehídos (Cap. 3, Fase 3B) — sufijo -al, SIN localizador (el CHO va en C1).
+  if(s.kind==='chain' && s.suffix==='al'){
+    const stem = rootSyl + 'anal';                        // metanal, etanal, propanal…
+    const subs = [...s.substituents].sort((a,b)=> a.name<b.name?-1:a.name>b.name?1:0);
+    if(subs.length===0) return stem;
+    const parts = subs.map(sub=>{
+      const locs=[...sub.locants].sort((a,b)=>a-b).join(',');
+      const mult=MULT[sub.locants.length]||'';
+      return locs+'-'+mult+sub.name;
+    });
+    return parts.join('-') + stem;                         // "2-metil" + "propanal" (estilo HC, sin guion)
+  }
+  // Cetonas (Cap. 3, Fase 3B) — sufijo -ona, estilo escolar "2-pentanona".
+  if(s.kind==='chain' && s.suffix==='ona'){
+    const stem = rootSyl + 'anona';                       // propanona, butanona, pentanona…
+    // Regla de omisión (confirmada): mostrar el localizador si hay ≥1 radical O cadena ≥5 C;
+    // omitir solo en propanona/butanona sin ramificar. (Cambiar a "root>=5" para omisión solo por longitud.)
+    const showLoc = s.root >= 5 || s.substituents.length > 0;
+    const onaPart = (showLoc ? s.fgLocant+'-' : '') + stem;
+    const subs = [...s.substituents].sort((a,b)=> a.name<b.name?-1:a.name>b.name?1:0);
+    if(subs.length===0) return onaPart;
+    const parts = subs.map(sub=>{
+      const locs=[...sub.locants].sort((a,b)=>a-b).join(',');
+      const mult=MULT[sub.locants.length]||'';
+      return locs+'-'+mult+sub.name;
+    });
+    return parts.join('-') + '-' + onaPart;                // "3-metil" + "-" + "2-butanona"
   }
   let core;
   if(s.kind==='cycle') core = 'ciclo'+rootSyl+'ano';
@@ -566,27 +659,38 @@ const LEVELS = {
   }
 };
 
-/* ---------- Difficulty presets · Unidad Oxigenados (Cap. 3, Fase 3A: alcoholes) ----------
-   Mismos tres tiers; `alcohol` define rango de carbonos, prob. de radicales,
-   nº de radicales y cap de longitud de radical. */
+/* ---------- Difficulty presets · Unidad Oxigenados (Cap. 3) ----------
+   Fase 3A (alcoholes) + Fase 3B (aldehídos y cetonas). Cada nivel lista qué
+   familias pueden salir y su config (rango de carbonos, prob. de radicales, nº de
+   radicales y cap de longitud). Fácil/Medio anuncian la familia; Difícil las mezcla
+   con etiqueta genérica (el alumno identifica el grupo). */
 const LEVELS_OX = {
   facil:{
     id:'facil', label:'Fácil',
     name:'Nivel Wöhler',
     quip:'El que probó que la química orgánica no era brujería.',
-    alcohol:{ n:[1,4], subChance:0.15, sub:[1,1], cap:1 }
+    families:['alcohol','aldehido','cetona'],
+    alcohol:{ n:[1,5], subChance:0, sub:[0,0], cap:1 },
+    aldehido:{ n:[1,5], subChance:0, sub:[0,0], cap:1 },
+    cetona:{ n:[3,5], subChance:0, sub:[0,0], cap:1 }
   },
   medio:{
     id:'medio', label:'Medio',
     name:'Nivel Kekulé',
     quip:'Soñó con serpientes y salió el benceno.',
-    alcohol:{ n:[3,8], subChance:0.55, sub:[1,2], cap:2 }
+    families:['alcohol','aldehido','cetona'],
+    alcohol:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 },
+    aldehido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 },
+    cetona:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 }
   },
   dificil:{
     id:'dificil', label:'Difícil',
     name:"Nivel Le Bel–Van't Hoff",
     quip:'Si llegaste acá, ya no necesitás la tabla de reglas.',
-    alcohol:{ n:[4,15], subChance:0.8, sub:[1,3], cap:5 }
+    families:['alcohol','aldehido','cetona'],
+    alcohol:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 },
+    aldehido:{ n:[3,12], subChance:0.8, sub:[1,2], cap:3 },
+    cetona:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 }
   }
 };
 
@@ -672,26 +776,58 @@ function alcoholValenceOK(mol){
   for(let i=1;i<=mol.n;i++){ if(order[i]>4) return false; }
   return true;
 }
+/* Valencia general para grupos oxigenados: el fg suma 1 enlace (–OH) o 2 (C=O). */
+function oxValenceOK(mol){
+  const order=Array(mol.n+1).fill(0);
+  for(let i=1;i<mol.n;i++){ const b=(mol.bonds||[]).find(x=>x.pos===i); const o=b?b.order:1; order[i]+=o; order[i+1]+=o; }
+  for(const s of (mol.subs||[])) order[s.pos]+=1;
+  if(mol.fg) order[mol.fg.pos]+= (mol.fg.type==='ol'?1:2);
+  for(let i=1;i<=mol.n;i++){ if(order[i]>4) return false; }
+  return true;
+}
 
-/* Generador de la unidad Oxigenados (Fase 3A: alcoholes saturados de cadena abierta). */
+/* Generador de la unidad Oxigenados: alcoholes (3A) + aldehídos y cetonas (3B),
+   saturados y de cadena abierta. Elige familia del nivel y despacha. */
 function generateOx(level){
   const cfg = LEVELS_OX[level] || LEVELS_OX.facil;
+  const LABEL = { alcohol:'Alcohol', aldehido:'Aldehído', cetona:'Cetona' };
   for(let attempt=0; attempt<400; attempt++){
-    const a = cfg.alcohol;
+    const fam = pick(cfg.families || ['alcohol']);
+    const a = cfg[fam];
     const n = rnd(a.n[0], a.n[1]);
-    const fgPos = rnd(1, n);                                    // el -OH puede ir en cualquier carbono
-    let subs=[];
-    if(n>=3 && Math.random()<a.subChance){                      // radicales solo en carbonos interiores
-      subs = placeSubs(n, [], rnd(a.sub[0], a.sub[1]), a.cap);
+    let mol=null, analysis=null;
+
+    if(fam==='alcohol'){
+      const fgPos = rnd(1, n);                                  // el -OH puede ir en cualquier carbono
+      let subs=[];
+      if(n>=3 && Math.random()<a.subChance) subs = placeSubs(n, [], rnd(a.sub[0], a.sub[1]), a.cap);
+      mol={kind:'chain', n, bonds:[], subs, fg:{type:'ol', pos:fgPos}};
+      if(!alcoholValenceOK(mol)) continue;
+      analysis = analyzeAlcohol(mol);
     }
-    const mol={kind:'chain', n, bonds:[], subs, fg:{type:'ol', pos:fgPos}};
-    if(!alcoholValenceOK(mol)) continue;
-    const analysis = analyzeAlcohol(mol);
+    else if(fam==='aldehido'){
+      let subs=[];
+      if(n>=3 && Math.random()<a.subChance) subs = placeSubs(n, [], rnd(a.sub[0], a.sub[1]), a.cap);
+      mol={kind:'chain', n, bonds:[], subs, fg:{type:'al', pos:n}};   // CHO al final → se dibuja …CHO
+      if(!oxValenceOK(mol)) continue;
+      analysis = analyzeCarbonyl(mol);
+    }
+    else { // cetona (carbonilo interno)
+      if(n<3) continue;
+      const fgPos = rnd(2, n-1);                                // carbonilo interior
+      let subs=[];
+      if(n>=4 && Math.random()<a.subChance) subs = placeSubs(n, [], rnd(a.sub[0], a.sub[1]), a.cap);
+      if(subs.some(s=>s.pos===fgPos)) continue;                 // no hay lugar para un radical en el carbonilo
+      mol={kind:'chain', n, bonds:[], subs, fg:{type:'ona', pos:fgPos}};
+      if(!oxValenceOK(mol)) continue;
+      analysis = analyzeCarbonyl(mol);
+    }
+
     if(!analysis) continue;
     const struct=analysis.struct;
     const name=assembleName(struct);
     if(!name || /undefined|NaN/.test(name)) continue;
-    return {mol, struct, name, famLabel:'Alcohol', fam:'alcohol'};
+    return {mol, struct, name, famLabel:LABEL[fam], fam};
   }
   // fallback seguro: 1-propanol
   const mol={kind:'chain', n:3, bonds:[], subs:[], fg:{type:'ol', pos:1}};
@@ -712,17 +848,20 @@ function renderChainFormula(mol){
   const parts=[];
   const orderAt = pos => { const b=(mol.bonds||[]).find(x=>x.pos===pos); return b?b.order:1; };
   const branch = len => { const a=[]; for(let i=0;i<len;i++) a.push(i<len-1?'CH2':'CH3'); return a.join(''); };
-  const hasOHat = i => (mol.fg && mol.fg.type==='ol' && mol.fg.pos===i) ? 1 : 0;
+  const fgAt = i => (mol.fg && mol.fg.pos===i) ? mol.fg.type : null;   // 'ol' | 'al' | 'ona' | null
   for(let i=1;i<=mol.n;i++){
     const leftO = i>1 ? orderAt(i-1) : 0;
     const rightO = i<mol.n ? orderAt(i) : 0;
     const here = (mol.subs||[]).filter(s=>s.pos===i);
-    const oh = hasOHat(i);
-    const H = 4-(leftO+rightO+here.length+oh);
+    const fg = fgAt(i);
+    const fgBonds = fg==='ol' ? 1 : (fg==='al'||fg==='ona') ? 2 : 0;   // –OH usa 1 enlace; C=O usa 2
+    const H = 4-(leftO+rightO+here.length+fgBonds);
     let tok = 'C' + (H>0 ? ('H'+(H>1?H:'')) : '');
-    const ohStr = oh ? ((i===1||i===mol.n) ? 'OH' : '(OH)') : '';
+    let fgStr = '';
+    if(fg==='ol') fgStr = (i===1||i===mol.n) ? 'OH' : '(OH)';
+    else if(fg==='al'||fg==='ona') fgStr = 'O';                        // CH+O=CHO (aldehído), C+O=CO (cetona)
     const subStr = here.map(s=>'('+branch(s.len)+')').join('');
-    parts.push(tok+ohStr+subStr);
+    parts.push(tok+fgStr+subStr);
     if(i<mol.n){ parts.push(rightO===1?'–':rightO===2?'=':'≡'); }
   }
   return subScript(parts.join(''));
@@ -912,7 +1051,14 @@ function renderSubs(){
   });
 }
 /* ---------- Grupo funcional (unidad Oxigenados) ---------- */
-const FGROUPS=[{f:'ol',t:'–ol (alcohol)'}];
+const FGROUPS=[{f:'ol',t:'–ol (alcohol)'},{f:'al',t:'–al (aldehído)'},{f:'ona',t:'–ona (cetona)'}];
+/* ¿El grupo funcional elegido necesita que el alumno indique un localizador? */
+function fgNeedsLoc(type, root, nSubs){
+  if(!root) return false;
+  if(type==='ol') return root>=3;                       // metanol/etanol sin nº
+  if(type==='ona') return root>=5 || nSubs>0;           // propanona/butanona sin ramificar: sin nº
+  return false;                                         // aldehído: nunca
+}
 function renderFgField(){
   const wrap=$('fg-field'), c=$('fg-chips'); c.innerHTML='';
   if(state.unit!=='ox'){ wrap.classList.add('hidden'); return; }
@@ -927,13 +1073,19 @@ function renderFgField(){
 }
 function renderFgLocField(){
   const wrap=$('fgloc-field'), c=$('fgloc-chips'); c.innerHTML='';
-  const need = state.unit==='ox' && state.user.fg.type==='ol' && state.user.root && state.user.root>=3;
-  if(!need){ wrap.classList.add('hidden'); return; }   // metanol/etanol (≤2 C) van sin localizador
+  const t=state.user.fg.type;
+  const nSubs=state.user.subs.filter(s=>s.name).length;
+  const need = state.unit==='ox' && fgNeedsLoc(t, state.user.root, nSubs);
+  if(!need){ wrap.classList.add('hidden'); return; }   // aldehído, y propanona/butanona/metanol/etanol: sin nº
   wrap.classList.remove('hidden');
   const info=document.createElement('div'); info.style.cssText='width:100%;color:var(--muted);font-size:11.5px;margin-bottom:4px';
-  info.textContent='Selecciona el carbono que lleva el –OH. Recuerda: el grupo funcional tiene prioridad para el número más bajo.';
+  info.textContent = t==='ona'
+    ? 'Selecciona el carbono del carbonilo (C=O). El carbonilo tiene prioridad para el número más bajo, por encima de los radicales.'
+    : 'Selecciona el carbono que lleva el –OH. El grupo funcional tiene prioridad para el número más bajo.';
   c.appendChild(info);
-  for(let n=1;n<=state.user.root;n++){
+  const lo = t==='ona' ? 2 : 1;                          // el carbonilo de cetona es interior
+  const hi = t==='ona' ? state.user.root-1 : state.user.root;
+  for(let n=lo;n<=hi;n++){
     const el=document.createElement('div');
     el.className='chip num mini'+(state.user.fg.loc===n?' on':'');
     el.textContent=n;
@@ -956,13 +1108,15 @@ function buildUserStruct(){
   const u=state.user;
   const kind=u.kind;
   let substituents=groupUserSubs();
-  // Alcoholes (unidad Oxigenados)
-  if(state.unit==='ox' && u.fg.type==='ol'){
-    return {
-      kind:'chain', root:u.root, suffix:'ol',
-      fgLocant: (u.root && u.root>=3) ? u.fg.loc : (u.fg.loc||1),
-      bondLocants:[], substituents
-    };
+  // Grupos oxigenados (unidad Oxigenados): alcohol (-ol), aldehído (-al), cetona (-ona)
+  if(state.unit==='ox' && ['ol','al','ona'].includes(u.fg.type)){
+    const t=u.fg.type;
+    let fgLocant;
+    if(t==='al') fgLocant = 1;                                    // el CHO va siempre en C1
+    else if(t==='ol') fgLocant = (u.root && u.root>=3) ? u.fg.loc : (u.fg.loc||1);
+    else { const showLoc = u.root>=5 || substituents.length>0;    // cetona
+           fgLocant = showLoc ? u.fg.loc : (u.fg.loc||2); }
+    return { kind:'chain', root:u.root, suffix:t, fgLocant, bondLocants:[], substituents };
   }
   // ring/aromatic mono: canonical locant is 1
   if(kind!=='chain'){
@@ -981,8 +1135,9 @@ function userComplete(){
   const u=state.user;
   if(state.unit==='ox'){
     if(!u.root) return false;
-    if(u.fg.type!=='ol') return false;
-    if(u.root>=3 && !u.fg.loc) return false;          // metanol/etanol no requieren localizador
+    if(!['ol','al','ona'].includes(u.fg.type)) return false;
+    const nSubs=u.subs.filter(s=>s.name).length;
+    if(fgNeedsLoc(u.fg.type, u.root, nSubs) && !u.fg.loc) return false;
     for(const s of u.subs){ if(!s.name || s.locants.length===0) return false; }
     return true;
   }
@@ -1029,6 +1184,11 @@ function compareStructs(u,a){
     if(a.suffix==='ol' && a.root>2){                  // localizador del grupo funcional (–OH)
       if(u.fgLocant!==a.fgLocant) return {ok:false, code:'fgLoc'};
     }
+    if(a.suffix==='ona'){                             // localizador del carbonilo (cetona)
+      const showLoc = a.root>=5 || a.substituents.length>0;
+      if(showLoc && u.fgLocant!==a.fgLocant) return {ok:false, code:'fgLoc'};
+    }
+    // aldehído ('al'): el CHO va en C1, no se compara localizador
   } else if(a.kind==='cycle'){
     if(u.root!==a.root) return {ok:false, code:'root'};
   }
@@ -1051,6 +1211,8 @@ const HINTS={
   subLoc_sat:'Para alcanos, numera desde el <b>extremo más cercano a la primera ramificación</b> para obtener los localizadores más bajos (regla del primer punto de diferencia).',
   ringLoc:'En el anillo, numera para dar el <b>conjunto de localizadores más bajo</b>; en caso de empate, el localizador más bajo va para el radical <b>primero en orden alfabético</b>.',
   fgLoc:'El <b>grupo funcional (–OH)</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. Numera la cadena desde el extremo que le da el <b>número menor al –OH</b>.',
+  fgLocCarbonyl:'El <b>carbonilo (C=O) manda</b>: numera desde el extremo que le dé el <b>número más bajo al C=O</b>, antes que a los radicales.',
+  fgType:'Fíjate en el <b>grupo funcional</b> del dibujo: un <b>C=O en la punta</b> de la cadena es un <b>aldehído (-al)</b> y va siempre en C1 (sin número); un <b>C=O entre dos carbonos</b> es una <b>cetona (-ona)</b>; un <b>–OH</b> es un <b>alcohol (-ol)</b>.',
   incomplete:'Aún faltan campos por completar. Elige el tipo, la raíz, el sufijo y, si aplica, los localizadores del enlace múltiple y de cada radical.'
 };
 
@@ -1075,6 +1237,10 @@ function verify(){
     if(code==='subLoc'){
       if(a.kind==='chain') msg = ['eno','ino','dieno'].includes(a.suffix)?HINTS.subLoc_unsat:HINTS.subLoc_sat;
       else msg = HINTS.ringLoc;
+    } else if(code==='suffix' && state.unit==='ox'){
+      msg = HINTS.fgType;                                     // identificar alcohol / aldehído / cetona
+    } else if(code==='fgLoc'){
+      msg = a.suffix==='ona' ? HINTS.fgLocCarbonyl : HINTS.fgLoc;
     } else msg = HINTS[code];
     showFeedback('hint','<span class="h">💡 Pista</span>'+msg);
   }
@@ -1149,10 +1315,11 @@ function newMolecule(){
   const md=$('mol-display');
   md.className = disp.isSvg?'':'formula';
   md.innerHTML = disp.html;
-  $('fam-tag').textContent=state.current.famLabel;
+  const generic = state.unit==='ox' && state.level==='dificil';   // Difícil: el alumno identifica el grupo
+  $('fam-tag').textContent = generic ? 'Compuesto oxigenado' : state.current.famLabel;
   const mol=state.current.mol;
   $('mol-meta').textContent = mol.fg
-    ? 'Fórmula semidesarrollada. Identifica el grupo funcional (–OH), la cadena principal que lo contiene y numera dándole el localizador más bajo.'
+    ? 'Fórmula semidesarrollada. Identifica el grupo funcional (–OH, –CHO o C=O), la cadena principal que lo contiene y numera dándole el localizador más bajo.'
     : (mol.kind==='chain'
         ? 'Fórmula semidesarrollada. Identifica la cadena principal y numera correctamente.'
         : 'Estructura cíclica. Cada vértice es un carbono; numera el anillo para el menor conjunto de localizadores.');
@@ -1237,6 +1404,53 @@ function runAlcoholTests(){
   return {pass,total,fails};
 }
 
+/* Auto-tests de CARBONILO (Cap. 3, Fase 3B: aldehídos y cetonas). Estilo escolar.
+   Nombres verificados a mano (NO confiar en nombres de IA). */
+function runCarbonylTests(){
+  const results=[];
+  const cb = (type,n,pos,subs)=>({kind:'chain',n,bonds:[],subs:subs||[],fg:{type,pos}});
+  const nameC = mol => { const r=analyzeCarbonyl(mol); return r?assembleName(r.struct):'NULL'; };
+  const T=(desc,got,exp)=>{ results.push({desc,got,exp,ok:got===exp}); };
+
+  // Aldehídos (–CHO en C1, sin localizador)
+  T('metanal', nameC(cb('al',1,1)), 'metanal');
+  T('etanal', nameC(cb('al',2,1)), 'etanal');
+  T('propanal', nameC(cb('al',3,1)), 'propanal');
+  T('butanal', nameC(cb('al',4,1)), 'butanal');
+  T('pentanal', nameC(cb('al',5,1)), 'pentanal');
+  T('hexanal', nameC(cb('al',6,1)), 'hexanal');
+  T('2-metilpropanal', nameC(cb('al',3,1,[{pos:2,len:1}])), '2-metilpropanal');
+  T('3-metilbutanal', nameC(cb('al',4,1,[{pos:3,len:1}])), '3-metilbutanal');
+  T('2-metilbutanal', nameC(cb('al',4,1,[{pos:2,len:1}])), '2-metilbutanal');
+  T('3-metilpentanal', nameC(cb('al',5,1,[{pos:3,len:1}])), '3-metilpentanal');
+  // Aldehído con el CHO en el otro extremo (orientación del generador, pos=n)
+  T('3-metilbutanal (pos=n)', nameC(cb('al',4,4,[{pos:2,len:1}])), '3-metilbutanal');
+  T('2-metilbutanal (pos=n)', nameC(cb('al',4,4,[{pos:3,len:1}])), '2-metilbutanal');
+
+  // Cetonas (carbonilo con el localizador más bajo; propanona/butanona sin nº)
+  T('propanona', nameC(cb('ona',3,2)), 'propanona');
+  T('butanona', nameC(cb('ona',4,2)), 'butanona');
+  T('2-pentanona', nameC(cb('ona',5,2)), '2-pentanona');
+  T('3-pentanona', nameC(cb('ona',5,3)), '3-pentanona');
+  T('3-metil-2-butanona', nameC(cb('ona',4,2,[{pos:3,len:1}])), '3-metil-2-butanona');
+  T('4-metil-2-pentanona', nameC(cb('ona',5,2,[{pos:4,len:1}])), '4-metil-2-pentanona');
+  T('3-metil-2-pentanona', nameC(cb('ona',5,2,[{pos:3,len:1}])), '3-metil-2-pentanona');
+  T('2-hexanona', nameC(cb('ona',6,2)), '2-hexanona');
+  T('3-hexanona', nameC(cb('ona',6,3)), '3-hexanona');
+  // Prioridad del carbonilo: numerar para darle el nº más bajo aunque suba el radical
+  T('5-metil-2-hexanona', nameC(cb('ona',6,2,[{pos:5,len:1}])), '5-metil-2-hexanona');
+
+  const pass=results.filter(r=>r.ok).length, total=results.length;
+  const fails=results.filter(r=>!r.ok);
+  console.log('%cSELFTEST CARBONILO '+pass+'/'+total+(fails.length?' — FALLOS:':' — TODO OK'),'font-weight:bold');
+  fails.forEach(f=>console.error('FAIL:',f.desc,'| got:',f.got,'| exp:',f.exp));
+  const box=$('selftest-carbonyl');
+  box.innerHTML = 'AUTO-TEST CARBONILO: <span class="'+(fails.length?'badge-bad':'badge-ok')+'">'+pass+'/'+total+
+    (fails.length?' ('+fails.map(f=>f.desc+'→'+f.got).join('; ')+')':' correctos')+'</span>';
+  window.__SELFTEST_CARBONYL={pass,total,fails};
+  return {pass,total,fails};
+}
+
 /* boot */
 function boot(){
   const savedUnit = LS.get('nq_unit','hc');
@@ -1248,7 +1462,7 @@ function boot(){
   loadRecord();
   renderUnitChips(); updateAppSub();
   renderLevelChips(); updateLevelQuip(); updateScore();
-  runSelfTests(); runAlcoholTests();
+  runSelfTests(); runAlcoholTests(); runCarbonylTests();
   newMolecule();
 }
 boot();

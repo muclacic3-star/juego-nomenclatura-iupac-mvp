@@ -40,9 +40,9 @@ El selector superior separa el contenido en unidades independientes (cada una co
 | Unidad | Contenido |
 |---|---|
 | **Hidrocarburos (Cap. 1–2)** | Alcanos, alquenos, dienos, alquinos, cicloalcanos y aromáticos (lo descrito arriba). |
-| **Compuestos oxigenados (Cap. 3)** | **Alcoholes** de cadena abierta (Fase 3A): estilo escolar `2-butanol`. El **grupo funcional (–OH) tiene prioridad** para el localizador más bajo, por encima de los radicales. `metanol` y `etanol` van sin localizador. |
+| **Compuestos oxigenados (Cap. 3)** | **Alcoholes** (`-ol`), **aldehídos** (`-al`) y **cetonas** (`-ona`) de cadena abierta, estilo escolar (`2-butanol`, `propanal`, `2-pentanona`). El **grupo funcional tiene prioridad** para el localizador más bajo, por encima de los radicales. El **carbonilo (C=O)** se enseña por contraste: terminal → aldehído; interno → cetona. El `-CHO` va siempre en C1 (sin número); `metanol`/`etanol` y `propanona`/`butanona` tampoco llevan localizador. En **Difícil** las tres familias se mezclan y el alumno debe identificar el grupo. |
 
-> **Roadmap Cap. 3:** una familia por entrega, reusando el mismo motor algorítmico — alcoholes ✓, luego aldehídos, cetonas y ácidos carboxílicos.
+> **Roadmap Cap. 3:** una familia por entrega, reusando el mismo motor algorítmico — alcoholes ✓, aldehídos ✓, cetonas ✓; falta ácidos carboxílicos.
 
 ## Niveles de dificultad
 
@@ -76,4 +76,4 @@ El marcador (aciertos, jugadas) y el **récord de racha por nivel** se guardan e
 
 ---
 
-*Proyecto educativo sin fines de lucro. El motor de nomenclatura incluye baterías de auto-tests (19 casos de hidrocarburos + 11 de alcoholes, todos verificados a mano) que se ejecutan al cargar la página; el resultado se muestra al pie.*
+*Proyecto educativo sin fines de lucro. El motor de nomenclatura incluye baterías de auto-tests (19 casos de hidrocarburos + 11 de alcoholes + 22 de aldehídos y cetonas, todos verificados a mano) que se ejecutan al cargar la página; el resultado se muestra al pie.*
