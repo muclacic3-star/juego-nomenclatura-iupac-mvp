@@ -43,6 +43,12 @@
   .lvl-chip.on{background:var(--chip-on);border-color:var(--accent);color:#eafff9}
   .lvl-chip.on small{color:#a7f3d0}
   .lvl-quip{color:var(--muted);font-size:12.5px;font-style:italic;flex:1;min-width:180px;text-align:right}
+  /* Modo personalizado "A tu medida" */
+  #custom-panel{width:100%;border-top:1px dashed var(--line);margin-top:6px;padding-top:10px}
+  #custom-panel .flabel{margin-bottom:8px}
+  .custom-hint{font-size:11.5px;color:var(--muted);margin:8px 0 6px}
+  #custom-note{color:var(--bad);font-size:11.5px;margin-top:8px;font-weight:600}
+  #custom-summary{color:var(--muted);font-size:11.5px;margin-top:10px}
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:820px){.grid{grid-template-columns:1fr}}
@@ -153,6 +159,16 @@
     <div class="lvl-title">Nivel de dificultad</div>
     <div class="lvl-chips" id="lvl-chips"></div>
     <div class="lvl-quip" id="lvl-quip"></div>
+
+    <div class="field hidden" id="custom-panel">
+      <div class="flabel">🧪 A tu medida — elegí qué practicar</div>
+      <div class="custom-hint">Familias (elegí una o varias; al menos una):</div>
+      <div class="chips" id="custom-fams"></div>
+      <div class="custom-hint">Complejidad (largo de cadena y radicales, igual para todas las familias):</div>
+      <div class="chips" id="custom-cx"></div>
+      <div id="custom-note" class="hidden"></div>
+      <div id="custom-summary"></div>
+    </div>
   </section>
 
   <div class="grid">
@@ -246,6 +262,7 @@
   <div id="selftest-ox"></div>
   <div id="selftest-carbonyl"></div>
   <div id="selftest-acid"></div>
+  <div id="selftest-custom"></div>
   <div class="foot">MVP educativo · Un solo archivo HTML/CSS/JS · Sin dependencias externas</div>
 </div>
 
@@ -712,8 +729,100 @@ const LEVELS_OX = {
   }
 };
 
+/* ============================================================
+   MODO PERSONALIZADO "A tu medida" (aditivo · Cap. UX)
+   El estudiante elige QUÉ familias practicar y con qué complejidad.
+   Se construye un cfg al vuelo y se lo pasa al MISMO generador
+   (generate / generateOx). No toca presets ni nomenclatura.
+   ============================================================ */
+/* Familias por unidad (string interno + etiqueta visible). El string DEBE
+   coincidir con el que despachan los generadores en cfg.families. */
+const CUSTOM_FAMS = {
+  hc: [
+    {f:'alcano',    t:'Alcano'},
+    {f:'alqueno',   t:'Alqueno'},
+    {f:'dieno',     t:'Dieno'},
+    {f:'alquino',   t:'Alquino'},
+    {f:'ciclo',     t:'Cicloalcano'},
+    {f:'aromatico', t:'Aromático'}
+  ],
+  ox: [
+    {f:'alcohol',  t:'Alcohol'},
+    {f:'aldehido', t:'Aldehído'},
+    {f:'cetona',   t:'Cetona'},
+    {f:'acido',    t:'Ácido'}
+  ]
+};
+/* En HC la clave del sub-config ≠ string de familia (generate lee cfg.alk, cfg.ene…). */
+const HC_CFGKEY = { alcano:'alk', alqueno:'ene', dieno:'dien', alquino:'yne', ciclo:'cyc', aromatico:'arom' };
+
+/* Escalones de complejidad para HIDROCARBUROS. Cada escalón trae los sub-configs de
+   TODAS las familias con las claves exactas que lee generate(). media/alta siguen los
+   rangos de Medio/Difícil; baja es corto y simple. Se agregan los bloques que los
+   presets no tienen en todos los niveles (dien y arom solo existían en Difícil;
+   ene/yne/cyc no existían en Fácil) para practicar cualquier familia en cualquier nivel. */
+const COMPLEXITY = {
+  baja: {
+    alk:  {straightChance:0.5,  straight:[1,6],  branched:[3,6],  sub:[0,1], cap:1},
+    ene:  {n:[2,6],  subChance:0.25, sub:[1,1], cap:1},
+    yne:  {n:[2,6],  subChance:0.25, sub:[1,1], cap:1},
+    dien: {n:[4,7],  subChance:0.15},
+    cyc:  {R:[3,6],  subChance:0.3,  sub:[1,1], cap:1},
+    arom: {sub:[1,1], cap:1}
+  },
+  media: {
+    alk:  {straightChance:0.3,  straight:[4,10], branched:[4,9],  sub:[1,2], cap:2},
+    ene:  {n:[4,9],  subChance:0.5,  sub:[1,2], cap:2},
+    yne:  {n:[4,9],  subChance:0.45, sub:[1,2], cap:2},
+    dien: {n:[5,9],  subChance:0.4},
+    cyc:  {R:[3,6],  subChance:0.6,  sub:[1,2], cap:2},
+    arom: {sub:[1,2], cap:2}
+  },
+  alta: {
+    alk:  {straightChance:0.22, straight:[5,15], branched:[5,12], sub:[1,3], cap:5},
+    ene:  {n:[4,10], subChance:0.55, sub:[1,2], cap:5},
+    yne:  {n:[4,10], subChance:0.5,  sub:[1,2], cap:5},
+    dien: {n:[5,10], subChance:0.5},
+    cyc:  {R:[3,6],  subChance:0.75, sub:[1,2], cap:3},
+    arom: {sub:[1,2], cap:3}
+  }
+};
+/* Escalones para OXIGENADOS (esquema {n,subChance,sub,cap}; clave = string de familia).
+   Espejan Fácil/Medio/Difícil, que ya traen las 4 familias en los 3 niveles. */
+const COMPLEXITY_OX = {
+  baja: {
+    alcohol:{ n:[1,5], subChance:0,   sub:[0,0], cap:1 },
+    aldehido:{ n:[1,5], subChance:0,   sub:[0,0], cap:1 },
+    cetona:{ n:[3,5], subChance:0,   sub:[0,0], cap:1 },
+    acido:{ n:[1,5], subChance:0,   sub:[0,0], cap:1 }
+  },
+  media: {
+    alcohol:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 },
+    aldehido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 },
+    cetona:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 },
+    acido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 }
+  },
+  alta: {
+    alcohol:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 },
+    aldehido:{ n:[3,12], subChance:0.8, sub:[1,2], cap:3 },
+    cetona:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 },
+    acido:{ n:[3,12], subChance:0.8, sub:[1,2], cap:3 }
+  }
+};
+/* Arma un cfg listo para generate/generateOx a partir de una lista de familias y un
+   escalón de complejidad. Solo incluye las familias pedidas y sus sub-configs. */
+function customCfg(unit, fams, cx){
+  const table = (unit==='ox') ? COMPLEXITY_OX : COMPLEXITY;
+  const step = table[cx] || table.media;
+  const cfg = { families: fams.slice() };
+  if(unit==='ox'){ for(const f of fams) cfg[f] = step[f]; }
+  else { for(const f of fams){ const k=HC_CFGKEY[f]; if(k) cfg[k] = step[k]; } }
+  return cfg;
+}
+
 function generate(level){
-  const cfg = LEVELS[level] || LEVELS.facil;
+  // `level` puede ser un string de preset O un cfg ya armado (modo "A tu medida").
+  const cfg = (level && typeof level==='object') ? level : (LEVELS[level] || LEVELS.facil);
   for(let attempt=0; attempt<400; attempt++){
     const fam = pick(cfg.families);
     let mol=null, famLabel='', analysis=null;
@@ -807,7 +916,8 @@ function oxValenceOK(mol){
 /* Generador de la unidad Oxigenados: alcoholes (3A) + aldehídos y cetonas (3B) +
    ácidos carboxílicos (3C), saturados y de cadena abierta. Elige familia y despacha. */
 function generateOx(level){
-  const cfg = LEVELS_OX[level] || LEVELS_OX.facil;
+  // `level` puede ser un string de preset O un cfg ya armado (modo "A tu medida").
+  const cfg = (level && typeof level==='object') ? level : (LEVELS_OX[level] || LEVELS_OX.facil);
   const LABEL = { alcohol:'Alcohol', aldehido:'Aldehído', cetona:'Cetona', acido:'Ácido carboxílico' };
   for(let attempt=0; attempt<400; attempt++){
     const fam = pick(cfg.families || ['alcohol']);
@@ -928,7 +1038,13 @@ const state = {
   current:null,
   user:{ kind:'chain', root:null, suffix:null, bondLocants:[], subs:[], fg:{type:null, loc:null} },
   unit:'hc', level:'facil', record:0,
-  ok:0, streak:0, total:0, solved:false
+  ok:0, streak:0, total:0, solved:false,
+  // Modo "A tu medida": familias tildadas + escalón de complejidad, por unidad.
+  // Default: todas las familias, complejidad media. loadCustom() lo restaura de LS.
+  custom:{
+    hc:{ fams:{alcano:true,alqueno:true,dieno:true,alquino:true,ciclo:true,aromatico:true}, cx:'media' },
+    ox:{ fams:{alcohol:true,aldehido:true,cetona:true,acido:true}, cx:'media' }
+  }
 };
 const $ = id => document.getElementById(id);
 
@@ -1314,8 +1430,96 @@ function renderLevelChips(){
     };
     c.appendChild(el);
   });
+  // 4º chip: modo personalizado "A tu medida" (no vive en la tabla de niveles).
+  const cel=document.createElement('div');
+  cel.className='lvl-chip'+(state.level==='custom'?' on':'');
+  cel.innerHTML='<small>Personalizado</small>🧪 A tu medida';
+  cel.title='Elegí qué familias practicar y con qué complejidad.';
+  cel.onclick=()=>{
+    if(state.level!=='custom'){
+      state.level='custom'; LS.set('nq_level','custom');
+      state.streak=0; loadRecord();
+      renderLevelChips(); updateLevelQuip(); updateScore();
+      newMolecule();
+    }
+    renderCustomPanel();
+  };
+  c.appendChild(cel);
+  renderCustomPanel();
 }
-function updateLevelQuip(){ $('lvl-quip').textContent='«'+UNITS[state.unit].levels[state.level].quip+'»'; }
+function updateLevelQuip(){
+  // 'custom' no tiene preset en la tabla de niveles → guardá contra undefined.
+  const lv=UNITS[state.unit].levels[state.level];
+  $('lvl-quip').textContent = lv ? '«'+lv.quip+'»' : '«🧪 A tu medida — vos elegís qué practicar»';
+}
+
+/* ---------- Modo personalizado: persistencia, cfg y panel ---------- */
+function saveCustom(unit){ LS.set('nq_custom_'+unit, JSON.stringify(state.custom[unit])); }
+function loadCustom(unit){
+  const all=CUSTOM_FAMS[unit].map(x=>x.f);
+  const def={ fams:{}, cx:'media' }; all.forEach(f=>def.fams[f]=true);
+  let saved=null;
+  try{ saved=JSON.parse(LS.get('nq_custom_'+unit,'')); }catch(e){ saved=null; }
+  if(saved && typeof saved==='object'){
+    if(saved.fams && typeof saved.fams==='object'){
+      const fams={}; let any=false;
+      all.forEach(f=>{ fams[f]=!!saved.fams[f]; if(fams[f]) any=true; });
+      if(!any) all.forEach(f=>fams[f]=true);      // nunca vacío
+      def.fams=fams;
+    }
+    if(['baja','media','alta'].includes(saved.cx)) def.cx=saved.cx;
+  }
+  state.custom[unit]=def;
+}
+// Familias tildadas de la unidad (mínimo 1), en orden canónico.
+function customCheckedFams(unit){
+  const c=state.custom[unit];
+  const fams=CUSTOM_FAMS[unit].map(x=>x.f).filter(f=>c.fams[f]);
+  return fams.length ? fams : [CUSTOM_FAMS[unit][0].f];
+}
+// cfg listo para el generador, según selección + complejidad guardadas.
+function buildCustomLevel(unit){ return customCfg(unit, customCheckedFams(unit), state.custom[unit].cx); }
+function flashCustomNote(){
+  const n=$('custom-note'); if(!n) return;
+  n.textContent='Dejá al menos una familia seleccionada.';
+  n.classList.remove('hidden');
+  clearTimeout(flashCustomNote._t);
+  flashCustomNote._t=setTimeout(()=>n.classList.add('hidden'), 2400);
+}
+function renderCustomPanel(){
+  const panel=$('custom-panel'); if(!panel) return;
+  panel.classList.toggle('hidden', state.level!=='custom');
+  if(state.level!=='custom') return;
+  const unit=state.unit, c=state.custom[unit];
+  // Checklist de familias (multi-selección; guard de "al menos una")
+  const fc=$('custom-fams'); fc.innerHTML='';
+  CUSTOM_FAMS[unit].forEach(o=>{
+    const el=document.createElement('div');
+    el.className='chip mini'+(c.fams[o.f]?' on':'');
+    el.textContent=o.t;
+    el.onclick=()=>{
+      const checked=CUSTOM_FAMS[unit].filter(x=>c.fams[x.f]).length;
+      if(c.fams[o.f] && checked<=1){ flashCustomNote(); return; }   // no destildar la última
+      c.fams[o.f]=!c.fams[o.f];
+      $('custom-note').classList.add('hidden');
+      saveCustom(unit); renderCustomPanel(); newMolecule();
+    };
+    fc.appendChild(el);
+  });
+  // Chips de complejidad
+  const cc=$('custom-cx'); cc.innerHTML='';
+  [['baja','Baja'],['media','Media'],['alta','Alta']].forEach(([k,lab])=>{
+    const el=document.createElement('div');
+    el.className='chip mini'+(c.cx===k?' on':'');
+    el.textContent=lab;
+    el.onclick=()=>{ if(c.cx===k) return; c.cx=k; saveCustom(unit); renderCustomPanel(); newMolecule(); };
+    cc.appendChild(el);
+  });
+  // Resumen de familias activas
+  const active=CUSTOM_FAMS[unit].filter(x=>c.fams[x.f]).map(x=>x.t).join(', ');
+  const CX={baja:'baja',media:'media',alta:'alta'};
+  $('custom-summary').textContent='Practicando: '+active+' · complejidad '+CX[c.cx]+'.';
+}
 
 /* ---------- Selector de Unidad / Tema ---------- */
 function updateAppSub(){
@@ -1341,7 +1545,9 @@ function renderUnitChips(){
 }
 
 function newMolecule(){
-  state.current=UNITS[state.unit].gen(state.level);
+  // En modo "A tu medida" se pasa un cfg armado al vuelo; si no, el string del preset.
+  const arg = (state.level==='custom') ? buildCustomLevel(state.unit) : state.level;
+  state.current=UNITS[state.unit].gen(arg);
   resetUser();
   const disp=renderMolecule(state.current.mol);
   const md=$('mol-display');
@@ -1524,18 +1730,70 @@ function runAcidTests(){
   return {pass,total,fails};
 }
 
+/* Auto-tests del MODO PERSONALIZADO "A tu medida". Verifica el invariante duro: con un
+   cfg armado por customCfg(), el generador SOLO produce las familias seleccionadas y
+   ningún nombre mal formado (misma nomenclatura de siempre). Incluye combinaciones que
+   los presets no ofrecían (dieno/aromático en baja, ácido solo en baja). */
+function runCustomTests(){
+  const results=[];
+  const T=(desc,got,exp)=>{ results.push({desc,got,exp,ok:got===exp}); };
+  function probe(unit, fams, cx, iters){
+    const cfg=customCfg(unit,fams,cx);
+    const gen = unit==='ox' ? generateOx : generate;
+    const seen={}; let outOfSet=0, malformed=0;
+    for(let i=0;i<iters;i++){
+      const r=gen(cfg);
+      const fam=r&&r.fam;
+      if(!fam || fams.indexOf(fam)<0) outOfSet++;
+      if(fam) seen[fam]=(seen[fam]||0)+1;
+      if(!r || !r.name || /undefined|NaN|null/.test(r.name)) malformed++;
+    }
+    return { outOfSet, malformed, kinds:Object.keys(seen).sort() };
+  }
+  const cases=[
+    ['hc',['alcano'],'baja'],
+    ['hc',['alqueno'],'baja'],
+    ['hc',['dieno'],'baja'],                                   // dieno no existía en baja
+    ['hc',['aromatico'],'baja'],                               // aromático no existía en baja
+    ['hc',['ciclo','alquino'],'media'],
+    ['hc',['dieno','aromatico'],'baja'],
+    ['hc',['alcano','alqueno','dieno','alquino','ciclo','aromatico'],'alta'],
+    ['ox',['acido'],'baja'],
+    ['ox',['alcohol'],'baja'],
+    ['ox',['aldehido','cetona'],'media'],
+    ['ox',['alcohol','aldehido','cetona','acido'],'alta']
+  ];
+  cases.forEach(([unit,fams,cx])=>{
+    const r=probe(unit,fams,cx,400);
+    const tag=unit+'/'+fams.join('+')+'/'+cx;
+    T(tag+' · solo familias elegidas', r.outOfSet, 0);
+    T(tag+' · sin nombres mal formados', r.malformed, 0);
+  });
+
+  const pass=results.filter(r=>r.ok).length, total=results.length;
+  const fails=results.filter(r=>!r.ok);
+  console.log('%cSELFTEST A MEDIDA '+pass+'/'+total+(fails.length?' — FALLOS:':' — TODO OK'),'font-weight:bold');
+  fails.forEach(f=>console.error('FAIL:',f.desc,'| got:',f.got,'| exp:',f.exp));
+  const box=$('selftest-custom');
+  box.innerHTML = 'AUTO-TEST A MEDIDA: <span class="'+(fails.length?'badge-bad':'badge-ok')+'">'+pass+'/'+total+
+    (fails.length?' ('+fails.map(f=>f.desc+'→'+f.got).join('; ')+')':' correctos')+'</span>';
+  window.__SELFTEST_CUSTOM={pass,total,fails};
+  return {pass,total,fails};
+}
+
 /* boot */
 function boot(){
   const savedUnit = LS.get('nq_unit','hc');
   state.unit = ['hc','ox'].includes(savedUnit) ? savedUnit : 'hc';
   const savedLevel = LS.get('nq_level','facil');
-  state.level = ['facil','medio','dificil'].includes(savedLevel) ? savedLevel : 'facil';
+  state.level = ['facil','medio','dificil','custom'].includes(savedLevel) ? savedLevel : 'facil';
   state.ok = parseInt(LS.get('nq_ok','0'),10)||0;
   state.total = parseInt(LS.get('nq_total','0'),10)||0;
+  loadCustom('hc'); loadCustom('ox');
   loadRecord();
   renderUnitChips(); updateAppSub();
   renderLevelChips(); updateLevelQuip(); updateScore();
-  runSelfTests(); runAlcoholTests(); runCarbonylTests(); runAcidTests();
+  runSelfTests(); runAlcoholTests(); runCarbonylTests(); runAcidTests(); runCustomTests();
   newMolecule();
 }
 boot();
