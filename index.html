@@ -226,9 +226,10 @@
       <li><b>Orden alfabético:</b> los radicales se ordenan alfabéticamente <b>ignorando</b> los prefijos multiplicadores (<code>di-</code>, <code>tri-</code>, <code>tetra-</code>). Ej.: <code>etil</code> va antes que <code>dimetil</code> (se compara por «metil»).</li>
       <li><b>Alcance:</b> alcanos, alquenos, dienos, alquinos, cicloalcanos (hasta ciclohexano) y bencenos sustituidos. Cadenas de 1 a 15 C. Radicales lineales: metil, etil, propil, butil, pentil.</li>
       <li><b>Sin mezclar</b> dobles y triples en la misma molécula. Los dienos llevan dos dobles enlaces.</li>
-      <li><b>Grupos funcionales (Cap. 3):</b> el <b>grupo funcional</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. <b>Alcoholes</b> → <code>-ol</code> con localizador (<code>2-butanol</code>); metanol/etanol sin nº. <b>Aldehídos</b> → <code>-al</code>, el –CHO va <b>siempre en C1</b> (sin número: <code>propanal</code>, <code>2-metilbutanal</code>). <b>Cetonas</b> → <code>-ona</code>, el carbonilo lleva el número más bajo (<code>2-pentanona</code>); propanona/butanona sin nº.</li>
+      <li><b>Grupos funcionales (Cap. 3):</b> el <b>grupo funcional</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. <b>Alcoholes</b> → <code>-ol</code> con localizador (<code>2-butanol</code>); metanol/etanol sin nº. <b>Aldehídos</b> → <code>-al</code>, el –CHO va <b>siempre en C1</b> (sin número: <code>propanal</code>, <code>2-metilbutanal</code>). <b>Cetonas</b> → <code>-ona</code>, el carbonilo lleva el número más bajo (<code>2-pentanona</code>); propanona/butanona sin nº. <b>Ácidos carboxílicos</b> → <code>-oico</code> con la palabra <b>«ácido»</b> siempre delante; el <b>–COOH va siempre en C1</b> (sin número: <code>ácido propanoico</code>, <code>ácido 2-metilbutanoico</code>). Recuerda contar el carbono del –COOH al elegir la raíz.</li>
       <li><b>Aldehído vs. cetona:</b> el mismo grupo <b>C=O</b> es <b>aldehído</b> si está en la <b>punta</b> de la cadena y <b>cetona</b> si está <b>entre dos carbonos</b>.</li>
-      <li>🧪 <b>Sabías que…</b> la <b>propanona</b> es la <i>acetona</i> del quitaesmalte; el <b>metanal</b> es el <i>formol</i>; la <b>butanona</b> es un solvente común; y los aromas a <i>vainilla</i> y <i>almendras</i> vienen de aldehídos aromáticos (todavía no jugables acá).</li>
+      <li><b>Ácido vs. aldehído:</b> ambos tienen un carbono terminal con <b>=O</b>; el <b>ácido</b> suma además un <b>–OH</b> en ese mismo carbono (<b>–COOH</b>), mientras que el aldehído solo lleva el <b>=O</b> (<b>–CHO</b>). Los dos van en C1 (sin número).</li>
+      <li>🧪 <b>Sabías que…</b> la <b>propanona</b> es la <i>acetona</i> del quitaesmalte; el <b>metanal</b> es el <i>formol</i>; el <b>vinagre</b> es <b>ácido etanoico</b> (<i>acético</i>); las <b>hormigas</b> inyectan <b>ácido metanoico</b> (<i>fórmico</i>); y la <b>manteca rancia</b> huele a <b>ácido butanoico</b> (<i>butírico</i>). El <b>ácido benzoico</b> (aromático) y los ácidos <b>palmítico/esteárico</b> (C16–C18) existen, pero todavía no son jugables acá.</li>
     </ul>
   </details>
 
@@ -244,6 +245,7 @@
   <div id="selftest"></div>
   <div id="selftest-ox"></div>
   <div id="selftest-carbonyl"></div>
+  <div id="selftest-acid"></div>
   <div class="foot">MVP educativo · Un solo archivo HTML/CSS/JS · Sin dependencias externas</div>
 </div>
 
@@ -550,6 +552,19 @@ function assembleName(s){
     });
     return parts.join('-') + stem;                         // "2-metil" + "propanal" (estilo HC, sin guion)
   }
+  // Ácidos carboxílicos (Cap. 3, Fase 3C) — "ácido …oico", SIN localizador (el –COOH va en C1).
+  // La palabra "ácido" va SIEMPRE (el libro permite omitirla; para el juego la incluimos).
+  if(s.kind==='chain' && s.suffix==='oico'){
+    const stem = rootSyl + 'anoico';                      // metanoico, etanoico, propanoico…
+    const subs = [...s.substituents].sort((a,b)=> a.name<b.name?-1:a.name>b.name?1:0);
+    if(subs.length===0) return 'ácido ' + stem;           // "ácido metanoico"
+    const parts = subs.map(sub=>{
+      const locs=[...sub.locants].sort((a,b)=>a-b).join(',');
+      const mult=MULT[sub.locants.length]||'';
+      return locs+'-'+mult+sub.name;
+    });
+    return 'ácido ' + parts.join('-') + stem;             // "ácido " + "2-metil" + "propanoico"
+  }
   // Cetonas (Cap. 3, Fase 3B) — sufijo -ona, estilo escolar "2-pentanona".
   if(s.kind==='chain' && s.suffix==='ona'){
     const stem = rootSyl + 'anona';                       // propanona, butanona, pentanona…
@@ -669,28 +684,31 @@ const LEVELS_OX = {
     id:'facil', label:'Fácil',
     name:'Nivel Wöhler',
     quip:'El que probó que la química orgánica no era brujería.',
-    families:['alcohol','aldehido','cetona'],
+    families:['alcohol','aldehido','cetona','acido'],
     alcohol:{ n:[1,5], subChance:0, sub:[0,0], cap:1 },
     aldehido:{ n:[1,5], subChance:0, sub:[0,0], cap:1 },
-    cetona:{ n:[3,5], subChance:0, sub:[0,0], cap:1 }
+    cetona:{ n:[3,5], subChance:0, sub:[0,0], cap:1 },
+    acido:{ n:[1,5], subChance:0, sub:[0,0], cap:1 }
   },
   medio:{
     id:'medio', label:'Medio',
     name:'Nivel Kekulé',
     quip:'Soñó con serpientes y salió el benceno.',
-    families:['alcohol','aldehido','cetona'],
+    families:['alcohol','aldehido','cetona','acido'],
     alcohol:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 },
     aldehido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 },
-    cetona:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 }
+    cetona:{ n:[3,8], subChance:0.6, sub:[1,1], cap:2 },
+    acido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 }
   },
   dificil:{
     id:'dificil', label:'Difícil',
     name:"Nivel Le Bel–Van't Hoff",
     quip:'Si llegaste acá, ya no necesitás la tabla de reglas.',
-    families:['alcohol','aldehido','cetona'],
+    families:['alcohol','aldehido','cetona','acido'],
     alcohol:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 },
     aldehido:{ n:[3,12], subChance:0.8, sub:[1,2], cap:3 },
-    cetona:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 }
+    cetona:{ n:[4,12], subChance:0.8, sub:[1,2], cap:3 },
+    acido:{ n:[3,12], subChance:0.8, sub:[1,2], cap:3 }
   }
 };
 
@@ -786,11 +804,11 @@ function oxValenceOK(mol){
   return true;
 }
 
-/* Generador de la unidad Oxigenados: alcoholes (3A) + aldehídos y cetonas (3B),
-   saturados y de cadena abierta. Elige familia del nivel y despacha. */
+/* Generador de la unidad Oxigenados: alcoholes (3A) + aldehídos y cetonas (3B) +
+   ácidos carboxílicos (3C), saturados y de cadena abierta. Elige familia y despacha. */
 function generateOx(level){
   const cfg = LEVELS_OX[level] || LEVELS_OX.facil;
-  const LABEL = { alcohol:'Alcohol', aldehido:'Aldehído', cetona:'Cetona' };
+  const LABEL = { alcohol:'Alcohol', aldehido:'Aldehído', cetona:'Cetona', acido:'Ácido carboxílico' };
   for(let attempt=0; attempt<400; attempt++){
     const fam = pick(cfg.families || ['alcohol']);
     const a = cfg[fam];
@@ -811,6 +829,13 @@ function generateOx(level){
       mol={kind:'chain', n, bonds:[], subs, fg:{type:'al', pos:n}};   // CHO al final → se dibuja …CHO
       if(!oxValenceOK(mol)) continue;
       analysis = analyzeCarbonyl(mol);
+    }
+    else if(fam==='acido'){                                            // ácido carboxílico (–COOH terminal)
+      let subs=[];
+      if(n>=3 && Math.random()<a.subChance) subs = placeSubs(n, [], rnd(a.sub[0], a.sub[1]), a.cap);
+      mol={kind:'chain', n, bonds:[], subs, fg:{type:'oico', pos:n}};  // COOH al final → se dibuja …COOH
+      if(!oxValenceOK(mol)) continue;
+      analysis = analyzeCarbonyl(mol);                                 // mismo motor que el aldehído (C1, sin nº)
     }
     else { // cetona (carbonilo interno)
       if(n<3) continue;
@@ -845,21 +870,24 @@ const UNITS = {
    RENDER DE LA MOLÉCULA
    ============================================================ */
 function renderChainFormula(mol){
+  // Ácido metanoico (HCOOH): el único carbono es el propio carboxilo → se dibuja entero.
+  if(mol.fg && mol.fg.type==='oico' && mol.n===1) return 'HCOOH';
   const parts=[];
   const orderAt = pos => { const b=(mol.bonds||[]).find(x=>x.pos===pos); return b?b.order:1; };
   const branch = len => { const a=[]; for(let i=0;i<len;i++) a.push(i<len-1?'CH2':'CH3'); return a.join(''); };
-  const fgAt = i => (mol.fg && mol.fg.pos===i) ? mol.fg.type : null;   // 'ol' | 'al' | 'ona' | null
+  const fgAt = i => (mol.fg && mol.fg.pos===i) ? mol.fg.type : null;   // 'ol' | 'al' | 'ona' | 'oico' | null
   for(let i=1;i<=mol.n;i++){
     const leftO = i>1 ? orderAt(i-1) : 0;
     const rightO = i<mol.n ? orderAt(i) : 0;
     const here = (mol.subs||[]).filter(s=>s.pos===i);
     const fg = fgAt(i);
-    const fgBonds = fg==='ol' ? 1 : (fg==='al'||fg==='ona') ? 2 : 0;   // –OH usa 1 enlace; C=O usa 2
+    const fgBonds = fg==='ol' ? 1 : (fg==='al'||fg==='ona') ? 2 : fg==='oico' ? 3 : 0;   // –OH:1; C=O:2; –COOH:3 (C=O + O–H)
     const H = 4-(leftO+rightO+here.length+fgBonds);
     let tok = 'C' + (H>0 ? ('H'+(H>1?H:'')) : '');
     let fgStr = '';
     if(fg==='ol') fgStr = (i===1||i===mol.n) ? 'OH' : '(OH)';
     else if(fg==='al'||fg==='ona') fgStr = 'O';                        // CH+O=CHO (aldehído), C+O=CO (cetona)
+    else if(fg==='oico') fgStr = 'OOH';                                // C+OOH=COOH (ácido carboxílico terminal)
     const subStr = here.map(s=>'('+branch(s.len)+')').join('');
     parts.push(tok+fgStr+subStr);
     if(i<mol.n){ parts.push(rightO===1?'–':rightO===2?'=':'≡'); }
@@ -1051,12 +1079,13 @@ function renderSubs(){
   });
 }
 /* ---------- Grupo funcional (unidad Oxigenados) ---------- */
-const FGROUPS=[{f:'ol',t:'–ol (alcohol)'},{f:'al',t:'–al (aldehído)'},{f:'ona',t:'–ona (cetona)'}];
+const FGROUPS=[{f:'ol',t:'–ol (alcohol)'},{f:'al',t:'–al (aldehído)'},{f:'ona',t:'–ona (cetona)'},{f:'oico',t:'–oico (ácido)'}];
 /* ¿El grupo funcional elegido necesita que el alumno indique un localizador? */
 function fgNeedsLoc(type, root, nSubs){
   if(!root) return false;
   if(type==='ol') return root>=3;                       // metanol/etanol sin nº
   if(type==='ona') return root>=5 || nSubs>0;           // propanona/butanona sin ramificar: sin nº
+  if(type==='oico') return false;                       // ácido: el –COOH vive siempre en C1
   return false;                                         // aldehído: nunca
 }
 function renderFgField(){
@@ -1108,11 +1137,11 @@ function buildUserStruct(){
   const u=state.user;
   const kind=u.kind;
   let substituents=groupUserSubs();
-  // Grupos oxigenados (unidad Oxigenados): alcohol (-ol), aldehído (-al), cetona (-ona)
-  if(state.unit==='ox' && ['ol','al','ona'].includes(u.fg.type)){
+  // Grupos oxigenados (unidad Oxigenados): alcohol (-ol), aldehído (-al), cetona (-ona), ácido (-oico)
+  if(state.unit==='ox' && ['ol','al','ona','oico'].includes(u.fg.type)){
     const t=u.fg.type;
     let fgLocant;
-    if(t==='al') fgLocant = 1;                                    // el CHO va siempre en C1
+    if(t==='al'||t==='oico') fgLocant = 1;                        // el CHO/COOH va siempre en C1
     else if(t==='ol') fgLocant = (u.root && u.root>=3) ? u.fg.loc : (u.fg.loc||1);
     else { const showLoc = u.root>=5 || substituents.length>0;    // cetona
            fgLocant = showLoc ? u.fg.loc : (u.fg.loc||2); }
@@ -1135,7 +1164,7 @@ function userComplete(){
   const u=state.user;
   if(state.unit==='ox'){
     if(!u.root) return false;
-    if(!['ol','al','ona'].includes(u.fg.type)) return false;
+    if(!['ol','al','ona','oico'].includes(u.fg.type)) return false;
     const nSubs=u.subs.filter(s=>s.name).length;
     if(fgNeedsLoc(u.fg.type, u.root, nSubs) && !u.fg.loc) return false;
     for(const s of u.subs){ if(!s.name || s.locants.length===0) return false; }
@@ -1212,7 +1241,8 @@ const HINTS={
   ringLoc:'En el anillo, numera para dar el <b>conjunto de localizadores más bajo</b>; en caso de empate, el localizador más bajo va para el radical <b>primero en orden alfabético</b>.',
   fgLoc:'El <b>grupo funcional (–OH)</b> tiene <b>prioridad</b> para el localizador más bajo, por encima de los radicales. Numera la cadena desde el extremo que le da el <b>número menor al –OH</b>.',
   fgLocCarbonyl:'El <b>carbonilo (C=O) manda</b>: numera desde el extremo que le dé el <b>número más bajo al C=O</b>, antes que a los radicales.',
-  fgType:'Fíjate en el <b>grupo funcional</b> del dibujo: un <b>C=O en la punta</b> de la cadena es un <b>aldehído (-al)</b> y va siempre en C1 (sin número); un <b>C=O entre dos carbonos</b> es una <b>cetona (-ona)</b>; un <b>–OH</b> es un <b>alcohol (-ol)</b>.',
+  fgType:'Fíjate en el <b>grupo funcional</b> del dibujo: un <b>–OH y un =O en el MISMO carbono terminal</b> es un <b>ácido (–COOH → -oico)</b>; un <b>C=O en la punta</b> (solo =O, sin –OH: <b>–CHO</b>) es un <b>aldehído (-al)</b>, siempre en C1 sin número; un <b>C=O entre dos carbonos</b> es una <b>cetona (-ona)</b>; un <b>–OH solo</b> es un <b>alcohol (-ol)</b>. Y si el –COOH solo puede vivir en la punta (C1), ¿hace falta ponerle número?',
+  rootAcid:'Ese carbono que sostiene al oxígeno del <b>–COOH también es parte de la cadena</b>. ¿Lo contaste al elegir la raíz (met, et, prop…)? En <code>ácido etanoico</code> (CH₃–COOH) hay <b>dos</b> carbonos, no uno.',
   incomplete:'Aún faltan campos por completar. Elige el tipo, la raíz, el sufijo y, si aplica, los localizadores del enlace múltiple y de cada radical.'
 };
 
@@ -1238,7 +1268,9 @@ function verify(){
       if(a.kind==='chain') msg = ['eno','ino','dieno'].includes(a.suffix)?HINTS.subLoc_unsat:HINTS.subLoc_sat;
       else msg = HINTS.ringLoc;
     } else if(code==='suffix' && state.unit==='ox'){
-      msg = HINTS.fgType;                                     // identificar alcohol / aldehído / cetona
+      msg = HINTS.fgType;                                     // identificar alcohol / aldehído / cetona / ácido
+    } else if(code==='root' && state.unit==='ox' && a.suffix==='oico'){
+      msg = HINTS.rootAcid;                                   // el carbono "invisible" del –COOH cuenta para la raíz
     } else if(code==='fgLoc'){
       msg = a.suffix==='ona' ? HINTS.fgLocCarbonyl : HINTS.fgLoc;
     } else msg = HINTS[code];
@@ -1319,7 +1351,7 @@ function newMolecule(){
   $('fam-tag').textContent = generic ? 'Compuesto oxigenado' : state.current.famLabel;
   const mol=state.current.mol;
   $('mol-meta').textContent = mol.fg
-    ? 'Fórmula semidesarrollada. Identifica el grupo funcional (–OH, –CHO o C=O), la cadena principal que lo contiene y numera dándole el localizador más bajo.'
+    ? 'Fórmula semidesarrollada. Identifica el grupo funcional (–OH, –CHO, –COOH o C=O), la cadena principal que lo contiene y numera dándole el localizador más bajo.'
     : (mol.kind==='chain'
         ? 'Fórmula semidesarrollada. Identifica la cadena principal y numera correctamente.'
         : 'Estructura cíclica. Cada vértice es un carbono; numera el anillo para el menor conjunto de localizadores.');
@@ -1451,6 +1483,47 @@ function runCarbonylTests(){
   return {pass,total,fails};
 }
 
+/* Auto-tests de ÁCIDOS CARBOXÍLICOS (Cap. 3, Fase 3C). Nombres VERIFICADOS A MANO.
+   Modelo: fg:{type:'oico', pos:n} (–COOH terminal, como el aldehído). El carboxilo es
+   C1 (sin localizador) y los radicales se numeran desde ahí: locante = n − posFísica + 1. */
+function runAcidTests(){
+  const results=[];
+  const cb = (n,pos,subs)=>({kind:'chain',n,bonds:[],subs:subs||[],fg:{type:'oico',pos}});
+  const nameA = mol => { const r=analyzeCarbonyl(mol); return r?assembleName(r.struct):'NULL'; };
+  const T=(desc,got,exp)=>{ results.push({desc,got,exp,ok:got===exp}); };
+
+  // Rectos (–COOH en C1, sin localizador; la palabra "ácido" va siempre)
+  T('ácido metanoico', nameA(cb(1,1)), 'ácido metanoico');
+  T('ácido etanoico', nameA(cb(2,2)), 'ácido etanoico');
+  T('ácido propanoico', nameA(cb(3,3)), 'ácido propanoico');
+  T('ácido butanoico', nameA(cb(4,4)), 'ácido butanoico');
+  T('ácido pentanoico', nameA(cb(5,5)), 'ácido pentanoico');
+  T('ácido hexanoico', nameA(cb(6,6)), 'ácido hexanoico');
+  T('ácido decanoico', nameA(cb(10,10)), 'ácido decanoico');
+  T('ácido pentadecanoico (15C)', nameA(cb(15,15)), 'ácido pentadecanoico');
+
+  // Con radicales (numerados desde el carboxilo = C1)
+  T('ácido 2-metilpropanoico', nameA(cb(3,3,[{pos:2,len:1}])), 'ácido 2-metilpropanoico');
+  T('ácido 3-metilbutanoico', nameA(cb(4,4,[{pos:2,len:1}])), 'ácido 3-metilbutanoico');
+  T('ácido 2-metilbutanoico', nameA(cb(4,4,[{pos:3,len:1}])), 'ácido 2-metilbutanoico');
+  T('ácido 4-metilpentanoico', nameA(cb(5,5,[{pos:2,len:1}])), 'ácido 4-metilpentanoico');
+  T('ácido 3-metilpentanoico', nameA(cb(5,5,[{pos:3,len:1}])), 'ácido 3-metilpentanoico');
+  T('ácido 2,3-dimetilbutanoico', nameA(cb(4,4,[{pos:2,len:1},{pos:3,len:1}])), 'ácido 2,3-dimetilbutanoico');
+  T('ácido 2,2-dimetilpropanoico', nameA(cb(3,3,[{pos:2,len:1},{pos:2,len:1}])), 'ácido 2,2-dimetilpropanoico');
+  T('ácido 2,4-dimetilpentanoico', nameA(cb(5,5,[{pos:2,len:1},{pos:4,len:1}])), 'ácido 2,4-dimetilpentanoico');
+  T('ácido 3-etilpentanoico', nameA(cb(5,5,[{pos:3,len:2}])), 'ácido 3-etilpentanoico');
+
+  const pass=results.filter(r=>r.ok).length, total=results.length;
+  const fails=results.filter(r=>!r.ok);
+  console.log('%cSELFTEST ACIDOS '+pass+'/'+total+(fails.length?' — FALLOS:':' — TODO OK'),'font-weight:bold');
+  fails.forEach(f=>console.error('FAIL:',f.desc,'| got:',f.got,'| exp:',f.exp));
+  const box=$('selftest-acid');
+  box.innerHTML = 'AUTO-TEST ACIDOS: <span class="'+(fails.length?'badge-bad':'badge-ok')+'">'+pass+'/'+total+
+    (fails.length?' ('+fails.map(f=>f.desc+'→'+f.got).join('; ')+')':' correctos')+'</span>';
+  window.__SELFTEST_ACID={pass,total,fails};
+  return {pass,total,fails};
+}
+
 /* boot */
 function boot(){
   const savedUnit = LS.get('nq_unit','hc');
@@ -1462,7 +1535,7 @@ function boot(){
   loadRecord();
   renderUnitChips(); updateAppSub();
   renderLevelChips(); updateLevelQuip(); updateScore();
-  runSelfTests(); runAlcoholTests(); runCarbonylTests();
+  runSelfTests(); runAlcoholTests(); runCarbonylTests(); runAcidTests();
   newMolecule();
 }
 boot();
