@@ -130,9 +130,143 @@
   #selftest{margin-top:12px;font-family:var(--mono);font-size:11px}
   .badge-ok{color:var(--ok)} .badge-bad{color:var(--bad)}
   .kv{display:flex;gap:8px;flex-wrap:wrap}
+
+#nq-shell{--nq-bg:#0b1417;--nq-panel:#111f22;--nq-text:#eef3e9;--nq-muted:#b1c1b9;--nq-mint:#baffce;--nq-line:#31443f;min-height:100vh;background:radial-gradient(ellipse at 80% 40%,#17332966,transparent 55%),var(--nq-bg);color:var(--nq-text);font:17px/1.6 "Segoe UI",Calibri,sans-serif;padding:0 clamp(18px,5vw,76px)}
+#nq-shell [hidden]{display:none!important}
+#nq-shell .nq-header{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px 0;border-bottom:1px solid var(--nq-line)}
+#nq-shell .nq-brand{font-size:23px;font-weight:700;letter-spacing:-1px;line-height:1.3}
+#nq-shell .nq-brand span{color:var(--nq-mint)}
+#nq-shell .nq-brand small{display:block;color:var(--nq-muted);font-size:11px;font-weight:400;letter-spacing:1px;margin-top:5px}
+#nq-shell .nq-nav{display:flex;gap:6px;flex-wrap:wrap}
+#nq-shell .nq-navbutton,#nq-shell .nq-textbutton,#nq-shell .nq-motion{font:inherit;color:var(--nq-muted);background:none;border:1px solid transparent;min-height:44px;padding:8px 12px;border-radius:8px;cursor:pointer}
+#nq-shell .nq-navbutton[aria-current]{color:var(--nq-mint);background:#baffce0b;border-color:var(--nq-line)}
+#nq-shell .nq-pane{max-width:1280px;margin:0 auto}
+#nq-shell .nq-home{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:55px;align-items:center;min-height:680px;padding:68px 0 74px}
+#nq-shell .nq-eyebrow,#nq-shell .nq-kicker{color:var(--nq-mint);text-transform:uppercase;letter-spacing:2.3px;font-size:11px;font-weight:600;margin:0 0 24px}
+#nq-shell #nq-home-title{font:clamp(44px,5.7vw,78px)/1.07 Georgia,serif;letter-spacing:-2px;margin:0 0 28px;font-weight:400}
+#nq-shell #nq-home-title em{color:var(--nq-mint);font-weight:400}
+#nq-shell .nq-intro{max-width:350px;color:var(--nq-muted);font-size:17px;margin:0 0 26px}
+#nq-shell .nq-path{display:flex;align-items:center;gap:12px;color:#c3d5ca;font-size:12px;margin-bottom:40px;flex-wrap:wrap}
+#nq-shell .nq-path i{height:1px;width:28px;background:#456252}
+#nq-shell .nq-entry{min-width:0}
+#nq-shell .nq-lamp{display:block;width:100%;text-align:left;color:var(--nq-text);font:inherit;background:linear-gradient(140deg,#172b25a6,#0d1818b0);border:1px solid #43634b;border-radius:28px;padding:0;overflow:hidden;cursor:pointer;box-shadow:0 20px 70px #0003}
+#nq-shell .nq-lamp:hover{border-color:var(--nq-mint);background:#19342b}
+#nq-shell #nq-lava{display:block;width:100%;height:auto;aspect-ratio:420/360}
+#nq-shell .nq-lamp-label{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 30px 28px}
+#nq-shell .nq-lamp-label strong{font:26px/1.3 Georgia,serif}
+#nq-shell .nq-arrow{border:1px solid #628967;border-radius:50%;width:45px;height:45px;display:grid;place-items:center;color:var(--nq-mint);flex-shrink:0}
+#nq-shell .nq-under{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;color:var(--nq-muted);font-size:11px}
+#nq-shell .nq-motion{font-size:12px;padding:8px}
+#nq-shell .nq-footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1280px;margin:auto;padding:24px 0;color:var(--nq-muted);font-size:11px;letter-spacing:.4px;border-top:1px solid var(--nq-line)}
+#nq-shell .nq-footer>span:last-child{letter-spacing:1.8px;font-size:10px}
+#nq-shell .nq-learning{padding:38px 0 48px}
+#nq-shell .nq-lesson-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
+#nq-shell .nq-lesson-head .nq-eyebrow{margin-bottom:10px}
+#nq-shell #nq-lesson-title{font:clamp(32px,3.3vw,48px)/1.2 Georgia,serif;letter-spacing:-1px;font-weight:400}
+#nq-shell .nq-steps{display:flex;gap:8px;padding:28px 0}
+#nq-shell .nq-steps button{font:inherit;font-size:14px;background:none;border:0;border-bottom:2px solid var(--nq-line);color:var(--nq-muted);padding:12px 16px;min-height:48px;cursor:pointer;flex:1;text-align:left}
+#nq-shell .nq-steps button span{font-size:11px;letter-spacing:1px;margin-right:8px}
+#nq-shell .nq-steps button[aria-current]{color:var(--nq-mint);border-color:var(--nq-mint)}
+#nq-shell .nq-lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:40px;align-items:start}
+#nq-shell .nq-scene-card{border:1px solid var(--nq-line);border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#172a28,#0f1c20);min-width:0}
+#nq-shell .nq-scene-top{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--nq-line);font-size:13px}
+#nq-shell #nq-science{display:block;width:100%;height:390px}
+#nq-shell .nq-scene-description{font-size:14px;color:#dae7df;padding:0 20px;margin:0 0 15px}
+#nq-shell .nq-scene-controls{padding:0 16px}
+#nq-shell .nq-scene-controls .nq-controls{margin:16px 0 12px}
+#nq-shell .nq-scene-controls .nq-notice{margin-bottom:0;min-height:0}
+#nq-shell .nq-lamp.nq-no-canvas{padding-top:45px}
+#nq-shell .nq-caption{font-size:11px;color:var(--nq-muted);padding:0 20px;margin:0 0 22px}
+#nq-shell .nq-copy{min-width:0;padding:10px 0}
+#nq-shell .nq-kicker{margin:0 0 12px;font-size:10px}
+#nq-shell .nq-copy h2{font:30px/1.2 Georgia,serif;letter-spacing:-.4px;font-weight:400;margin:0 0 20px}
+#nq-shell .nq-copy p{margin:0 0 20px}
+#nq-shell .nq-controls{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+#nq-shell .nq-controls button,#nq-shell .nq-button{border:1px solid #51665c;border-radius:10px;padding:11px 15px;min-height:44px;background:#0b1517;color:var(--nq-text);font:inherit;font-size:14px;cursor:pointer;text-align:left}
+#nq-shell .nq-controls button[aria-pressed=true]{background:#baffce1a;border-color:var(--nq-mint);color:var(--nq-mint)}
+#nq-shell .nq-notice{padding:15px 18px;border-left:2px solid var(--nq-mint);background:#baffce09;font-size:14px;color:#d0e7d5;border-radius:0 8px 8px 0;min-height:74px}
+#nq-shell .nq-small{font-size:14px;color:var(--nq-muted)}
+#nq-shell .nq-primary{background:var(--nq-mint);border-color:var(--nq-mint);color:#142519;font-weight:600}
+#nq-shell .nq-answers{display:grid;gap:10px}
+#nq-shell .nq-answers button{border:1px solid #53675e;border-radius:10px;min-height:58px;padding:16px 20px;background:#112023;color:var(--nq-text);text-align:left;font:inherit;font-size:15px;cursor:pointer}
+#nq-shell .nq-answers button[aria-pressed=true]{border-color:var(--nq-mint);background:#baffce16}
+#nq-shell .nq-feedback{padding:20px;border:1px solid #658464;border-radius:12px;background:#baffce0c;color:#e3f2d7;font-size:15px;margin:20px 0}
+#nq-shell .nq-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}
+#nq-shell .nq-sources{border-top:1px solid var(--nq-line);margin:30px 0 0;padding-top:20px;color:var(--nq-muted);font-size:13px}
+#nq-shell .nq-sources summary{padding:10px 0;cursor:pointer;min-height:44px;color:#dae9db}
+#nq-shell .nq-sources a{color:var(--nq-mint);text-underline-offset:3px;overflow-wrap:anywhere}
+#nq-shell .nq-sources li{margin-bottom:10px}
+#nq-shell .nq-fallback{padding:24px;color:var(--nq-text);background:#192d27;border-radius:10px;font-size:16px}
+#nq-shell .nq-fallback strong{font:26px Georgia,serif}
+#nq-shell .nq-navbutton:focus-visible,#nq-shell .nq-textbutton:focus-visible,#nq-shell .nq-motion:focus-visible,#nq-shell .nq-lamp:focus-visible,#nq-shell .nq-steps button:focus-visible,#nq-shell .nq-controls button:focus-visible,#nq-shell .nq-button:focus-visible,#nq-shell .nq-answers button:focus-visible,#nq-shell .nq-sources :focus-visible{outline:3px solid #fff3ac;outline-offset:5px}
+#nq-shell [tabindex="-1"]:focus{outline:2px solid #fff3ac;outline-offset:6px}
+@media(max-width:950px){#nq-shell .nq-home{gap:28px;min-height:600px}#nq-shell .nq-lesson-grid{gap:25px;grid-template-columns:1fr}#nq-shell .nq-copy{max-width:680px}#nq-shell .nq-scene-card{max-width:680px;width:100%}#nq-shell .nq-lamp-label{padding:0 20px 25px}#nq-shell .nq-lamp-label strong{font-size:23px}#nq-shell .nq-under{flex-wrap:wrap}}
+@media(max-width:650px){#nq-shell .nq-header{flex-wrap:wrap;padding:22px 0 16px;gap:16px}#nq-shell .nq-nav{width:100%;justify-content:space-between}#nq-shell .nq-navbutton{font-size:14px;flex:1}#nq-shell .nq-home{grid-template-columns:1fr;padding:38px 0 44px;gap:32px}#nq-shell #nq-home-title{font-size:52px}#nq-shell .nq-path{margin-bottom:24px}#nq-shell .nq-lesson-head{align-items:flex-start;flex-direction:column;gap:8px}#nq-shell .nq-steps button{padding:12px 6px;font-size:12px}#nq-shell .nq-steps button span{margin-right:2px}#nq-shell .nq-learning{padding-top:30px}#nq-shell .nq-scene-top{padding:10px 12px;font-size:12px}#nq-shell .nq-copy h2{font-size:28px}#nq-shell .nq-footer{gap:10px}#nq-shell .nq-under{justify-content:center}#nq-shell .nq-scene-description{padding:0 15px}#nq-shell .nq-caption{padding:0 15px}}
+@media(prefers-reduced-motion:reduce){#nq-shell{scroll-behavior:auto}}
+#nq-shell .nq-lamp-label small{display:block;color:var(--nq-muted);font-size:12px;font-weight:400;margin-bottom:5px}
+
+#nq-shell .nq-share-context{border-top:1px solid var(--nq-line);max-width:350px;padding-top:20px;color:var(--nq-muted);font-size:14px}
+
+#nq-shell button:disabled{opacity:.48;cursor:default}
+#nq-shell :where(button,summary):focus-visible{outline:3px solid #fff3ac;outline-offset:4px}
+#nq-shell .nq-lesson-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:38px}
+#nq-shell .nq-scene-mode{color:#c8dcae;font-size:11px;text-align:right}
+#nq-shell .nq-trace-header{padding:20px 20px 0}
+#nq-shell .nq-stages{list-style:none;margin:0;display:flex;gap:12px;padding:0;counter-reset:moment}
+#nq-shell .nq-stages li{flex:1;font-size:11px;color:var(--nq-muted);border-top:2px solid var(--nq-line);padding-top:10px;counter-increment:moment}
+#nq-shell .nq-stages li::before{content:'0' counter(moment);display:block;font-size:10px;letter-spacing:2px;margin-bottom:2px}
+#nq-shell .nq-stages li[aria-current]{color:var(--nq-mint);border-color:var(--nq-mint)}
+#nq-shell .nq-trace-status{font-size:14px;min-height:48px;margin:15px 0 0;color:#e6f2df}
+#nq-shell .nq-track-controls{padding:0 20px 18px}
+#nq-shell .nq-track-controls>.nq-button{width:100%;text-align:center}
+#nq-shell .nq-relation-controls{margin-top:0}
+#nq-shell .nq-travel-controls{display:flex;gap:8px;flex-wrap:wrap}
+#nq-shell .nq-travel-controls button{flex:1;text-align:center}
+#nq-shell .nq-play-controls{margin:10px 0 14px}
+#nq-shell .nq-compare-button{width:100%;border:1px solid #83a77e;background:#baffce0b;border-radius:10px;min-height:48px;font:inherit;font-size:14px;color:#ddf6cb;padding:12px;cursor:pointer}
+#nq-shell .nq-compare-button[aria-pressed=true]{background:#baffce20;border-color:var(--nq-mint)}
+#nq-shell #nq-motion-note{font-size:12px;margin:12px 0 0}
+#nq-shell .nq-legend{padding:0 20px 14px;display:grid;gap:8px;font-size:12px;color:var(--nq-muted)}
+#nq-shell .nq-legend span{display:flex;align-items:center;gap:10px}
+#nq-shell .nq-legend i{display:inline-block;flex:0 0 28px;border-top:2px solid #d0e7b6}
+#nq-shell .nq-legend .nq-dashed{border-top-style:dashed}
+#nq-shell .nq-identity{display:flex;gap:15px;align-items:center;padding:16px;border:1px solid #526a55;border-radius:14px;margin:24px 0;background:#baffce08}
+#nq-shell .nq-identity-tag{width:42px;height:42px;border-radius:10px;border:1px solid #d8ef9f;display:grid;place-items:center;color:#edffc7;font:26px Georgia,serif;flex-shrink:0}
+#nq-shell .nq-identity strong{font-weight:500;font-size:15px}
+#nq-shell .nq-identity div span{display:block;color:var(--nq-muted);font-size:14px;margin-top:3px}
+#nq-shell .nq-inline-help{border-top:1px solid var(--nq-line);padding:12px 0;margin:16px 0;font-size:14px;color:var(--nq-muted)}
+#nq-shell .nq-inline-help summary{color:#d9e7cf;cursor:pointer;min-height:44px;padding:10px 0}
+#nq-shell .nq-inline-help p{margin:10px 0 15px}
+#nq-shell .nq-fallback{margin:20px}
+#nq-shell .nq-fallback p{font-size:14px}
+#nq-shell .nq-copy{padding-top:5px}
+#nq-shell .nq-copy>.nq-button{margin-top:10px}
+@media(max-width:950px){#nq-shell .nq-lesson-grid{grid-template-columns:1fr;gap:28px}#nq-shell .nq-scene-card{max-width:680px}#nq-shell .nq-copy{max-width:680px}}
+@media(max-width:650px){#nq-shell .nq-trace-header{padding:15px 14px 0}#nq-shell .nq-stages{gap:8px}#nq-shell .nq-stages li{font-size:10px}#nq-shell .nq-track-controls{padding:0 14px 18px}#nq-shell .nq-track-controls .nq-controls button{flex:1;font-size:12px;padding:10px}#nq-shell .nq-travel-controls button{font-size:12px;padding:10px}#nq-shell .nq-fallback{margin:14px}#nq-shell .nq-scene-mode{max-width:120px}#nq-shell .nq-relation-controls{gap:6px}}
+
+/* Sólo navegación, ficha añadida y aprendizaje; no altera los controles IUPAC. */
+#nq-practice.hidden,#nq-learn.hidden{display:none!important}
+#nq-modes{max-width:1120px;margin:0 auto;padding:14px 18px;display:flex;gap:10px;flex-wrap:wrap}
+#nq-modes button,#nq-property-card button{font:inherit;color:#dcefe5;background:#142c27;border:1px solid #54796a;border-radius:9px;padding:12px 16px;min-height:44px;cursor:pointer}
+#nq-modes button[aria-current]{color:#13251b;background:#baffce;border-color:#baffce}
+#nq-modes button:focus-visible,#nq-property-card :focus-visible{outline:3px solid #ffe89c;outline-offset:3px}
+#nq-practice h1:focus{outline:2px solid #ffe89c;outline-offset:5px}
+#nq-property-card{margin-top:18px;padding:20px;border:1px solid #54796a;border-radius:14px;background:#132824;color:#eaf4ed;line-height:1.55;font-size:14px}
+#nq-property-card[hidden]{display:none!important}
+#nq-property-card h3{margin:0 0 12px;font-size:20px}
+#nq-property-card p{margin:10px 0}
+#nq-property-card details{margin:16px 0;color:#bccfc4}
+#nq-property-card summary{cursor:pointer;min-height:44px;padding:10px 0}
+#nq-shell,#nq-shell *,#nq-shell *::before,#nq-shell *::after{box-sizing:border-box}
+@media(max-width:480px){#nq-modes button{flex:1;font-size:13px;padding:10px}}
 </style>
 </head>
 <body>
+<nav id="nq-modes" aria-label="Modos del juego">
+  <button id="nq-mode-practice" type="button" data-nq-mode="practice" aria-controls="nq-practice" aria-current="page">Modo Práctica (IUPAC)</button>
+  <button id="nq-mode-learn" type="button" data-nq-mode="learn" aria-controls="nq-learn">Modo Aprender (Etanol)</button>
+</nav>
+<div id="nq-practice">
 <div class="wrap">
   <header class="top">
     <div class="brand">
@@ -264,6 +398,85 @@
   <div id="selftest-acid"></div>
   <div id="selftest-custom"></div>
   <div class="foot">MVP educativo · Un solo archivo HTML/CSS/JS · Sin dependencias externas</div>
+</div>
+</div><!-- fin de #nq-practice; el .wrap original permanece intacto -->
+<div id="nq-learn" class="hidden" role="region" aria-labelledby="nq-lesson-title">
+  <div id="nq-shell" data-nq-version="0.2.0">
+    <div class="nq-learning nq-pane">
+      <div class="nq-lesson-head"><div><p class="nq-eyebrow">Una idea, paso a paso</p><h1 id="nq-lesson-title" tabindex="-1">Sigue una molécula.</h1></div><button id="nq-reset" class="nq-textbutton" type="button">Reiniciar actividad</button></div>
+      <nav class="nq-steps" aria-label="Pasos de la actividad"><button type="button" data-nq-step="1" aria-current="step"><span>01</span> Conocer</button><button type="button" data-nq-step="2"><span>02</span> Observar</button><button type="button" data-nq-step="3"><span>03</span> Explicar</button></nav>
+      <div class="nq-lesson-grid">
+        <div class="nq-scene-card" id="nq-scene-card">
+          <div class="nq-scene-top"><span id="nq-scene-label" tabindex="-1">Una molécula de etanol</span><span class="nq-scene-mode" id="nq-scene-mode">Explora el dibujo</span></div>
+          <div class="nq-scene-controls" data-nq-scene-panel="1">
+            <div class="nq-controls" aria-label="Explorar la molécula"><button type="button" data-nq-highlight="all" aria-pressed="true">Todo</button><button type="button" data-nq-highlight="C" aria-pressed="false">C · Carbono</button><button type="button" data-nq-highlight="H" aria-pressed="false">H · Hidrógeno</button><button type="button" data-nq-highlight="O" aria-pressed="false">O · Oxígeno</button><button type="button" data-nq-highlight="OH" aria-pressed="false">Grupo –OH</button><button type="button" data-nq-highlight="bonds" aria-pressed="false">Enlaces</button></div>
+            <p class="nq-notice" id="nq-highlight-note" role="status">Una línea continua representa un enlace dentro de la molécula.</p>
+          </div>
+          <div class="nq-trace-header" data-nq-scene-panel="2" hidden>
+            <ol class="nq-stages" aria-label="Momentos del recorrido"><li data-nq-stage="0" aria-current="step">En el líquido</li><li data-nq-stage="1">Paso al vapor</li><li data-nq-stage="2">En el vapor</li></ol>
+            <p id="nq-trace-status" class="nq-trace-status" role="status">Elige A para comenzar. Su recuadro nos ayudará a seguirla.</p>
+          </div>
+          <div class="nq-track-controls" data-nq-scene-panel="2" hidden>
+            <button id="nq-select" class="nq-button nq-primary" type="button">Seguir esta molécula</button>
+            <div id="nq-selected-controls" hidden>
+              <div class="nq-controls nq-relation-controls" aria-label="Comparar relaciones"><button id="nq-show-bonds" type="button" aria-pressed="false">Resaltar enlaces internos</button><button id="nq-show-attractions" type="button" aria-pressed="false">Mostrar atracciones</button></div>
+              <div class="nq-travel-controls" aria-label="Controlar el recorrido"><button id="nq-back" class="nq-button" type="button">← Retroceder</button><button id="nq-forward" class="nq-button nq-primary" type="button">Avanzar un paso →</button></div>
+              <div class="nq-controls nq-play-controls"><button id="nq-play" type="button">Reproducir recorrido</button><button id="nq-repeat" type="button">Volver al comienzo</button></div>
+              <button id="nq-compare" class="nq-compare-button" type="button" aria-pressed="false">Comparar antes y después</button>
+              <p id="nq-motion-note" class="nq-small">Puedes avanzar sin animation. El recorrido termina y queda detenido para observar.</p>
+            </div>
+          </div>
+          <canvas id="nq-science" width="580" height="390" aria-hidden="true"></canvas>
+          <div id="nq-canvas-fallback" class="nq-fallback" hidden>
+            <p class="nq-kicker">La misma idea, en palabras</p><strong>CH₃–CH₂–OH</strong>
+            <p>Etanol: 2 átomos de carbono, 6 de hidrógeno y 1 de oxígeno. Las líneas de esta fórmula unen grupos de átomos de la misma molécula.</p>
+            <p id="nq-fallback-state">Cada molécula conserva estos átomos y sus enlaces al pasar al vapor.</p>
+            <div id="nq-fallback-compare" hidden><p><b>Antes, en el líquido:</b> A es etanol y tiene otras moléculas próximas.</p><p><b>Después, en el vapor:</b> A sigue siendo etanol; las moléculas están más separadas.</p><p>Son dos momentos de la misma molécula A.</p></div>
+          </div>
+          <p id="nq-scene-description" class="nq-scene-description">Cada letra identifica un átomo. Las líneas continuas unen los átomos de la misma molécula.</p>
+          <div class="nq-legend" id="nq-legend" hidden><span><i class="nq-solid" aria-hidden="true"></i>Enlace dentro de una molécula</span><span><i class="nq-dashed" aria-hidden="true"></i>Atracción entre moléculas</span></div>
+          <p class="nq-caption">Esquema de aprendizaje, sin escala real. La posición y el recorrido del dibujo son ilustrativos.</p>
+        </div>
+        <div class="nq-copy">
+          <article data-nq-panel="1" aria-labelledby="nq-step-title-1">
+            <p class="nq-kicker">Primero, conoce a la protagonista</p><h2 id="nq-step-title-1" tabindex="-1">Esto es etanol.</h2>
+            <p>Una molécula es un conjunto de átomos enlazados. En este dibujo, <b>C</b> es carbono, <b>H</b> hidrógeno y <b>O</b> oxígeno.</p>
+            <p>También se escribe <b>CH₃–CH₂–OH</b>. Los números pequeños cuentan los H de cada grupo.</p>
+            <p class="nq-small">En el etanol, el –OH está unido a un carbono con enlaces simples y es la parte característica del alcohol. No basta encontrar –OH en cualquier molécula: también importa dónde está unido.</p>
+            <button class="nq-button nq-primary" data-nq-step="2" type="button">Ahora, seguirla →</button>
+          </article>
+          <article data-nq-panel="2" aria-labelledby="nq-step-title-2" hidden>
+            <p class="nq-kicker">Una protagonista, tres momentos</p><h2 id="nq-step-title-2" tabindex="-1">¿Qué cambia?<br>¿Qué permanece?</h2>
+            <p>La letra <b>A</b> y el recuadro sirven para reconocer la misma molécula durante el recorrido. No son una parte real del etanol.</p>
+            <div class="nq-identity"><span class="nq-identity-tag" aria-hidden="true">A</span><div><strong>Etanol en cada momento</strong><span>2 C · 6 H · 1 O</span></div></div>
+            <p>Primero mira <b>dentro de A</b>: sus átomos y enlaces. Después mira <b>entre A y las otras moléculas</b>: su separación y sus atracciones.</p>
+            <details id="nq-hbond-help" class="nq-inline-help"><summary>¿Qué es el puente de hidrógeno del dibujo?</summary><p>Es una atracción entre el H del grupo O–H de una molécula y el O de otra. El trazo discontinuo lo distingue del enlace O–H dentro de cada molécula.</p><p>Para verlo, activa «Mostrar atracciones» al comienzo o en la comparación. Dibujamos un ejemplo, no todas las interacciones.</p></details>
+            <details class="nq-inline-help" id="nq-context-help"><summary>El recipiente: ebullición y evaporación</summary><div class="nq-controls" aria-label="Comparar cambios de fase"><button type="button" data-nq-phase="boiling" aria-pressed="true">Ebullición</button><button type="button" data-nq-phase="evaporation" aria-pressed="false">Evaporación</button></div><p id="nq-phase-note" role="status">En la ebullición se forman y crecen burbujas de vapor dentro del líquido. También puede pasar vapor desde la superficie.</p><p class="nq-small">El esquema molecular explica el cambio de estado. No muestra la trayectoria real de una molécula dentro de una burbuja concreta.</p></details>
+            <button class="nq-button nq-primary" data-nq-step="3" type="button">Probar con una pregunta →</button>
+          </article>
+          <article data-nq-panel="3" aria-labelledby="nq-step-title-3" hidden>
+            <p class="nq-kicker">Puedes volver a mirar cuando quieras</p><h2 id="nq-step-title-3" tabindex="-1">Cuando A pasa al vapor, ¿qué ocurre?</h2>
+            <div class="nq-answers" aria-label="Elige una respuesta"><button type="button" data-nq-answer="same" aria-pressed="false">Sigue siendo etanol y queda más separada de otras moléculas.</button><button type="button" data-nq-answer="atoms" aria-pressed="false">Se desarma en átomos de carbono, hidrógeno y oxígeno.</button><button type="button" data-nq-answer="unsure" aria-pressed="false">Todavía no lo sé.</button></div>
+            <div class="nq-feedback" id="nq-feedback" role="status" hidden></div>
+            <p id="nq-own-words" class="nq-notice" hidden>Ahora prueba decirlo con tus palabras: ¿qué cambió y qué permaneció? Puedes explicárselo a otra persona o volver al dibujo.</p>
+            <div class="nq-actions"><button class="nq-button" data-nq-step="2" type="button">Volver a observar</button><button class="nq-button" id="nq-help-compare" type="button" hidden>Ver la comparación</button><button class="nq-textbutton" id="nq-retry" type="button" hidden>Reintentar</button></div>
+            <button class="nq-button nq-primary" id="nq-lesson-finish" data-nq-mode="practice" type="button" hidden>Volver al modo Práctica →</button>
+          </article>
+        </div>
+      </div>
+      <details class="nq-sources"><summary>Consultar las fuentes y el alcance del dibujo</summary><p>Una actividad conceptual sobre el etanol. El dibujo molecular es un esquema de aprendizaje. La ebullición depende de la presión: aquí no asignamos condiciones numéricas.</p><ul>
+        <li><b>John McMurry, Química orgánica, fragmento en español aportado:</b> capítulo 17, p.599 (alcoholes) y p.602, §17.2 y figura 17.1 (puentes de hidrógeno y ebullición). Son las páginas 1 y 4 del fragmento consultado el 19/09/2026. Año indicado por el usuario: 2008; el fragmento no incluye portada para completar la edición.</li>
+        <li><a href="https://openstax.org/books/chemistry-2e/pages/10-3-phase-transitions" target="_blank" rel="noopener">OpenStax · Chemistry 2e, 10.3</a>: cambios de fase, ejemplo 10.5 (etanol) y Boiling Points.</li>
+        <li><a href="https://openstax.org/books/organic-chemistry/pages/17-2-properties-of-alcohols-and-phenols" target="_blank" rel="noopener">McMurry · Organic Chemistry, 17.2, lectura abierta</a>: atracciones entre alcoholes. Es una referencia del mismo autor, no una confirmación experimental independiente.</li>
+        <li><a href="https://openstax.org/books/college-physics-2e/pages/13-6-humidity-evaporation-and-boiling" target="_blank" rel="noopener">OpenStax · College Physics 2e, 13.6</a>: evaporación y burbujas de ebullición; ejemplos de agua, sin trasladar sus cifras al etanol.</li>
+        <li><a href="https://openstax.org/books/chemistry-2e/pages/1-3-physical-and-chemical-properties" target="_blank" rel="noopener">OpenStax · Chemistry 2e, 1.3</a>: cambios físicos y químicos.</li>
+        <li><a href="https://openstax.org/books/chemistry-2e/pages/1-2-phases-and-classification-of-matter" target="_blank" rel="noopener">OpenStax · Chemistry 2e, 1.2</a>: definición de molécula antes de la figura 1.14.</li>
+        <li><a href="https://openstax.org/books/chemistry-2e/pages/2-4-chemical-formulas" target="_blank" rel="noopener">OpenStax · Chemistry 2e, 2.4</a>: símbolos, subíndices y líneas de enlace.</li>
+      </ul><p>Fuentes web consultadas para el guion inicial el 13/09/2026 y reutilizadas aquí. Ilustraciones propias. Versión 0.2.0.</p></details>
+
+    </div>
+    <p id="nq-script-notice" class="nq-fallback">Activa JavaScript para utilizar la actividad.</p>
+  </div>
 </div>
 
 <script>
@@ -1797,6 +2010,630 @@ function boot(){
   newMolecule();
 }
 boot();
+
+// Fichas curriculares según los paquetes de Biasioli aportados por el usuario.
+// Se elige la tabla de constantes de p. 224, no la tabla comparativa de esa página.
+const PROPIEDADES_OX = {
+  metanol: {
+    identidad: { nombre: 'Metanol', tradicional: 'Alcohol metílico', formula: 'CH₃OH', estructura: 'CH3-OH' },
+    ebullicion: {
+      valor: 64.5, unidad: '°C', valorOriginal: '64,5',
+      condiciones: { presion: null }, naturaleza: 'compilacion_didactica',
+      referencia: { obra: 'Biasioli, Weitz y Chandías · Química Orgánica · Kapelusz', capitulo: 10, pagina: 224, ubicacion: 'Tabla de constantes físicas, fila alcohol metílico' },
+      incertidumbre: null
+    },
+    solubilidad: {
+      valor: null, descriptor: 'Completamente miscible en agua', unidadOriginal: 'g / 100 g H₂O',
+      condiciones: { temperatura: null }, naturaleza: 'descripcion_cualitativa',
+      referencia: { pagina: 225, ubicacion: 'Tabla de solubilidades, fila metanol' }
+    },
+    explicacion: {
+      puentesHidrogeno: 'El grupo –OH permite formar puentes de hidrógeno entre moléculas. Estas atracciones ayudan a explicar la diferencia de ebullición frente al alcano comparado en el libro; al pasar al vapor, la molécula sigue siendo metanol.',
+      solubilidad: 'Su grupo –OH puede formar puentes de hidrógeno con el agua. Miscible significa que ambos líquidos pueden mezclarse en cualquier proporción.',
+      paginas: [224, 225]
+    },
+    aplicacion: { texto: 'Materia prima para obtener metanal (aldehído fórmico).', pagina: 233 },
+    revision: { estado: 'seleccionado_para_MVP_por_usuario', procedencia: 'Transcripción Markdown aportada, paquetes 01 y 03', edicion: null, anio: null, notas: 'Presión, temperatura de solubilidad e incertidumbre no informadas en el material recibido.' }
+  },
+  etanol: {
+    identidad: { nombre: 'Etanol', tradicional: 'Alcohol etílico', formula: 'C₂H₅OH', estructura: 'CH3-CH2-OH' },
+    ebullicion: {
+      valor: 78.5, unidad: '°C', valorOriginal: '78,5',
+      condiciones: { presion: null }, naturaleza: 'compilacion_didactica',
+      referencia: { obra: 'Biasioli, Weitz y Chandías · Química Orgánica · Kapelusz', capitulo: 10, pagina: 224, ubicacion: 'Tabla de constantes físicas, fila alcohol etílico' },
+      incertidumbre: null
+    },
+    solubilidad: {
+      valor: null, descriptor: 'Completamente miscible en agua', unidadOriginal: 'g / 100 g H₂O',
+      condiciones: { temperatura: null }, naturaleza: 'descripcion_cualitativa',
+      referencia: { pagina: 225, ubicacion: 'Tabla de solubilidades, fila etanol' }
+    },
+    explicacion: {
+      puentesHidrogeno: 'El grupo –OH permite formar puentes de hidrógeno entre moléculas. Estas atracciones ayudan a explicar la diferencia de ebullición frente al alcano comparado en el libro; al pasar al vapor, la molécula sigue siendo etanol.',
+      solubilidad: 'Su grupo –OH puede formar puentes de hidrógeno con el agua. Miscible significa que ambos líquidos pueden mezclarse en cualquier proporción.',
+      paginas: [224, 225]
+    },
+    aplicacion: { texto: 'Se utiliza como combustible mezclado con nafta; el capítulo relaciona ese uso con la eliminación del agua.', pagina: 236 },
+    revision: { estado: 'seleccionado_para_MVP_por_usuario', procedencia: 'Transcripción Markdown aportada, paquetes 01 y 03', edicion: null, anio: null, notas: 'Presión, temperatura de solubilidad e incertidumbre no informadas en el material recibido.' }
+  }
+};
+
+(function moduloEtanol020(){
+// Own qualitative drawings. Distances, sizes, and the path are teaching choices,
+// not measurements. The controller owns every frame, event and playback clock.
+function createNQScience(canvas) {
+  let ctx;
+  try { ctx = canvas.getContext('2d'); } catch (_) { return null; }
+  if (!ctx) return null;
+
+  // One immutable, fully developed ethanol graph, reused in every scene.
+  // Atom 3 is specifically the hydroxyl hydrogen; atom 2 is its oxygen.
+  const atoms = Object.freeze([
+    Object.freeze({symbol:'C',x:-48,y:0}),
+    Object.freeze({symbol:'C',x:0,y:0}),
+    Object.freeze({symbol:'O',x:48,y:0}),
+    Object.freeze({symbol:'H',x:48,y:47}),
+    Object.freeze({symbol:'H',x:-92,y:0}),
+    Object.freeze({symbol:'H',x:-48,y:-47}),
+    Object.freeze({symbol:'H',x:-48,y:47}),
+    Object.freeze({symbol:'H',x:0,y:-47}),
+    Object.freeze({symbol:'H',x:0,y:47})
+  ]);
+  const bonds = Object.freeze([[0,1],[1,2],[2,3],[0,4],[0,5],[0,6],[1,7],[1,8]].map(Object.freeze));
+  const counts = Object.freeze({C:2,H:6,O:1});
+  const stages = Object.freeze([
+    Object.freeze({name:'liquid',progress:0}),
+    Object.freeze({name:'transition',progress:0.5}),
+    Object.freeze({name:'vapor',progress:1})
+  ]);
+  const palette = {C:'#baffce',H:'#e7e9df',O:'#ffc496'};
+  let hitBoxes = [], logicalWidth = 280, logicalHeight = 390;
+  let last = {step:1,progress:0,compare:false,selected:false,attractionVisible:false};
+
+  function label(text,x,y,size=13,color='#b8cbbf',align='left') {
+    ctx.fillStyle=color; ctx.font=size+'px "Segoe UI",sans-serif';
+    ctx.textAlign=align; ctx.textBaseline='middle'; ctx.fillText(text,x,y);
+  }
+  function line(x,y,x2,y2,color='#91af9d',width=2,dash=[]) {
+    ctx.beginPath(); ctx.strokeStyle=color; ctx.lineWidth=width;
+    ctx.setLineDash(dash); ctx.moveTo(x,y); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  function box(x,y,w,h,fill,stroke,r=14) {
+    // Avoid depending on roundRect support for the scientific fallback drawing.
+    ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r); ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}
+  }
+  function point(index,x,y,scale,rotation=0) {
+    const a=atoms[index],c=Math.cos(rotation),s=Math.sin(rotation);
+    return {x:x+scale*(a.x*c-a.y*s),y:y+scale*(a.x*s+a.y*c)};
+  }
+  function graph(x,y,scale,options={}) {
+    const rotation=options.rotation||0;
+    ctx.save(); ctx.globalAlpha=options.alpha===undefined?1:options.alpha;
+    bonds.forEach(([a,b])=>{
+      const p=point(a,x,y,scale,rotation),q=point(b,x,y,scale,rotation);
+      const emphasis=options.bondEmphasis||options.highlight==='all'||options.highlight==='bonds'||(options.highlight==='OH'&&a===2&&b===3);
+      // Lines always remain visible; the controls change emphasis only.
+      line(p.x,p.y,q.x,q.y,emphasis?'#eefac5':'#829c8b',emphasis?3:1.8);
+    });
+    atoms.forEach((atom,index)=>{
+      const p=point(index,x,y,scale,rotation);
+      const lit=!options.highlight||options.highlight==='all'||options.highlight===atom.symbol||(options.highlight==='OH'&&(index===2||index===3));
+      const radius=(atom.symbol==='H'?14:17)*scale;
+      ctx.beginPath();ctx.arc(p.x,p.y,radius,0,Math.PI*2);
+      ctx.fillStyle=lit?palette[atom.symbol]:'#233b30';ctx.fill();
+      ctx.strokeStyle=lit?'#ffffff50':'#81988a';ctx.lineWidth=1;ctx.stroke();
+      label(atom.symbol,p.x,p.y,(atom.symbol==='H'?18:21)*scale,lit?'#15251c':'#d0ded3','center');
+    });
+    ctx.restore();
+  }
+  function markedA(x,y,scale,state) {
+    const area={x:x-112*scale,y:y-77*scale,width:184*scale,height:147*scale};
+    box(area.x,area.y,area.width,area.height,state.selected?'#d5f8b409':'#e1f1b704',state.selected?'#d4fca9':'#829275',12);
+    box(area.x+10,area.y-10,27,22,'#d3f1b5',null,7);
+    label('A',area.x+23.5,area.y+1,13,'#18301e','center');
+    graph(x,y,scale,{bondEmphasis:state.showBonds});
+    hitBoxes.push({x:area.x,y:area.y-10,width:area.width,height:area.height+10});
+  }
+  function hydrogenBridge(from,to,alpha) {
+    ctx.save();ctx.globalAlpha=alpha;
+    // The selected example joins A's O–H hydrogen to a neighbor's oxygen.
+    // Offsets stop the visible stroke at the atom circles, preserving endpoints.
+    const length=Math.hypot(to.x-from.x,to.y-from.y)||1;
+    const dx=(to.x-from.x)/length,dy=(to.y-from.y)/length;
+    line(from.x+dx*12,from.y+dy*12,to.x-dx*12,to.y-dy*12,'#ffd6a4',2,[4,6]);
+    ctx.restore();
+  }
+  function introduction(w,state) {
+    const scale=Math.min(1.12,(w-52)/222);
+    label('UNA MOLÉCULA DE ETANOL',w/2,30,11,'#baffce','center');
+    graph(w/2+20,156,scale,{highlight:state.highlight||'all'});
+    label('CH₃–CH₂–OH',w/2,264,24,'#edf3e6','center');
+    label('2 C · 6 H · 1 O',w/2,299,14,'#b8cbbf','center');
+    label(state.highlight==='OH'?'–OH: oxígeno unido a hidrógeno':'Las líneas continuas unen átomos.',w/2,342,12,'#c8e6b6','center');
+  }
+  function arrow(x,y,size=11) {
+    line(x,y+size,x,y,'#bee4c6',1.5);
+    line(x,y,x-3,y+4,'#bee4c6',1.5);line(x,y,x+3,y+4,'#bee4c6',1.5);
+  }
+  function vessel(w,y,phase) {
+    line(18,y,w-18,y,'#355047',1);
+    label('RECIPIENTE · OTRA ESCALA',20,y+20,10.5,'#b7c9bf');
+    const x=28,top=y+43,bottom=y+122,surface=y+74,bw=79;
+    ctx.fillStyle='#baffce12';ctx.fillRect(x,surface,bw,bottom-surface);
+    line(x,top,x,bottom,'#9bbbab',1.5);line(x,bottom,x+bw,bottom,'#9bbbab',1.5);line(x+bw,bottom,x+bw,top,'#9bbbab',1.5);
+    line(x,surface,x+bw,surface,'#b9dbbd',1);
+    [x+16,x+40,x+63].forEach(ax=>arrow(ax,surface-24,14));
+    if(phase==='boiling') {
+      [[19,30,4],[41,17,6],[62,35,3]].forEach(([dx,dy,r])=>{
+        ctx.beginPath();ctx.arc(x+dx,bottom-dy,r,0,Math.PI*2);ctx.strokeStyle='#bfe9cb';ctx.lineWidth=1.5;ctx.stroke();
+      });
+      label('Ebullición',126,y+51,13,'#e4efd9');
+      label('Burbujas de',126,y+77,12,'#becfc0');
+      label('vapor de etanol',126,y+95,12,'#becfc0');
+      label('dentro del líquido.',126,y+113,12,'#becfc0');
+    } else {
+      label('Evaporación',126,y+51,13,'#e4efd9');
+      label('Paso al vapor',126,y+79,12,'#becfc0');
+      label('desde la superficie.',126,y+98,12,'#becfc0');
+    }
+  }
+  function tracking(w,state) {
+    label('ESQUEMA MOLECULAR',20,24,11,'#baffce');
+    box(14,48,w-28,378,'#d5f6bb03','#253e34');
+    ctx.fillStyle='#b6f2ca08';ctx.fillRect(15,197,w-30,228);
+    label('VAPOR',28,68,10,'#a9bdab');
+    label('LÍQUIDO',28,405,10,'#a9bdab');
+    const scale=.76,x=w/2+13,progress=state.progress;
+    // Smooth, bounded illustrative motion. No modulo, cycling or replacement.
+    const eased=progress*progress*(3-2*progress);
+    const y=249-137*eased;
+    const neighbor={x:x+48*scale,y:361,scale:.58,rotation:-Math.PI/2};
+    graph(neighbor.x,neighbor.y,neighbor.scale,{rotation:neighbor.rotation,alpha:.68});
+    const visible=state.showAttractions&&progress<.25;
+    if(visible) hydrogenBridge(point(3,x,y,scale),point(2,neighbor.x,neighbor.y,neighbor.scale,neighbor.rotation),1-progress/.25);
+    markedA(x,y,scale,state);
+    label(progress===0?'Antes':progress===1?'Después':'Paso al vapor',w-28,24,11,'#deebc8','right');
+    label('Otra molécula',28,350,10.5,'#9eb09f');
+    // The accessible HTML legend is authoritative; do not duplicate it here.
+    vessel(w,444,state.phase);
+    last.attractionVisible=visible;
+  }
+  function comparison(w,state) {
+    const wide=w>=600, gap=14,margin=14,cardWidth=wide?(w-margin*2-gap)/2:w-margin*2;
+    label('DOS MOMENTOS DE LA MISMA A',20,24,11,'#baffce');
+    const before={x:margin,y:48,w:cardWidth,h:282};
+    const after={x:wide?margin+cardWidth+gap:margin,y:wide?48:344,w:cardWidth,h:wide?282:195};
+    box(before.x,before.y,before.w,before.h,'#b6f2ca08','#3e5946');
+    box(after.x,after.y,after.w,after.h,'#d5f6bb03','#3e5946');
+    label('ANTES · LÍQUIDO',before.x+14,before.y+24,10.5,'#bdd4b5');
+    label('DESPUÉS · VAPOR',after.x+14,after.y+24,10.5,'#bdd4b5');
+    const scale=.76,bx=before.x+before.w/2+13,by=before.y+104;
+    const neighbor={x:bx+48*scale,y:before.y+229,scale:.48,rotation:-Math.PI/2};
+    graph(neighbor.x,neighbor.y,neighbor.scale,{rotation:neighbor.rotation,alpha:.65});
+    if(state.showAttractions) hydrogenBridge(point(3,bx,by,scale),point(2,neighbor.x,neighbor.y,neighbor.scale,neighbor.rotation),1);
+    markedA(bx,by,scale,state);
+    markedA(after.x+after.w/2+13,after.y+110,scale,state);
+    if(wide) {
+      label('Conserva sus átomos',after.x+after.w/2,after.y+209,12,'#cbdcbb','center');
+      label('y sus enlaces.',after.x+after.w/2,after.y+229,12,'#cbdcbb','center');
+    }
+    vessel(w,wide?356:565,state.phase);
+    last.attractionVisible=state.showAttractions;
+  }
+  function draw(state) {
+    const rawProgress=Number(state.progress);
+    const normalized={...state,progress:Number.isFinite(rawProgress)?Math.min(1,Math.max(0,rawProgress)):0};
+    const width=Math.max(280,canvas.clientWidth||280);
+    const height=state.step===1?365:state.compare?(width>=600?496:704):584;
+    logicalWidth=width;logicalHeight=height;hitBoxes=[];
+    canvas.style.height=height+'px';
+    const ratio=Math.min(window.devicePixelRatio||1,2);
+    if(canvas.width!==Math.round(width*ratio)||canvas.height!==Math.round(height*ratio)) {
+      canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
+    }
+    ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,width,height);
+    last={step:state.step,progress:normalized.progress,compare:!!state.compare,selected:!!state.selected,attractionVisible:false};
+    if(state.step===1)introduction(width,normalized);
+    else if(state.compare)comparison(width,normalized);
+    else tracking(width,normalized);
+  }
+  return {
+    draw,
+    hitSelected(clientX,clientY) {
+      if(!Number.isFinite(clientX)||!Number.isFinite(clientY)||!hitBoxes.length)return false;
+      const rect=canvas.getBoundingClientRect();
+      if(!rect.width||!rect.height||clientX<rect.left||clientX>rect.right||clientY<rect.top||clientY>rect.bottom)return false;
+      const x=(clientX-rect.left)*logicalWidth/rect.width,y=(clientY-rect.top)*logicalHeight/rect.height;
+      return hitBoxes.some(b=>x>=b.x&&x<=b.x+b.width&&y>=b.y&&y<=b.y+b.height);
+    },
+    diagnostics() {
+      // Fresh arrays/objects cannot mutate the graph used by the illustration.
+      return {
+        identity:'A',compound:'ethanol',formula:'C2H6O',counts:{...counts},
+        symbols:atoms.map(a=>a.symbol),atoms:atoms.map(a=>({...a})),
+        bonds:bonds.map(b=>[...b]),stages:stages.map(s=>({...s})),
+        graphDefinitionCount:1,mainMoleculeScale:.76,
+        hydrogenBridge:{donorIdentity:'A',donorAtom:3,donorSymbol:'H',donorBoundTo:2,acceptorIdentity:'neighbor',acceptorAtom:2,acceptorSymbol:'O'},
+        ...last,selectedBounds:hitBoxes.map(b=>({...b})),
+        width:logicalWidth,height:logicalHeight
+      };
+    }
+  };
+}
+
+(function initNQFollow(){
+  'use strict';
+  const root=document.getElementById('nq-shell');
+  if(!root||root.dataset.initialized)return;
+  root.dataset.initialized='true';
+  const one=s=>root.querySelector(s),all=s=>Array.from(root.querySelectorAll(s));
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const state={view:'practice',step:1,highlight:'all',phase:'boiling',selected:false,progress:0,playing:false,showBonds:false,showAttractions:false,compare:false,answer:null,time:0};
+  const visible={home:false,learn:false},frames={home:0,learn:0};
+  const canvas=one('#nq-science');
+  const science=createNQScience(canvas);
+  let raf=null,last=0,disposed=false,active=false;
+  if(!science){canvas.hidden=true;one('#nq-canvas-fallback').hidden=false;}
+  const highlights={all:'Una línea continua representa un enlace dentro de la molécula.',C:'Hay 2 átomos de carbono. Los reconoces por la letra C.',H:'Hay 6 átomos de hidrógeno. Cada H es un átomo, también el que está unido al O.',O:'Hay 1 átomo de oxígeno. Está representado por la letra O.',OH:'Aquí O y H están enlazados entre sí. Este grupo –OH está unido a uno de los carbonos del etanol.',bonds:'Las líneas continuas representan enlaces dentro de una molécula. Son diferentes de las atracciones entre moléculas.'};
+  const feedback={same:'Sí. Conserva sus átomos enlazados; cambia el estado físico. Puedes comparar sus enlaces antes y después.',atoms:'Observa las líneas continuas dentro de A. Antes y después siguen uniendo sus átomos. Lo que cambia es su separación respecto de otras moléculas.',unsure:'Comparemos por partes: primero mira dentro de A; después, entre A y sus vecinas.'};
+  const moment=()=>state.progress>=1?2:state.progress>0?1:0;
+  const phaseText=()=>state.phase==='boiling'?'En la ebullición se forman y crecen burbujas de vapor dentro del líquido. También puede pasar vapor desde la superficie.':'En la evaporación, algunas moléculas pasan al vapor desde la superficie del líquido.';
+  function focus(el){if(el){el.focus({preventScroll:true});el.scrollIntoView({block:'nearest',behavior:'instant'});}}
+  function stop(){if(raf!==null)cancelAnimationFrame(raf);raf=null;last=0;}
+  function canAnimate(){return active&&!disposed&&!document.hidden&&visible.learn&&!!science&&state.step===2&&state.playing&&!state.compare&&!reduced.matches;}
+  function draw(dt=0){
+    if(!active||disposed||document.hidden)return;
+    if(science){science.draw({...state,compare:state.step===3||state.compare,selected:state.step===3||state.selected});frames.learn++;}
+  }
+  function tick(stamp){
+    raf=null;if(!canAnimate()){last=0;return;}
+    if(last&&stamp-last<32){raf=requestAnimationFrame(tick);return;}
+    const dt=last?Math.min((stamp-last)/1000,.08):0;last=stamp;state.time+=dt;
+    if(state.view==='learn'){
+      const before=moment();state.progress=Math.min(1,state.progress+dt/8);
+      if(state.progress===1){state.playing=false;renderLesson(false);}
+      else if(before!==moment())renderLesson(false);
+    }
+    draw(dt);if(canAnimate())raf=requestAnimationFrame(tick);
+  }
+  function refresh(){stop();draw();if(canAnimate())raf=requestAnimationFrame(tick);}
+  function setDisabled(id,value){one(id).disabled=value;}
+  function renderLesson(redraw=true){
+    all('[data-nq-panel]').forEach(p=>p.hidden=Number(p.dataset.nqPanel)!==state.step);
+    all('[data-nq-scene-panel]').forEach(p=>p.hidden=Number(p.dataset.nqScenePanel)!==state.step);
+    all('.nq-steps [data-nq-step]').forEach(b=>{if(Number(b.dataset.nqStep)===state.step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+    all('[data-nq-highlight]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.nqHighlight===state.highlight)));
+    all('[data-nq-phase]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.nqPhase===state.phase)));
+    all('[data-nq-answer]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.nqAnswer===state.answer)));
+    all('[data-nq-stage]').forEach(e=>{if(Number(e.dataset.nqStage)===moment()&&!state.compare)e.setAttribute('aria-current','step');else e.removeAttribute('aria-current');});
+    one('#nq-highlight-note').textContent=highlights[state.highlight];
+    one('#nq-phase-note').textContent=phaseText();
+    one('#nq-select').hidden=state.selected;
+    one('#nq-selected-controls').hidden=!state.selected;
+    one('#nq-show-bonds').setAttribute('aria-pressed',String(state.showBonds));
+    one('#nq-show-attractions').setAttribute('aria-pressed',String(state.showAttractions));
+    one('#nq-compare').setAttribute('aria-pressed',String(state.compare));
+    one('#nq-compare').textContent=state.compare?'Volver al recorrido':'Comparar antes y después';
+    setDisabled('#nq-back',state.progress<=0||state.compare);
+    setDisabled('#nq-forward',state.progress>=1||state.compare);
+    setDisabled('#nq-play',reduced.matches||!science||state.compare||state.progress>=1);
+    one('#nq-play').textContent=state.playing?'Pausar recorrido':state.progress>0&&state.progress<1?'Continuar recorrido':'Reproducir recorrido';
+    one('#nq-motion-note').textContent=reduced.matches?'Movimiento reducido: usa los pasos y la comparación, sin animación.':!science?'Puedes completar la actividad con los pasos y las descripciones.':'Puedes avanzar sin animación. El recorrido termina y queda detenido para observar.';
+    const descriptions=[
+      'En el líquido, A tiene otras moléculas próximas. Sus 2 C, 6 H y 1 O están enlazados.',
+      'A está pasando al vapor. Conserva sus átomos y los enlaces que los unen.',
+      'En el vapor, A sigue siendo etanol. Las moléculas están más separadas unas de otras.'
+    ];
+    const comparison=state.step===3||state.compare;
+    const story=comparison?'Antes y después son dos momentos de la misma A. Conserva sus átomos y enlaces; cambia su separación respecto de otras moléculas.':descriptions[moment()];
+    const relation=state.showAttractions?' El trazo discontinuo del ejemplo conecta el H del O–H con el O de otra molécula. Mostramos algunas atracciones, no todas.':'';
+    one('#nq-scene-label').textContent=state.step===1?'Una molécula de etanol':comparison?'La misma A: antes y después':'A · Del líquido al vapor';
+    one('#nq-scene-mode').textContent=state.step===1?'Explora el dibujo':state.playing?'Recorrido en movimiento':'Imagen detenida para observar';
+    one('#nq-trace-status').textContent=!state.selected?'Elige A para comenzar. Su recuadro nos ayudará a seguirla.':state.compare?'Compara dos momentos de A. No son dos moléculas diferentes.':state.playing?'Sigue A. Sus enlaces internos permanecen mientras avanza el recorrido.':descriptions[moment()];
+    one('#nq-scene-description').textContent=state.step===1?'Etanol: 2 C, 6 H y 1 O. Cada letra identifica un átomo; las líneas continuas unen átomos de la misma molécula.':story+relation;
+    one('#nq-fallback-state').textContent=state.step===1?'El –OH está formado por O y H enlazados. En el etanol está unido a un carbono con enlaces simples.':story+relation+' '+phaseText();
+    one('#nq-fallback-compare').hidden=!comparison;
+    one('#nq-legend').hidden=state.step===1;
+    const answer=one('#nq-feedback');answer.hidden=!state.answer;answer.textContent=state.answer?feedback[state.answer]:'';
+    one('#nq-retry').hidden=!state.answer;one('#nq-help-compare').hidden=!state.answer||state.answer==='same';
+    one('#nq-own-words').hidden=state.answer!=='same';one('#nq-lesson-finish').hidden=state.answer!=='same';
+    if(redraw)refresh();
+  }
+  function setStep(step,moveFocus=true){state.playing=false;state.step=step;renderLesson();if(moveFocus)focus(one(step===3?'#nq-step-title-3':'#nq-scene-label'));}
+  function frameScene(){one('#nq-scene-card').scrollIntoView({block:'start',behavior:'instant'});}
+  function select(){state.selected=true;renderLesson();focus(one('#nq-show-bonds'));frameScene();}
+  function move(direction){
+    state.playing=false;
+    const p=state.progress;
+    state.progress=direction>0?(p<.5?.5:1):(p>.5?.5:0);
+    renderLesson();
+    // A disabled boundary button must not strand keyboard focus.
+    if(document.activeElement===one('#nq-forward')&&state.progress===1)focus(one('#nq-compare'));
+    if(document.activeElement===one('#nq-back')&&state.progress===0)focus(one('#nq-forward'));
+    frameScene();
+  }
+  function onClick(e){
+    const b=e.target.closest('button');if(!b||!root.contains(b)||b.disabled)return;
+    if(b.dataset.nqStep){setStep(Number(b.dataset.nqStep));return;}
+    if(b.dataset.nqHighlight){state.highlight=b.dataset.nqHighlight;renderLesson();return;}
+    if(b.dataset.nqPhase){state.phase=b.dataset.nqPhase;renderLesson();return;}
+    if(b.dataset.nqAnswer){state.answer=b.dataset.nqAnswer;renderLesson();return;}
+    switch(b.id){
+      case 'nq-select':select();return;
+      case 'nq-show-bonds':state.showBonds=!state.showBonds;break;
+      case 'nq-show-attractions':state.showAttractions=!state.showAttractions;break;
+      case 'nq-forward':move(1);return;
+      case 'nq-back':move(-1);return;
+      case 'nq-repeat':state.playing=false;state.progress=0;state.compare=false;break;
+      case 'nq-play':state.playing=!state.playing;renderLesson();frameScene();return;
+      case 'nq-compare':state.playing=false;state.compare=!state.compare;break;
+      case 'nq-help-compare':state.playing=false;state.selected=true;state.compare=true;setStep(2);focus(one('#nq-compare'));return;
+      case 'nq-retry':state.answer=null;renderLesson();focus(one('[data-nq-answer]'));return;
+      case 'nq-reset':Object.assign(state,{step:1,highlight:'all',phase:'boiling',selected:false,progress:0,playing:false,showBonds:false,showAttractions:false,compare:false,answer:null,time:0});renderLesson();focus(one('#nq-scene-label'));return;
+      default:return;
+    }
+    renderLesson();frameScene();
+  }
+  function onCanvasClick(e){if(state.step===2&&!state.selected&&science&&science.hitSelected(e.clientX,e.clientY))select();}
+  function onVisibility(){if(document.hidden)state.playing=false;renderLesson();}
+  function onPreference(){if(reduced.matches)state.playing=false;renderLesson();}
+  function onMode(event){active=event.detail.active;state.view=active?"learn":"practice";if(!active)state.playing=false;renderLesson();}
+  root.addEventListener("nq:modechange",onMode);
+  const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{const v='learn';visible[v]=e.isIntersecting;if(v==='learn'&&!e.isIntersecting)state.playing=false;});renderLesson();});
+  if(science)observer.observe(canvas);
+  const resizer=new ResizeObserver(()=>refresh());resizer.observe(root);
+  root.addEventListener('click',onClick);canvas.addEventListener('click',onCanvasClick);
+  document.addEventListener('visibilitychange',onVisibility);reduced.addEventListener('change',onPreference);
+  function dispose(e){
+    state.playing=false;stop();if(e.persisted)return;
+    disposed=true;root.removeEventListener("nq:modechange",onMode);observer.disconnect();resizer.disconnect();root.removeEventListener('click',onClick);canvas.removeEventListener('click',onCanvasClick);
+    document.removeEventListener('visibilitychange',onVisibility);reduced.removeEventListener('change',onPreference);window.removeEventListener('pagehide',dispose);window.removeEventListener('pageshow',onVisibility);
+  }
+  window.addEventListener('pagehide',dispose);window.addEventListener('pageshow',onVisibility);
+  window.__NQ_DEMO_DIAGNOSTICS=()=>({version:'0.2.0',...state,reducedMotion:reduced.matches,frames:{...frames},visible:{...visible},scheduled:raf!==null,active,canvas:{science:!!science},molecule:science?science.diagnostics():null});
+  one('#nq-script-notice').hidden=true;renderLesson();
+})();
+
+})();
+// Este bloque se ejecuta después de boot(), en el mismo bloque JavaScript clásico.
+// Lee state del motor. No lo modifica ni reemplaza ninguna de sus funciones.
+(function conectarNQModosYFichas(){
+  'use strict';
+  const practice = document.getElementById('nq-practice');
+  const learn = document.getElementById('nq-learn');
+  const lesson = document.getElementById('nq-shell');
+  const nav = document.getElementById('nq-modes');
+  if (!practice || !learn || !lesson || !nav || nav.dataset.initialized) return;
+  nav.dataset.initialized = 'true';
+  let mode = 'practice';
+  const lastFocus = {};
+  const practiceHeading = practice.querySelector('h1');
+  if (practiceHeading) practiceHeading.tabIndex = -1;
+
+  function setMode(next) {
+    if (!['practice', 'learn'].includes(next) || next === mode) return;
+    const outgoing = mode === 'practice' ? practice : learn;
+    if (outgoing.contains(document.activeElement)) lastFocus[mode] = document.activeElement;
+    mode = next;
+    practice.classList.toggle('hidden', mode !== 'practice');
+    learn.classList.toggle('hidden', mode !== 'learn');
+    nav.querySelectorAll('[data-nq-mode]').forEach(button => {
+      if (button.dataset.nqMode === mode) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    lesson.dispatchEvent(new CustomEvent('nq:modechange', {detail: {active: mode === 'learn'}}));
+    const saved = lastFocus[mode];
+    const target = saved && saved.isConnected && !saved.disabled && !saved.closest('[hidden],.hidden')
+      ? saved : mode === 'practice' ? practiceHeading : document.getElementById('nq-lesson-title');
+    if (target) { target.focus({preventScroll: true}); target.scrollIntoView({block: 'nearest'}); }
+  }
+  function onModeClick(event) {
+    const button = event.target.closest('button[data-nq-mode]');
+    if (button) setMode(button.dataset.nqMode);
+  }
+  nav.addEventListener('click', onModeClick);
+  lesson.addEventListener('click', onModeClick);
+
+  const feedback = document.getElementById('feedback');
+  const card = document.createElement('aside');
+  card.id = 'nq-property-card';
+  card.className = 'nq-property-card';
+  card.hidden = true;
+  card.setAttribute('aria-labelledby', 'nq-property-title');
+  card.setAttribute('aria-live', 'polite');
+  feedback.insertAdjacentElement('afterend', card);
+
+  function identify(mol) {
+    // Identidad por estructura, nunca por coincidencias parciales del nombre.
+    if (!mol || mol.kind !== 'chain' || mol.fg?.type !== 'ol') return null;
+    if (![1, 2].includes(mol.n) || !Number.isInteger(mol.fg.pos) || mol.fg.pos < 1 || mol.fg.pos > mol.n) return null;
+    if (!Array.isArray(mol.bonds) || mol.bonds.length || !Array.isArray(mol.subs) || mol.subs.length) return null;
+    return mol.n === 1 ? 'metanol' : 'etanol';
+  }
+  function addParagraph(label, text) {
+    const p = document.createElement('p');
+    const strong = document.createElement('strong');
+    strong.textContent = label + ' ';
+    p.append(strong, document.createTextNode(text));
+    card.append(p);
+  }
+  function syncCard() {
+    const key = state.solved && feedback.classList.contains('ok') ? identify(state.current?.mol) : null;
+    if (!key) { card.hidden = true; card.replaceChildren(); delete card.dataset.compound; return; }
+    if (!card.hidden && card.dataset.compound === key) return;
+    const item = PROPIEDADES_OX[key];
+    card.replaceChildren();
+    card.dataset.compound = key;
+    const title = document.createElement('h3');
+    title.id = 'nq-property-title';
+    title.textContent = item.identidad.nombre + ' · ' + item.identidad.formula;
+    card.append(title);
+    addParagraph('Ebullición:', item.ebullicion.valorOriginal + ' ' + item.ebullicion.unidad + ' (Biasioli, tabla de p. 224).');
+    addParagraph('Solubilidad:', item.solubilidad.descriptor + ' (p. 225).');
+    addParagraph('¿Por qué?', item.explicacion.puentesHidrogeno + ' ' + item.explicacion.solubilidad);
+    addParagraph('Una aplicación:', item.aplicacion.texto + ' (p. ' + item.aplicacion.pagina + ').');
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    summary.textContent = 'Fuente y condiciones del dato';
+    const source = document.createElement('p');
+    source.textContent = item.ebullicion.referencia.obra + ', capítulo 10. ' + item.revision.notas;
+    details.append(summary, source);
+    card.append(details);
+    if (key === 'etanol') {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Seguir una molécula de etanol →';
+      button.addEventListener('click', () => setMode('learn'));
+      card.append(button);
+    }
+    card.hidden = false;
+  }
+  // verify(), solve() y newMolecule() ya actualizan este nodo. No se parchean.
+  const observer = new MutationObserver(syncCard);
+  observer.observe(feedback, {attributes: true, attributeFilter: ['class'], childList: true, subtree: true, characterData: true});
+  syncCard();
+  window.addEventListener('pagehide', event => {
+    if (event.persisted) return;
+    observer.disconnect();
+    nav.removeEventListener('click', onModeClick);
+    lesson.removeEventListener('click', onModeClick);
+  });
+})();
 </script>
 </body>
 </html>
+#nq-shell{--nq-bg:#0b1417;--nq-panel:#111f22;--nq-text:#eef3e9;--nq-muted:#b1c1b9;--nq-mint:#baffce;--nq-line:#31443f;min-height:100vh;background:radial-gradient(ellipse at 80% 40%,#17332966,transparent 55%),var(--nq-bg);color:var(--nq-text);font:17px/1.6 "Segoe UI",Calibri,sans-serif;padding:0 clamp(18px,5vw,76px)}
+#nq-shell [hidden]{display:none!important}
+#nq-shell .nq-header{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px 0;border-bottom:1px solid var(--nq-line)}
+#nq-shell .nq-brand{font-size:23px;font-weight:700;letter-spacing:-1px;line-height:1.3}
+#nq-shell .nq-brand span{color:var(--nq-mint)}
+#nq-shell .nq-brand small{display:block;color:var(--nq-muted);font-size:11px;font-weight:400;letter-spacing:1px;margin-top:5px}
+#nq-shell .nq-nav{display:flex;gap:6px;flex-wrap:wrap}
+#nq-shell .nq-navbutton,#nq-shell .nq-textbutton,#nq-shell .nq-motion{font:inherit;color:var(--nq-muted);background:none;border:1px solid transparent;min-height:44px;padding:8px 12px;border-radius:8px;cursor:pointer}
+#nq-shell .nq-navbutton[aria-current]{color:var(--nq-mint);background:#baffce0b;border-color:var(--nq-line)}
+#nq-shell .nq-pane{max-width:1280px;margin:0 auto}
+#nq-shell .nq-home{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:55px;align-items:center;min-height:680px;padding:68px 0 74px}
+#nq-shell .nq-eyebrow,#nq-shell .nq-kicker{color:var(--nq-mint);text-transform:uppercase;letter-spacing:2.3px;font-size:11px;font-weight:600;margin:0 0 24px}
+#nq-shell #nq-home-title{font:clamp(44px,5.7vw,78px)/1.07 Georgia,serif;letter-spacing:-2px;margin:0 0 28px;font-weight:400}
+#nq-shell #nq-home-title em{color:var(--nq-mint);font-weight:400}
+#nq-shell .nq-intro{max-width:350px;color:var(--nq-muted);font-size:17px;margin:0 0 26px}
+#nq-shell .nq-path{display:flex;align-items:center;gap:12px;color:#c3d5ca;font-size:12px;margin-bottom:40px;flex-wrap:wrap}
+#nq-shell .nq-path i{height:1px;width:28px;background:#456252}
+#nq-shell .nq-entry{min-width:0}
+#nq-shell .nq-lamp{display:block;width:100%;text-align:left;color:var(--nq-text);font:inherit;background:linear-gradient(140deg,#172b25a6,#0d1818b0);border:1px solid #43634b;border-radius:28px;padding:0;overflow:hidden;cursor:pointer;box-shadow:0 20px 70px #0003}
+#nq-shell .nq-lamp:hover{border-color:var(--nq-mint);background:#19342b}
+#nq-shell #nq-lava{display:block;width:100%;height:auto;aspect-ratio:420/360}
+#nq-shell .nq-lamp-label{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 30px 28px}
+#nq-shell .nq-lamp-label strong{font:26px/1.3 Georgia,serif}
+#nq-shell .nq-arrow{border:1px solid #628967;border-radius:50%;width:45px;height:45px;display:grid;place-items:center;color:var(--nq-mint);flex-shrink:0}
+#nq-shell .nq-under{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;color:var(--nq-muted);font-size:11px}
+#nq-shell .nq-motion{font-size:12px;padding:8px}
+#nq-shell .nq-footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1280px;margin:auto;padding:24px 0;color:var(--nq-muted);font-size:11px;letter-spacing:.4px;border-top:1px solid var(--nq-line)}
+#nq-shell .nq-footer>span:last-child{letter-spacing:1.8px;font-size:10px}
+#nq-shell .nq-learning{padding:38px 0 48px}
+#nq-shell .nq-lesson-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
+#nq-shell .nq-lesson-head .nq-eyebrow{margin-bottom:10px}
+#nq-shell #nq-lesson-title{font:clamp(32px,3.3vw,48px)/1.2 Georgia,serif;letter-spacing:-1px;font-weight:400}
+#nq-shell .nq-steps{display:flex;gap:8px;padding:28px 0}
+#nq-shell .nq-steps button{font:inherit;font-size:14px;background:none;border:0;border-bottom:2px solid var(--nq-line);color:var(--nq-muted);padding:12px 16px;min-height:48px;cursor:pointer;flex:1;text-align:left}
+#nq-shell .nq-steps button span{font-size:11px;letter-spacing:1px;margin-right:8px}
+#nq-shell .nq-steps button[aria-current]{color:var(--nq-mint);border-color:var(--nq-mint)}
+#nq-shell .nq-lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:40px;align-items:start}
+#nq-shell .nq-scene-card{border:1px solid var(--nq-line);border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#172a28,#0f1c20);min-width:0}
+#nq-shell .nq-scene-top{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--nq-line);font-size:13px}
+#nq-shell #nq-science{display:block;width:100%;height:390px}
+#nq-shell .nq-scene-description{font-size:14px;color:#dae7df;padding:0 20px;margin:0 0 15px}
+#nq-shell .nq-scene-controls{padding:0 16px}
+#nq-shell .nq-scene-controls .nq-controls{margin:16px 0 12px}
+#nq-shell .nq-scene-controls .nq-notice{margin-bottom:0;min-height:0}
+#nq-shell .nq-lamp.nq-no-canvas{padding-top:45px}
+#nq-shell .nq-caption{font-size:11px;color:var(--nq-muted);padding:0 20px;margin:0 0 22px}
+#nq-shell .nq-copy{min-width:0;padding:10px 0}
+#nq-shell .nq-kicker{margin:0 0 12px;font-size:10px}
+#nq-shell .nq-copy h2{font:30px/1.2 Georgia,serif;letter-spacing:-.4px;font-weight:400;margin:0 0 20px}
+#nq-shell .nq-copy p{margin:0 0 20px}
+#nq-shell .nq-controls{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+#nq-shell .nq-controls button,#nq-shell .nq-button{border:1px solid #51665c;border-radius:10px;padding:11px 15px;min-height:44px;background:#0b1517;color:var(--nq-text);font:inherit;font-size:14px;cursor:pointer;text-align:left}
+#nq-shell .nq-controls button[aria-pressed=true]{background:#baffce1a;border-color:var(--nq-mint);color:var(--nq-mint)}
+#nq-shell .nq-notice{padding:15px 18px;border-left:2px solid var(--nq-mint);background:#baffce09;font-size:14px;color:#d0e7d5;border-radius:0 8px 8px 0;min-height:74px}
+#nq-shell .nq-small{font-size:14px;color:var(--nq-muted)}
+#nq-shell .nq-primary{background:var(--nq-mint);border-color:var(--nq-mint);color:#142519;font-weight:600}
+#nq-shell .nq-answers{display:grid;gap:10px}
+#nq-shell .nq-answers button{border:1px solid #53675e;border-radius:10px;min-height:58px;padding:16px 20px;background:#112023;color:var(--nq-text);text-align:left;font:inherit;font-size:15px;cursor:pointer}
+#nq-shell .nq-answers button[aria-pressed=true]{border-color:var(--nq-mint);background:#baffce16}
+#nq-shell .nq-feedback{padding:20px;border:1px solid #658464;border-radius:12px;background:#baffce0c;color:#e3f2d7;font-size:15px;margin:20px 0}
+#nq-shell .nq-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}
+#nq-shell .nq-sources{border-top:1px solid var(--nq-line);margin:30px 0 0;padding-top:20px;color:var(--nq-muted);font-size:13px}
+#nq-shell .nq-sources summary{padding:10px 0;cursor:pointer;min-height:44px;color:#dae9db}
+#nq-shell .nq-sources a{color:var(--nq-mint);text-underline-offset:3px;overflow-wrap:anywhere}
+#nq-shell .nq-sources li{margin-bottom:10px}
+#nq-shell .nq-fallback{padding:24px;color:var(--nq-text);background:#192d27;border-radius:10px;font-size:16px}
+#nq-shell .nq-fallback strong{font:26px Georgia,serif}
+#nq-shell .nq-navbutton:focus-visible,#nq-shell .nq-textbutton:focus-visible,#nq-shell .nq-motion:focus-visible,#nq-shell .nq-lamp:focus-visible,#nq-shell .nq-steps button:focus-visible,#nq-shell .nq-controls button:focus-visible,#nq-shell .nq-button:focus-visible,#nq-shell .nq-answers button:focus-visible,#nq-shell .nq-sources :focus-visible{outline:3px solid #fff3ac;outline-offset:5px}
+#nq-shell [tabindex="-1"]:focus{outline:2px solid #fff3ac;outline-offset:6px}
+@media(max-width:950px){#nq-shell .nq-home{gap:28px;min-height:600px}#nq-shell .nq-lesson-grid{gap:25px;grid-template-columns:1fr}#nq-shell .nq-copy{max-width:680px}#nq-shell .nq-scene-card{max-width:680px;width:100%}#nq-shell .nq-lamp-label{padding:0 20px 25px}#nq-shell .nq-lamp-label strong{font-size:23px}#nq-shell .nq-under{flex-wrap:wrap}}
+@media(max-width:650px){#nq-shell .nq-header{flex-wrap:wrap;padding:22px 0 16px;gap:16px}#nq-shell .nq-nav{width:100%;justify-content:space-between}#nq-shell .nq-navbutton{font-size:14px;flex:1}#nq-shell .nq-home{grid-template-columns:1fr;padding:38px 0 44px;gap:32px}#nq-shell #nq-home-title{font-size:52px}#nq-shell .nq-path{margin-bottom:24px}#nq-shell .nq-lesson-head{align-items:flex-start;flex-direction:column;gap:8px}#nq-shell .nq-steps button{padding:12px 6px;font-size:12px}#nq-shell .nq-steps button span{margin-right:2px}#nq-shell .nq-learning{padding-top:30px}#nq-shell .nq-scene-top{padding:10px 12px;font-size:12px}#nq-shell .nq-copy h2{font-size:28px}#nq-shell .nq-footer{gap:10px}#nq-shell .nq-under{justify-content:center}#nq-shell .nq-scene-description{padding:0 15px}#nq-shell .nq-caption{padding:0 15px}}
+@media(prefers-reduced-motion:reduce){#nq-shell{scroll-behavior:auto}}
+#nq-shell .nq-lamp-label small{display:block;color:var(--nq-muted);font-size:12px;font-weight:400;margin-bottom:5px}
+
+#nq-shell .nq-share-context{border-top:1px solid var(--nq-line);max-width:350px;padding-top:20px;color:var(--nq-muted);font-size:14px}
+
+#nq-shell button:disabled{opacity:.48;cursor:default}
+#nq-shell :where(button,summary):focus-visible{outline:3px solid #fff3ac;outline-offset:4px}
+#nq-shell .nq-lesson-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:38px}
+#nq-shell .nq-scene-mode{color:#c8dcae;font-size:11px;text-align:right}
+#nq-shell .nq-trace-header{padding:20px 20px 0}
+#nq-shell .nq-stages{list-style:none;margin:0;display:flex;gap:12px;padding:0;counter-reset:moment}
+#nq-shell .nq-stages li{flex:1;font-size:11px;color:var(--nq-muted);border-top:2px solid var(--nq-line);padding-top:10px;counter-increment:moment}
+#nq-shell .nq-stages li::before{content:'0' counter(moment);display:block;font-size:10px;letter-spacing:2px;margin-bottom:2px}
+#nq-shell .nq-stages li[aria-current]{color:var(--nq-mint);border-color:var(--nq-mint)}
+#nq-shell .nq-trace-status{font-size:14px;min-height:48px;margin:15px 0 0;color:#e6f2df}
+#nq-shell .nq-track-controls{padding:0 20px 18px}
+#nq-shell .nq-track-controls>.nq-button{width:100%;text-align:center}
+#nq-shell .nq-relation-controls{margin-top:0}
+#nq-shell .nq-travel-controls{display:flex;gap:8px;flex-wrap:wrap}
+#nq-shell .nq-travel-controls button{flex:1;text-align:center}
+#nq-shell .nq-play-controls{margin:10px 0 14px}
+#nq-shell .nq-compare-button{width:100%;border:1px solid #83a77e;background:#baffce0b;border-radius:10px;min-height:48px;font:inherit;font-size:14px;color:#ddf6cb;padding:12px;cursor:pointer}
+#nq-shell .nq-compare-button[aria-pressed=true]{background:#baffce20;border-color:var(--nq-mint)}
+#nq-shell #nq-motion-note{font-size:12px;margin:12px 0 0}
+#nq-shell .nq-legend{padding:0 20px 14px;display:grid;gap:8px;font-size:12px;color:var(--nq-muted)}
+#nq-shell .nq-legend span{display:flex;align-items:center;gap:10px}
+#nq-shell .nq-legend i{display:inline-block;flex:0 0 28px;border-top:2px solid #d0e7b6}
+#nq-shell .nq-legend .nq-dashed{border-top-style:dashed}
+#nq-shell .nq-identity{display:flex;gap:15px;align-items:center;padding:16px;border:1px solid #526a55;border-radius:14px;margin:24px 0;background:#baffce08}
+#nq-shell .nq-identity-tag{width:42px;height:42px;border-radius:10px;border:1px solid #d8ef9f;display:grid;place-items:center;color:#edffc7;font:26px Georgia,serif;flex-shrink:0}
+#nq-shell .nq-identity strong{font-weight:500;font-size:15px}
+#nq-shell .nq-identity div span{display:block;color:var(--nq-muted);font-size:14px;margin-top:3px}
+#nq-shell .nq-inline-help{border-top:1px solid var(--nq-line);padding:12px 0;margin:16px 0;font-size:14px;color:var(--nq-muted)}
+#nq-shell .nq-inline-help summary{color:#d9e7cf;cursor:pointer;min-height:44px;padding:10px 0}
+#nq-shell .nq-inline-help p{margin:10px 0 15px}
+#nq-shell .nq-fallback{margin:20px}
+#nq-shell .nq-fallback p{font-size:14px}
+#nq-shell .nq-copy{padding-top:5px}
+#nq-shell .nq-copy>.nq-button{margin-top:10px}
+@media(max-width:950px){#nq-shell .nq-lesson-grid{grid-template-columns:1fr;gap:28px}#nq-shell .nq-scene-card{max-width:680px}#nq-shell .nq-copy{max-width:680px}}
+@media(max-width:650px){#nq-shell .nq-trace-header{padding:15px 14px 0}#nq-shell .nq-stages{gap:8px}#nq-shell .nq-stages li{font-size:10px}#nq-shell .nq-track-controls{padding:0 14px 18px}#nq-shell .nq-track-controls .nq-controls button{flex:1;font-size:12px;padding:10px}#nq-shell .nq-travel-controls button{font-size:12px;padding:10px}#nq-shell .nq-fallback{margin:14px}#nq-shell .nq-scene-mode{max-width:120px}#nq-shell .nq-relation-controls{gap:6px}}
+
+/* Sólo navegación, ficha añadida y aprendizaje; no altera los controles IUPAC. */
+#nq-practice.hidden,#nq-learn.hidden{display:none!important}
+#nq-modes{max-width:1120px;margin:0 auto;padding:14px 18px;display:flex;gap:10px;flex-wrap:wrap}
+#nq-modes button,#nq-property-card button{font:inherit;color:#dcefe5;background:#142c27;border:1px solid #54796a;border-radius:9px;padding:12px 16px;min-height:44px;cursor:pointer}
+#nq-modes button[aria-current]{color:#13251b;background:#baffce;border-color:#baffce}
+#nq-modes button:focus-visible,#nq-property-card :focus-visible{outline:3px solid #ffe89c;outline-offset:3px}
+#nq-practice h1:focus{outline:2px solid #ffe89c;outline-offset:5px}
+#nq-property-card{margin-top:18px;padding:20px;border:1px solid #54796a;border-radius:14px;background:#132824;color:#eaf4ed;line-height:1.55;font-size:14px}
+#nq-property-card[hidden]{display:none!important}
+#nq-property-card h3{margin:0 0 12px;font-size:20px}
+#nq-property-card p{margin:10px 0}
+#nq-property-card details{margin:16px 0;color:#bccfc4}
+#nq-property-card summary{cursor:pointer;min-height:44px;padding:10px 0}
+#nq-shell,#nq-shell *,#nq-shell *::before,#nq-shell *::after{box-sizing:border-box}
+@media(max-width:480px){#nq-modes button{flex:1;font-size:13px;padding:10px}}
