@@ -259,6 +259,15 @@
 #nq-property-card summary{cursor:pointer;min-height:44px;padding:10px 0}
 #nq-shell,#nq-shell *,#nq-shell *::before,#nq-shell *::after{box-sizing:border-box}
 @media(max-width:480px){#nq-modes button{flex:1;font-size:13px;padding:10px}}
+@media (max-width: 820px) {
+  #nq-practice .grid > .card:first-child {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    align-self: start;
+    background: var(--panel);
+  }
+}
 </style>
 </head>
 <body>
@@ -815,8 +824,8 @@ function assembleName(s){
   if(s.kind==='cycle') core = 'ciclo'+rootSyl+'ano';
   else if(s.kind==='aromatic') core = 'benceno';
   else if(s.suffix==='ano') core = rootSyl+'ano';
-  else if(s.suffix==='eno') core = rootSyl+'-'+s.bondLocants[0]+'-eno';
-  else if(s.suffix==='ino') core = rootSyl+'-'+s.bondLocants[0]+'-ino';
+  else if(s.suffix==='eno') core = s.root===2 ? 'eteno' : rootSyl+'-'+s.bondLocants[0]+'-eno';
+  else if(s.suffix==='ino') core = s.root===2 ? 'etino' : rootSyl+'-'+s.bondLocants[0]+'-ino';
   else if(s.suffix==='dieno') core = rootSyl+'a-'+[...s.bondLocants].sort((a,b)=>a-b).join(',')+'-dieno';
 
   const subs = [...s.substituents].sort((a,b)=> a.name<b.name?-1:a.name>b.name?1:0);
@@ -1796,6 +1805,8 @@ function runSelfTests(){
   T('3-etil-2-metilpentano', nameChain({n:5,bonds:[],subs:[{pos:3,len:2},{pos:2,len:1}]}), '3-etil-2-metilpentano');
   T('2,2-dimetilhexano', nameChain({n:6,bonds:[],subs:[{pos:2,len:1},{pos:2,len:1}]}), '2,2-dimetilhexano');
   T('2-metilhexano (numerar por rama)', nameChain({n:6,bonds:[],subs:[{pos:5,len:1}]}), '2-metilhexano');
+  T('eteno (sin localizador)', nameChain({n:2,bonds:[{pos:1,order:2}],subs:[]}), 'eteno');
+  T('etino (sin localizador)', nameChain({n:2,bonds:[{pos:1,order:3}],subs:[]}), 'etino');
   T('but-2-eno', nameChain({n:4,bonds:[{pos:2,order:2}],subs:[]}), 'but-2-eno');
   T('pent-1-eno', nameChain({n:5,bonds:[{pos:1,order:2}],subs:[]}), 'pent-1-eno');
   T('penta-1,3-dieno', nameChain({n:5,bonds:[{pos:1,order:2},{pos:3,order:2}],subs:[]}), 'penta-1,3-dieno');
