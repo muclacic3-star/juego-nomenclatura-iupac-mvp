@@ -268,11 +268,124 @@
     background: var(--panel);
   }
 }
+
+/* Shared mobile and keyboard controls. */
+button,select{font:inherit}
+#nq-practice .chip,#nq-practice .lvl-chip,#nq-practice .btnx,#nq-practice .addbtn{min-width:44px;min-height:44px}
+#nq-practice .chips,#nq-practice .lvl-chips,#nq-practice .locbar{gap:8px}
+#nq-practice button:focus-visible{outline:3px solid #ffe89c;outline-offset:3px}
+.nq-practice-config>summary{cursor:pointer;min-height:44px;padding:12px;color:var(--accent)}
+#nq-modes{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+#nq-modes button{overflow-wrap:anywhere}
+@media(max-width:480px){.wrap{padding:12px 10px 40px}#nq-practice .score{gap:5px;width:100%}#nq-practice .stat{flex:1;min-width:0;padding:5px}.mol-box{min-height:100px;padding:12px}.subrow .r1{flex-wrap:wrap}#nq-practice .card{min-width:0}#nq-practice .actions .btn{min-width:100px}#nq-modes{gap:8px}}
+@media(max-height:450px) and (orientation:landscape){#nq-practice .grid>.card:first-child{position:static}}
+
+#formula-practice { min-width:0; --fb-bg:var(--panel,#161b22); --fb-line:var(--line,#2a3340); --fb-text:var(--txt,#e6edf3); --fb-muted:#a9b8c6; --fb-accent:var(--accent,#2dd4bf); color:var(--fb-text); }
+#formula-practice [hidden] { display:none!important; }
+#formula-practice .fb-wrap { max-width:1040px; margin:auto; padding:16px max(10px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left)); min-width:0; }
+#formula-practice button, #formula-practice select { font:inherit; font-size:14px; color:var(--fb-text); border:1px solid var(--fb-line); border-radius:9px; background:#222b36; min-height:44px; padding:9px 11px; cursor:pointer; max-width:100%; }
+#formula-practice button { touch-action:manipulation; }
+#formula-practice button:hover { border-color:var(--fb-accent); }
+#formula-practice button:focus-visible, #formula-practice select:focus-visible, #formula-practice summary:focus-visible, #formula-practice .fb-scene:focus-visible { outline:3px solid #fce68a; outline-offset:3px; }
+#formula-practice button:disabled { opacity:.45; cursor:default; }
+#formula-practice button[aria-pressed="true"], #formula-practice button.fb-selected { background:#0b625b; border-color:var(--fb-accent); color:#eafff9; }
+#formula-practice .fb-heading h1 { font-size:20px; margin:0; }
+#formula-practice .fb-heading p, #formula-practice .fb-muted { color:var(--fb-muted); font-size:13px; margin:4px 0 10px; }
+#formula-practice .fb-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin:12px 0; }
+#formula-practice .fb-stats div { border:1px solid var(--fb-line); border-radius:10px; background:var(--fb-bg); padding:7px; text-align:center; }
+#formula-practice .fb-stats dt { font-size:11px; color:var(--fb-muted); }
+#formula-practice .fb-stats dd { margin:0; font-size:21px; font-weight:700; color:var(--fb-accent); }
+#formula-practice .fb-config, #formula-practice .fb-help { border:1px solid var(--fb-line); border-radius:11px; background:var(--fb-bg); margin:12px 0; min-width:0; }
+#formula-practice summary { padding:12px; min-height:44px; cursor:pointer; font-size:14px; }
+#formula-practice [data-fb-config-summary] { color:var(--fb-muted); font-size:12px; margin-left:7px; }
+#formula-practice .fb-config-body { padding:0 12px 12px; }
+#formula-practice .fb-config-selects { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+#formula-practice label { display:flex; flex-direction:column; gap:5px; min-width:0; font-size:13px; }
+#formula-practice select { width:100%; }
+#formula-practice fieldset { margin:14px 0 0; padding:10px; border:1px solid var(--fb-line); border-radius:9px; min-width:0; }
+#formula-practice legend { color:var(--fb-muted); padding:0 5px; font-size:13px; }
+#formula-practice .fb-family-options { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+#formula-practice .fb-family-options label { flex-direction:row; align-items:center; min-height:44px; border:1px solid var(--fb-line); border-radius:8px; padding:8px; gap:8px; cursor:pointer; }
+#formula-practice .fb-family-options input { width:18px; height:18px; accent-color:var(--fb-accent); }
+#formula-practice .fb-workspace { min-width:0; }
+#formula-practice .fb-target { position:sticky; top:0; z-index:12; padding:12px; border:1px solid #25746a; border-radius:11px; background:#112723; overflow-wrap:anywhere; box-shadow:0 4px 15px #0004; }
+#formula-practice .fb-eyebrow { color:#9fe9dc; text-transform:uppercase; letter-spacing:.6px; font-size:11px; }
+#formula-practice .fb-target h2 { color:#fff; font-size:clamp(18px,3.7vw,24px); line-height:1.3; margin:5px 0; }
+#formula-practice .fb-target-state { font-size:12px; color:#bacfc8; margin:3px 0 0; }
+#formula-practice .fb-feedback { margin:10px 0; padding:11px 12px; border-radius:9px; border:1px solid #a77e35; background:#352b12; color:#ffe3a2; font-size:14px; overflow-wrap:anywhere; }
+#formula-practice .fb-feedback[data-kind="ok"] { background:#0b342b; border-color:#298d70; color:#b5f4d8; }
+#formula-practice .fb-feedback[data-kind="sol"] { background:#102d3d; border-color:#387f9d; color:#bce8fc; }
+#formula-practice .fb-scene-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin:12px 0 4px; font-size:13px; }
+#formula-practice .fb-scene-tools { display:flex; gap:8px; }
+#formula-practice .fb-scene-tools button { font-size:12px; padding:8px; }
+#formula-practice .fb-scene-help { margin:5px 0 8px; color:var(--fb-muted); font-size:12px; }
+#formula-practice .fb-scene { position:relative; width:100%; height:clamp(190px,36dvh,370px); min-height:190px; overflow:auto; overscroll-behavior:contain; border:1px dashed #52616d; border-radius:11px; background:radial-gradient(circle,#33414b 1px,transparent 1px) 0 0/18px 18px,#101820; scroll-behavior:auto; touch-action:pan-x pan-y pinch-zoom; }
+#formula-practice .fb-molecule { position:relative; min-width:100%; min-height:100%; isolation:isolate; }
+#formula-practice .fb-empty { position:absolute; inset:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; text-align:center; color:var(--fb-muted); font-size:14px; }
+#formula-practice .fb-empty strong { color:var(--fb-text); font-size:17px; }
+#formula-practice .fb-lines { position:absolute; inset:0; overflow:visible; pointer-events:none; }
+#formula-practice .fb-lines line { stroke:#96a9b8; stroke-width:2; }
+#formula-practice .fb-node, #formula-practice .fb-bond, #formula-practice .fb-attached { position:absolute; transform:translate(-50%,-50%); }
+#formula-practice .fb-node { min-width:64px; width:64px; min-height:64px; padding:9px 3px 5px; font-family:var(--mono,monospace); background:#1b2a35; border:2px solid #536775; font-size:20px; line-height:1.1; }
+#formula-practice .fb-node .fb-loc { display:block; color:#a7bed0; font:11px var(--sans,sans-serif); margin-bottom:5px; }
+#formula-practice .fb-node .fb-atom { display:block; white-space:nowrap; }
+#formula-practice .fb-node.fb-condensed { width:78px; font-size:17px; }
+#formula-practice .fb-bond { width:44px; min-height:44px; padding:0; background:#101820; font-family:var(--mono,monospace); border-color:transparent; font-size:23px; }
+#formula-practice .fb-bond span { display:inline-block; }
+#formula-practice .fb-attached { border-color:#458b7e; color:#d5fff2; font-family:var(--mono,monospace); font-size:17px; white-space:nowrap; background:#12332d; }
+#formula-practice .fb-attached.fb-functional { background:#153044; border-color:#3b8aab; color:#d0efff; font-size:14px; }
+#formula-practice .fb-attached.fb-vertical { width:66px; padding:8px 3px; }
+#formula-practice .fb-branch-atom { display:block; line-height:24px; }
+#formula-practice .fb-branch-bond { display:block; height:12px; width:0; border-left:2px solid #b5d8cb; margin:0 auto; }
+#formula-practice .fb-drop-ok { outline:3px solid #45edb0!important; background:#155840!important; }
+#formula-practice .fb-drop-bad { outline:3px solid #ff8997!important; background:#632333!important; }
+#formula-practice .fb-inspector { border:1px solid #4c6b7e; background:#172633; border-radius:10px; padding:10px; margin:8px 0; }
+#formula-practice .fb-inspector p { margin:0 0 8px; font-size:13px; }
+#formula-practice .fb-inspector-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+#formula-practice .fb-inspector-actions select { flex:1; width:auto; min-width:110px; }
+#formula-practice .fb-inspector-actions label { flex:1; min-width:110px; }
+#formula-practice .fb-tray { margin-top:10px; padding:10px; background:var(--fb-bg); border:1px solid var(--fb-line); border-radius:11px; min-width:0; }
+#formula-practice .fb-tray-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; font-size:13px; }
+#formula-practice .fb-tray-top button { font-size:12px; }
+#formula-practice .fb-selection { font-size:12px; color:#b8dcd2; min-height:18px; margin:5px 0 8px; overflow-wrap:anywhere; }
+#formula-practice .fb-tabs { display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--fb-line); padding-bottom:8px; }
+#formula-practice .fb-tabs button { flex:1 1 auto; font-size:12px; padding:7px 9px; }
+#formula-practice .fb-palette { display:flex; flex-wrap:wrap; gap:8px; padding-top:10px; min-height:64px; align-items:end; }
+#formula-practice .fb-palette label { flex:1 1 110px; }
+#formula-practice .fb-palette .fb-skeleton-kinds { display:flex; flex-wrap:wrap; gap:6px; width:100%; }
+#formula-practice .fb-palette .fb-skeleton-note { width:100%; font-size:12px; color:var(--fb-muted); margin:0; }
+#formula-practice .fb-palette .fb-create { flex:1 1 130px; background:#0b625b; border-color:#3aab98; }
+#formula-practice [data-fb-tool], #formula-practice [data-fb-drag] { touch-action:none; user-select:none; -webkit-user-select:none; cursor:grab; }
+#formula-practice .fb-palette [data-fb-tool] { flex:1 1 auto; font-weight:600; }
+#formula-practice .fb-main-actions { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0; }
+#formula-practice .fb-main-actions button { flex:1 1 140px; }
+#formula-practice .fb-main-actions .fb-primary { background:linear-gradient(135deg,#2dd4bf,#38bdf8); color:#062722; font-weight:750; border-color:#2dd4bf; }
+#formula-practice .fb-help { color:var(--fb-muted); font-size:13px; }
+#formula-practice .fb-help ol { padding:0 16px 0 32px; }
+#formula-practice .fb-help p { padding:0 12px; }
+#formula-practice .fb-live { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.fb-drag-ghost { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%); border:2px solid #51efce; background:#113d35; color:#fff; padding:11px 15px; border-radius:10px; font:600 16px system-ui,sans-serif; box-shadow:0 5px 18px #0008; max-width:220px; text-align:center; }
+@media (max-width:420px) { #formula-practice .fb-config-selects { grid-template-columns:1fr; } #formula-practice [data-fb-config-summary] { display:block; margin:3px 0 0 17px; } #formula-practice .fb-stats { gap:6px; } #formula-practice .fb-tabs button { flex-basis:40%; } }
+@media (max-width:650px) {
+  #formula-practice .fb-tabs {flex-wrap:nowrap;gap:8px}
+  #formula-practice .fb-tabs button {flex:1 1 0;min-width:0;padding:6px;font-size:12px}
+  #formula-practice .fb-palette:not([data-mode="skeleton"]) {flex-wrap:nowrap;overflow-x:auto;align-items:center;padding-bottom:8px;min-height:60px}
+  #formula-practice .fb-palette:not([data-mode="skeleton"]) [data-fb-tool] {flex:0 0 auto}
+  #formula-practice .fb-palette:not([data-mode="skeleton"]) .fb-skeleton-note {display:none}
+  #formula-practice .fb-tray {margin:8px 0}
+  #formula-practice .fb-main-actions {position:sticky;bottom:0;z-index:13;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:7px 0 calc(7px + env(safe-area-inset-bottom));background:var(--bg,#0d1117)}
+  #formula-practice .fb-main-actions button {min-width:0;padding:7px 4px;font-size:12px}
+  #formula-practice .fb-main-actions [data-fb-command="resume"] {grid-column:1 / -1}
+}
+@media (orientation:landscape) and (max-height:500px) { #formula-practice .fb-target { padding:7px 10px; } #formula-practice .fb-target h2 { font-size:18px; margin:1px 0; } #formula-practice .fb-target-state { display:none; } #formula-practice .fb-scene { height:200px; } #formula-practice .fb-stats { margin:8px 0; } }
+@media (prefers-reduced-motion:reduce) { #formula-practice *, .fb-drag-ghost { animation:none!important; transition:none!important; } }
+
 </style>
 </head>
 <body>
 <nav id="nq-modes" aria-label="Modos del juego">
-  <button id="nq-mode-practice" type="button" data-nq-mode="practice" aria-controls="nq-practice" aria-current="page">Modo Práctica (IUPAC)</button>
+  <button id="nq-mode-practice" type="button" data-nq-mode="practice" aria-controls="nq-practice" aria-current="page">Construir el nombre</button>
+  <button id="nq-mode-formula" type="button" data-nq-mode="formula" aria-controls="formula-practice">Construir la fórmula</button>
   <button id="nq-mode-learn" type="button" data-nq-mode="learn" aria-controls="nq-learn">Modo Aprender (Etanol)</button>
 </nav>
 <div id="nq-practice">
@@ -293,6 +406,8 @@
     </div>
   </header>
 
+  <details class="nq-practice-config" open>
+  <summary>Unidad y dificultad</summary>
   <section class="levelbar" id="unitbar">
     <div class="lvl-title">Unidad / Tema</div>
     <div class="lvl-chips" id="unit-chips"></div>
@@ -314,6 +429,7 @@
     </div>
   </section>
 
+  </details>
   <div class="grid">
     <!-- MOLECULE -->
     <section class="card">
@@ -374,7 +490,7 @@
         <button class="btn ghost" id="btn-next">Siguiente ▸</button>
       </div>
 
-      <div class="feedback" id="feedback"></div>
+      <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
     </section>
   </div>
 
@@ -409,6 +525,27 @@
   <div class="foot">MVP educativo · Un solo archivo HTML/CSS/JS · Sin dependencias externas</div>
 </div>
 </div><!-- fin de #nq-practice; el .wrap original permanece intacto -->
+<section id="formula-practice" class="hidden" aria-labelledby="formula-heading">
+  <div class="fb-wrap">
+    <header class="fb-heading"><div><h1 id="formula-heading" tabindex="-1">Construye la fórmula</h1><p>Del nombre a la estructura · Constructor guiado</p></div></header>
+    <dl class="fb-stats" aria-label="Resultados del modo Construye"><div><dt>Aciertos</dt><dd data-fb-stat="ok">0</dd></div><div><dt>Jugadas</dt><dd data-fb-stat="total">0</dd></div><div><dt>Racha</dt><dd data-fb-stat="streak">0</dd></div><div><dt>Récord</dt><dd data-fb-stat="record">0</dd></div></dl>
+    <details class="fb-config"><summary>Familias y dificultad <span data-fb-config-summary></span></summary><div class="fb-config-body"><p class="fb-muted">Cambiar estas opciones inicia un ejercicio nuevo.</p><div class="fb-config-selects"><label>Unidad<select data-fb-config="unit" data-focus-key="config-unit"></select></label><label>Dificultad<select data-fb-config="level" data-focus-key="config-level"></select></label></div><fieldset data-fb-custom hidden><legend>Familias a practicar</legend><div class="fb-family-options" data-fb-families></div><label>Complejidad<select data-fb-config="cx" data-focus-key="config-cx"><option value="baja">Baja</option><option value="media">Media</option><option value="alta">Alta</option></select></label></fieldset></div></details>
+    <div class="fb-workspace">
+      <header class="fb-target"><span class="fb-eyebrow" data-fb-family-label>Nombre objetivo</span><h2 data-fb-target></h2><p class="fb-target-state" data-fb-target-state>Construye y verifica tu respuesta.</p></header>
+      <div class="fb-feedback" data-fb-feedback hidden></div>
+      <div class="fb-scene-toolbar"><span>Tu estructura semidesarrollada</span><span class="fb-scene-tools"><button type="button" data-fb-command="undo" data-focus-key="undo">↶ Deshacer</button><button type="button" data-fb-command="reset" data-focus-key="reset">Reiniciar</button></span></div>
+      <p class="fb-scene-help" id="fb-scene-help">Desliza el lienzo para recorrer la molécula. Toca una pieza y después su destino, o arrástrala. S1, S2… identifican sitios del dibujo; no son localizadores IUPAC.</p>
+      <section class="fb-tray" aria-label="Piezas de construcción"><div class="fb-tray-top"><strong data-fb-tray-title>Bandeja de construcción</strong><button type="button" data-fb-command="cancel" data-focus-key="cancel" hidden>Cancelar selección</button></div><p class="fb-selection" data-fb-selection>Empieza eligiendo el esqueleto.</p><div class="fb-tabs" role="group" aria-label="Tipo de piezas"><button type="button" data-fb-tab="skeleton" aria-pressed="true" data-focus-key="tab-skeleton">Cadena / anillo</button><button type="button" data-fb-tab="bonds" aria-pressed="false" data-focus-key="tab-bonds">Enlaces</button><button type="button" data-fb-tab="groups" aria-pressed="false" data-focus-key="tab-groups">Grupo funcional</button><button type="button" data-fb-tab="subs" aria-pressed="false" data-focus-key="tab-subs">Radicales</button></div><div class="fb-palette" data-fb-palette></div></section>
+      <div class="fb-scene" data-fb-scene tabindex="0" aria-label="Lienzo de construcción molecular, desplazable" aria-describedby="fb-scene-help"><div class="fb-molecule" data-fb-molecule></div></div>
+      <section class="fb-inspector" data-fb-inspector hidden aria-label="Editar pieza colocada"></section>
+
+      <div class="fb-main-actions"><button type="button" class="fb-primary" data-fb-command="verify" data-focus-key="verify">Verificar estructura</button><button type="button" data-fb-command="solve" data-focus-key="solve">Mostrar solución</button><button type="button" data-fb-command="resume" data-focus-key="resume" hidden>Volver a mi construcción</button><button type="button" data-fb-command="next" data-focus-key="next">Otro ejercicio →</button></div>
+      <details class="fb-help"><summary>Cómo construir</summary><ol><li>Elige la longitud de la cadena o el anillo que corresponde al nombre.</li><li>Coloca los enlaces, el grupo funcional y los radicales en sus posiciones. El carbono de –CHO o –COOH pertenece a la cadena elegida.</li><li>Toca una pieza colocada para moverla, cambiarla o quitarla. Tocar un carbono no borra nada.</li><li>Verifica tu respuesta. Puedes usar Deshacer y recorrer el lienzo sin perder tu construcción.</li></ol><p>Con teclado: Tab para recorrer controles, Enter o Espacio para seleccionar y colocar, Escape para cancelar. Esta etapa practica una representación semidesarrollada.</p></details>
+    </div>
+    <div class="fb-live" role="status" aria-live="polite" aria-atomic="true" data-fb-live></div>
+  </div>
+</section>
+
 <div id="nq-learn" class="hidden" role="region" aria-labelledby="nq-lesson-title">
   <div id="nq-shell" data-nq-version="0.2.0">
     <div class="nq-learning nq-pane">
@@ -1294,7 +1431,7 @@ function renderKindChips(){
   const c=$('kind-chips'); c.innerHTML='';
   const kinds = state.unit==='ox' ? KINDS.filter(o=>o.k==='chain') : KINDS;  // alcoholes: solo cadena abierta
   kinds.forEach(o=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.kind===o.k?' on':'');
     el.textContent=o.t;
     el.onclick=()=>{
@@ -1313,7 +1450,7 @@ function renderRootChips(){
   wrap.classList.remove('hidden');
   const range = state.user.kind==='cycle' ? [3,4,5,6] : Array.from({length:15},(_,i)=>i+1);
   range.forEach(n=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.root===n?' on':'');
     el.textContent=ROOTS[n];
     el.title=n+' carbono(s)';
@@ -1329,7 +1466,7 @@ function renderSuffixChips(){
   if(state.unit==='ox' || state.user.kind!=='chain'){ wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
   SUFFIXES.forEach(o=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.suffix===o.s?' on':'');
     el.textContent=o.t;
     el.onclick=()=>{ state.user.suffix=o.s;
@@ -1350,7 +1487,7 @@ function renderBondField(){
   c.appendChild(info);
   const top = state.user.root ? state.user.root-1 : 14;
   for(let n=1;n<=top;n++){
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip num mini'+(state.user.bondLocants.includes(n)?' on':'');
     el.textContent=n;
     el.onclick=()=>{
@@ -1375,7 +1512,7 @@ function renderSubs(){
 
     const chips=document.createElement('div'); chips.className='chips';
     [1,2,3,4,5].forEach(len=>{
-      const el=document.createElement('div');
+      const el=document.createElement('button'); el.type='button';
       el.className='chip mini'+(sub.name===ALKYL[len]?' on':'');
       el.textContent=ALKYL[len];
       el.onclick=()=>{ sub.name=ALKYL[len]; renderSubs(); updatePreview(); };
@@ -1393,7 +1530,7 @@ function renderSubs(){
       const numwrap=document.createElement('div'); numwrap.className='chips';
       const top=maxLocant();
       for(let n=1;n<=top;n++){
-        const el=document.createElement('div');
+        const el=document.createElement('button'); el.type='button';
         el.className='chip num mini';
         el.textContent=n;
         el.onclick=()=>{ sub.locants.push(n); renderSubs(); updatePreview(); };
@@ -1431,7 +1568,7 @@ function renderFgField(){
   if(state.unit!=='ox'){ wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
   FGROUPS.forEach(o=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.fg.type===o.f?' on':'');
     el.textContent=o.t;
     el.onclick=()=>{ state.user.fg.type=o.f; renderBuilder(); updatePreview(); };
@@ -1453,7 +1590,7 @@ function renderFgLocField(){
   const lo = t==='ona' ? 2 : 1;                          // el carbonilo de cetona es interior
   const hi = t==='ona' ? state.user.root-1 : state.user.root;
   for(let n=lo;n<=hi;n++){
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip num mini'+(state.user.fg.loc===n?' on':'');
     el.textContent=n;
     el.onclick=()=>{ state.user.fg.loc=n; renderFgLocField(); updatePreview(); };
@@ -1617,7 +1754,7 @@ function verify(){
 }
 
 function solve(){
-  if(state.solved && $('feedback').classList.contains('ok')) return;
+  if(state.solved) return;
   state.solved=true; state.streak=0; state.total++; updateScore();
   const a=state.current.struct;
   const chosenChain = a.kind==='chain'
@@ -1639,7 +1776,7 @@ function renderLevelChips(){
   const levels=UNITS[state.unit].levels;
   ['facil','medio','dificil'].forEach(id=>{
     const lv=levels[id];
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='lvl-chip'+(state.level===id?' on':'');
     el.innerHTML='<small>'+lv.label+'</small>'+lv.name;
     el.title=lv.quip;
@@ -1653,7 +1790,7 @@ function renderLevelChips(){
     c.appendChild(el);
   });
   // 4º chip: modo personalizado "A tu medida" (no vive en la tabla de niveles).
-  const cel=document.createElement('div');
+  const cel=document.createElement('button'); cel.type='button';
   cel.className='lvl-chip'+(state.level==='custom'?' on':'');
   cel.innerHTML='<small>Personalizado</small>🧪 A tu medida';
   cel.title='Elegí qué familias practicar y con qué complejidad.';
@@ -1716,7 +1853,7 @@ function renderCustomPanel(){
   // Checklist de familias (multi-selección; guard de "al menos una")
   const fc=$('custom-fams'); fc.innerHTML='';
   CUSTOM_FAMS[unit].forEach(o=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip mini'+(c.fams[o.f]?' on':'');
     el.textContent=o.t;
     el.onclick=()=>{
@@ -1731,7 +1868,7 @@ function renderCustomPanel(){
   // Chips de complejidad
   const cc=$('custom-cx'); cc.innerHTML='';
   [['baja','Baja'],['media','Media'],['alta','Alta']].forEach(([k,lab])=>{
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='chip mini'+(c.cx===k?' on':'');
     el.textContent=lab;
     el.onclick=()=>{ if(c.cx===k) return; c.cx=k; saveCustom(unit); renderCustomPanel(); newMolecule(); };
@@ -1752,7 +1889,7 @@ function renderUnitChips(){
   const c=$('unit-chips'); c.innerHTML='';
   ['hc','ox'].forEach(id=>{
     const u=UNITS[id];
-    const el=document.createElement('div');
+    const el=document.createElement('button'); el.type='button';
     el.className='lvl-chip'+(state.unit===id?' on':'');
     el.innerHTML='<small>'+u.sub+'</small>'+u.label;
     el.onclick=()=>{
@@ -2419,6 +2556,7 @@ function createNQScience(canvas) {
   'use strict';
   const practice = document.getElementById('nq-practice');
   const learn = document.getElementById('nq-learn');
+  const formula = document.getElementById('formula-practice');
   const lesson = document.getElementById('nq-shell');
   const nav = document.getElementById('nq-modes');
   if (!practice || !learn || !lesson || !nav || nav.dataset.initialized) return;
@@ -2429,12 +2567,16 @@ function createNQScience(canvas) {
   if (practiceHeading) practiceHeading.tabIndex = -1;
 
   function setMode(next) {
-    if (!['practice', 'learn'].includes(next) || next === mode) return;
-    const outgoing = mode === 'practice' ? practice : learn;
+    if (!['practice', 'formula', 'learn'].includes(next) || next === mode) return;
+    const outgoing = mode === 'practice' ? practice : mode === 'formula' ? formula : learn;
     if (outgoing.contains(document.activeElement)) lastFocus[mode] = document.activeElement;
     mode = next;
     practice.classList.toggle('hidden', mode !== 'practice');
     learn.classList.toggle('hidden', mode !== 'learn');
+    formula.classList.toggle('hidden', mode !== 'formula');
+    formula.hidden = mode !== 'formula';
+    window.dispatchEvent(new CustomEvent('nq:practicechange', {detail: {mode}}));
+    if (mode !== 'learn') LS.set('nq_direction', mode);
     nav.querySelectorAll('[data-nq-mode]').forEach(button => {
       if (button.dataset.nqMode === mode) button.setAttribute('aria-current', 'page');
       else button.removeAttribute('aria-current');
@@ -2442,7 +2584,7 @@ function createNQScience(canvas) {
     lesson.dispatchEvent(new CustomEvent('nq:modechange', {detail: {active: mode === 'learn'}}));
     const saved = lastFocus[mode];
     const target = saved && saved.isConnected && !saved.disabled && !saved.closest('[hidden],.hidden')
-      ? saved : mode === 'practice' ? practiceHeading : document.getElementById('nq-lesson-title');
+      ? saved : mode === 'practice' ? practiceHeading : mode === 'formula' ? formula.querySelector('h1') : document.getElementById('nq-lesson-title');
     if (target) { target.focus({preventScroll: true}); target.scrollIntoView({block: 'nearest'}); }
   }
   function onModeClick(event) {
@@ -2451,6 +2593,7 @@ function createNQScience(canvas) {
   }
   nav.addEventListener('click', onModeClick);
   lesson.addEventListener('click', onModeClick);
+  if (LS.get('nq_direction', 'practice') === 'formula') setMode('formula');
 
   const feedback = document.getElementById('feedback');
   const card = document.createElement('aside');
@@ -2517,6 +2660,779 @@ function createNQScience(canvas) {
     lesson.removeEventListener('click', onModeClick);
   });
 })();
+
+/* NQ_FORMULA_CORE_START */
+/* Núcleo puro del constructor. No depende del DOM ni cambia el motor IUPAC.
+   Las posiciones son 1-based; el esqueleto puede tener otra orientación o una
+   cadena dibujada distinta de la principal. Se corrige por conectividad. */
+const NQFormula = (() => {
+  'use strict';
+
+  const KINDS = ['chain', 'cycle', 'aromatic'];
+  const GROUPS = ['ol', 'al', 'ona', 'oico'];
+  const FG_COST = { ol: 1, al: 2, ona: 2, oico: 3 };
+  const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const integer = value => Number.isSafeInteger(value);
+  const result = (ok, code, message) => ({ ok, code, message });
+  const fail = (code, message) => result(false, code, message);
+  const good = () => result(true, 'valid', '');
+
+  function empty() {
+    return { kind: 'chain', n: 0, bonds: [], subs: [], groups: [] };
+  }
+
+  function copy(draft) {
+    return {
+      kind: draft.kind, n: draft.n,
+      bonds: draft.bonds.map(b => ({ pos: b.pos, order: b.order })),
+      subs: draft.subs.map(s => ({ id: s.id, pos: s.pos, len: s.len })),
+      groups: draft.groups.map(g => ({ id: g.id, pos: g.pos, type: g.type }))
+    };
+  }
+
+  /* El carbono de CHO/COOH ya está en mol.n. Adaptarlo no crea otro carbono. */
+  function fromMol(mol) {
+    if (!object(mol)) return empty();
+    return {
+      kind: mol.kind, n: mol.n,
+      bonds: (mol.bonds || []).map(b => ({ pos: b.pos, order: b.order })),
+      subs: (mol.subs || []).map((s, i) => ({ id: 's' + (i + 1), pos: s.pos, len: s.len })),
+      groups: mol.fg ? [{ id: 'f1', pos: mol.fg.pos, type: mol.fg.type }] : []
+    };
+  }
+
+  function shape(draft) {
+    return object(draft) && KINDS.includes(draft.kind) && integer(draft.n) &&
+      Array.isArray(draft.bonds) && Array.isArray(draft.subs) && Array.isArray(draft.groups);
+  }
+
+  function carbonOrder(draft, pos) {
+    if (draft.kind === 'aromatic') return 3;
+    if (draft.kind === 'cycle') return 2;
+    let total = 0;
+    if (pos > 1) total += (draft.bonds.find(b => b.pos === pos - 1) || { order: 1 }).order;
+    if (pos < draft.n) total += (draft.bonds.find(b => b.pos === pos) || { order: 1 }).order;
+    return total;
+  }
+
+  /* H ligados al carbono; no incluye el H unido al oxígeno del OH/COOH.
+     Metanal tiene 2 H carbonados; ácido metanoico, 1. */
+  function hydrogens(draft, pos) {
+    if (!shape(draft) || !integer(pos) || pos < 1 || pos > draft.n) return 0;
+    const arms = draft.subs.filter(s => s.pos === pos).length;
+    const functional = draft.groups.filter(g => g.pos === pos)
+      .reduce((sum, g) => sum + (FG_COST[g.type] || 0), 0);
+    return Math.max(0, 4 - carbonOrder(draft, pos) - arms - functional);
+  }
+
+  function validate(draft, unit) {
+    if (unit !== 'hc' && unit !== 'ox') return fail('unit', 'Elegí una unidad válida.');
+    if (!shape(draft)) return fail('shape', 'La estructura contiene datos incompletos o inválidos.');
+    if (draft.n === 0) {
+      return draft.kind === 'chain' && !draft.bonds.length && !draft.subs.length && !draft.groups.length
+        ? result(true, 'empty', '') : fail('skeleton', 'Elegí un esqueleto antes de colocar piezas.');
+    }
+    if (draft.n < 1 || draft.n > 15) return fail('skeleton', 'La cadena puede tener entre 1 y 15 carbonos.');
+    if (draft.kind === 'cycle' && (draft.n < 3 || draft.n > 6))
+      return fail('skeleton', 'Elegí un ciclo de 3 a 6 carbonos.');
+    if (draft.kind === 'aromatic' && draft.n !== 6)
+      return fail('skeleton', 'El anillo de benceno tiene seis carbonos.');
+    if (unit === 'ox' && draft.kind !== 'chain')
+      return fail('scope', 'En esta unidad se construyen compuestos oxigenados de cadena abierta.');
+
+    const bondPositions = new Set();
+    for (const bond of draft.bonds) {
+      if (!object(bond) || !integer(bond.pos) || bond.pos < 1 || bond.pos >= draft.n ||
+          ![2, 3].includes(bond.order) || bondPositions.has(bond.pos))
+        return fail('bonds', 'Revisá la posición y el orden de los enlaces.');
+      bondPositions.add(bond.pos);
+    }
+    if (draft.kind !== 'chain' && draft.bonds.length)
+      return fail('scope', 'Los enlaces de este anillo ya están definidos.');
+    if (unit === 'ox' && draft.bonds.length)
+      return fail('scope', 'En esta unidad las cadenas son saturadas.');
+    const doubles = draft.bonds.filter(b => b.order === 2).map(b => b.pos).sort((a, b) => a - b);
+    const triples = draft.bonds.filter(b => b.order === 3);
+    if (doubles.length > 2 || triples.length > 1 || (doubles.length && triples.length))
+      return fail('scope', 'Usá hasta dos dobles enlaces o un triple, sin mezclarlos.');
+    if (doubles.length === 2 && doubles[1] - doubles[0] === 1)
+      return fail('scope', 'Los dienos de este juego no tienen dobles enlaces acumulados.');
+
+    const ids = new Set();
+    const validPos = pos => integer(pos) && pos >= 1 && pos <= draft.n;
+    for (const sub of draft.subs) {
+      if (!object(sub) || typeof sub.id !== 'string' || !/^s[1-9]\d*$/.test(sub.id) || ids.has(sub.id) ||
+          !validPos(sub.pos) || !integer(sub.len) || sub.len < 1 || sub.len > 5)
+        return fail('substituents', 'Usá radicales lineales de 1 a 5 carbonos en posiciones válidas.');
+      ids.add(sub.id);
+    }
+    for (const group of draft.groups) {
+      if (!object(group) || typeof group.id !== 'string' || !/^f[1-9]\d*$/.test(group.id) || ids.has(group.id) ||
+          !validPos(group.pos) || !GROUPS.includes(group.type))
+        return fail('group', 'Revisá el grupo funcional y su posición.');
+      ids.add(group.id);
+    }
+    if (unit === 'hc' && draft.groups.length)
+      return fail('group', 'Los hidrocarburos de esta unidad no llevan grupos oxigenados.');
+    if (draft.groups.length > 1)
+      return fail('group', 'Este juego trabaja con un único grupo funcional por molécula.');
+
+    for (let pos = 1; pos <= draft.n; pos++) {
+      const arms = draft.subs.filter(s => s.pos === pos).length;
+      const group = draft.groups.find(g => g.pos === pos);
+      const used = carbonOrder(draft, pos) + arms + (group ? FG_COST[group.type] : 0);
+      if (used > 4) return fail('valence', 'Ese carbono superaría sus cuatro enlaces.');
+      if (group) {
+        /* Cuenta vecinos C reales, también los radicales. Así se admiten
+           dibujos alternativos sin confundirlos con una nueva molécula. */
+        const neighbors = (pos > 1 ? 1 : 0) + (pos < draft.n ? 1 : 0) + arms;
+        if ((group.type === 'al' || group.type === 'oico') && neighbors > 1)
+          return fail('group-position', 'El aldehído y el carboxilo deben quedar en un extremo del esqueleto carbonado.');
+        if (group.type === 'ona' && neighbors !== 2)
+          return fail('group-position', 'El carbonilo de una cetona debe unirse a dos carbonos.');
+      }
+    }
+    return good();
+  }
+
+  function nextId(items, prefix) {
+    let highest = 0;
+    for (const item of items) highest = Math.max(highest, Number(item.id.slice(1)) || 0);
+    return prefix + (highest + 1);
+  }
+
+  /* Una operación se aplica completa o se rechaza completa. El rechazo devuelve
+     la entrada original; ni siquiera las previsualizaciones la modifican. */
+  function apply(draft, action, unit) {
+    const rejected = verdict => ({ ...verdict, draft });
+    if (!object(action) || typeof action.type !== 'string')
+      return rejected(fail('action', 'Elegí una acción válida.'));
+    let next;
+    if (action.type === 'skeleton') {
+      next = { kind: action.kind, n: action.n, bonds: [], subs: [], groups: [] };
+    } else {
+      if (!shape(draft)) return rejected(fail('shape', 'Primero elegí un esqueleto válido.'));
+      const initial = validate(draft, unit);
+      if (!initial.ok) return rejected(initial);
+      next = copy(draft);
+      if (action.type === 'clear') {
+        next.bonds = []; next.subs = []; next.groups = [];
+      } else if (action.type === 'bond') {
+        if (next.kind !== 'chain' || !integer(action.pos) || action.pos < 1 || action.pos >= next.n ||
+            ![1, 2, 3].includes(action.order))
+          return rejected(fail('bonds', 'Elegí un enlace válido de la cadena.'));
+        next.bonds = next.bonds.filter(b => b.pos !== action.pos);
+        if (action.order > 1) next.bonds.push({ pos: action.pos, order: action.order });
+        next.bonds.sort((a, b) => a.pos - b.pos);
+      } else if (action.type === 'addSub') {
+        next.subs.push({ id: nextId(next.subs, 's'), pos: action.pos, len: action.len });
+      } else if (action.type === 'addGroup') {
+        next.groups.push({ id: nextId(next.groups, 'f'), pos: action.pos, type: action.groupType });
+      } else if (['move', 'remove', 'replaceSub', 'replaceGroup'].includes(action.type)) {
+        const sub = next.subs.find(s => s.id === action.id);
+        const group = next.groups.find(g => g.id === action.id);
+        if (!sub && !group) return rejected(fail('piece', 'Esa pieza ya no está en la estructura.'));
+        if (action.type === 'move') (sub || group).pos = action.pos;
+        if (action.type === 'remove') {
+          next.subs = next.subs.filter(s => s.id !== action.id);
+          next.groups = next.groups.filter(g => g.id !== action.id);
+        }
+        if (action.type === 'replaceSub') {
+          if (!sub) return rejected(fail('piece', 'Elegí un radical para reemplazarlo.'));
+          sub.len = action.len;
+        }
+        if (action.type === 'replaceGroup') {
+          if (!group) return rejected(fail('piece', 'Elegí un grupo funcional para reemplazarlo.'));
+          group.type = action.groupType;
+        }
+      } else return rejected(fail('action', 'Esa acción no está disponible.'));
+    }
+    const verdict = validate(next, unit);
+    return verdict.ok ? { ...good(), draft: next } : rejected(verdict);
+  }
+
+  /* Grafo carbonado etiquetado: los oxígenos se representan por el tipo de
+     función en su carbono. Es exacto dentro del dominio mono-funcional actual.
+     Los enlaces aromáticos tienen una etiqueta propia, independiente de cómo
+     se dibujen los dobles alternados. */
+  function graph(draft) {
+    const nodes = Array.from({ length: draft.n }, (_, i) => ({
+      group: (draft.groups.find(g => g.pos === i + 1) || {}).type || '', edges: new Map()
+    }));
+    const edge = (a, b, order) => {
+      nodes[a].edges.set(b, order); nodes[b].edges.set(a, order);
+    };
+    for (let i = 0; i < draft.n - 1; i++) {
+      const order = draft.kind === 'aromatic' ? 'a' :
+        (draft.bonds.find(b => b.pos === i + 1) || { order: 1 }).order;
+      edge(i, i + 1, order);
+    }
+    if (draft.kind !== 'chain' && draft.n) edge(draft.n - 1, 0, draft.kind === 'aromatic' ? 'a' : 1);
+    for (const sub of draft.subs) {
+      let previous = sub.pos - 1;
+      for (let i = 0; i < sub.len; i++) {
+        const current = nodes.length;
+        nodes.push({ group: '', edges: new Map() });
+        edge(previous, current, 1); previous = current;
+      }
+    }
+    return nodes;
+  }
+
+  function isomorphic(a, b, ignoreGroups = false, ignoreBonds = false) {
+    if (a.length !== b.length) return false;
+    if (!a.length) return true;
+    const label = node => ignoreGroups ? '' : node.group;
+    const order = value => ignoreBonds ? 1 : value;
+    const signature = (nodes, node) => [label(node), node.edges.size,
+      [...node.edges].map(([neighbor, value]) => order(value) + ':' + label(nodes[neighbor])).sort().join(',')].join('|');
+    const signaturesB = b.map(node => signature(b, node));
+    const candidates = a.map(node => {
+      const sig = signature(a, node);
+      return b.map((_, i) => i).filter(i => signaturesB[i] === sig);
+    });
+    if (candidates.some(list => !list.length)) return false;
+    const mapping = Array(a.length).fill(-1), used = new Set();
+    const fits = (source, target) => {
+      for (let i = 0; i < mapping.length; i++) {
+        if (mapping[i] < 0) continue;
+        const sourceEdge = a[source].edges.get(i), targetEdge = b[target].edges.get(mapping[i]);
+        if ((sourceEdge === undefined) !== (targetEdge === undefined)) return false;
+        if (sourceEdge !== undefined && order(sourceEdge) !== order(targetEdge)) return false;
+      }
+      return true;
+    };
+    const search = matched => {
+      if (matched === a.length) return true;
+      let selected = -1, options = null, selectedNeighbors = -1;
+      for (let i = 0; i < a.length; i++) {
+        if (mapping[i] >= 0) continue;
+        const available = candidates[i].filter(j => !used.has(j) && fits(i, j));
+        if (!available.length) return false;
+        const mappedNeighbors = [...a[i].edges.keys()].filter(j => mapping[j] >= 0).length;
+        if (options === null || available.length < options.length ||
+            (available.length === options.length && mappedNeighbors > selectedNeighbors)) {
+          selected = i; options = available; selectedNeighbors = mappedNeighbors;
+        }
+      }
+      for (const target of options) {
+        mapping[selected] = target; used.add(target);
+        if (search(matched + 1)) return true;
+        mapping[selected] = -1; used.delete(target);
+      }
+      return false;
+    };
+    return search(0);
+  }
+
+  function inferredUnit(draft) {
+    return draft.groups.length ? 'ox' : 'hc';
+  }
+
+  function equivalent(draft, targetDraft) {
+    if (!shape(draft) || !shape(targetDraft)) return false;
+    if (!validate(draft, inferredUnit(draft)).ok || !validate(targetDraft, inferredUnit(targetDraft)).ok) return false;
+    return isomorphic(graph(draft), graph(targetDraft));
+  }
+
+  const groupKey = draft => draft.groups.map(g => g.type).sort().join(',');
+  const bondKey = nodes => {
+    const counts = {};
+    nodes.forEach((node, i) => node.edges.forEach((value, j) => {
+      if (i < j) counts[value] = (counts[value] || 0) + 1;
+    }));
+    return Object.keys(counts).sort().map(key => key + ':' + counts[key]).join(',');
+  };
+
+  function check(draft, targetMol, unit) {
+    const verdict = validate(draft, unit);
+    if (!verdict.ok) return verdict;
+    if (!draft.n) return fail('skeleton', 'Elegí un esqueleto para empezar a construir la molécula.');
+    const target = fromMol(targetMol);
+    if (!validate(target, unit).ok || !target.n)
+      return fail('target', 'No se pudo preparar el ejercicio. Generá uno nuevo.');
+    const candidateGraph = graph(draft), targetGraph = graph(target);
+    if (candidateGraph.length !== targetGraph.length)
+      return fail('composition', 'Revisá la cantidad total de carbonos: contá el esqueleto y los radicales.');
+    if (groupKey(draft) !== groupKey(target))
+      return fail('group', 'Revisá el grupo funcional que indica el sufijo y su cantidad.');
+    if (bondKey(candidateGraph) !== bondKey(targetGraph))
+      return fail('bonds', 'Revisá el tipo y la cantidad de enlaces, y si corresponde una cadena o un anillo.');
+    if (isomorphic(candidateGraph, targetGraph))
+      return result(true, 'correct', '¡Correcto! La molécula coincide con el nombre propuesto.');
+    if (isomorphic(candidateGraph, targetGraph, true, false))
+      return fail('group-position', 'Revisá la posición del grupo funcional y desde dónde se numera.');
+    if (isomorphic(candidateGraph, targetGraph, false, true))
+      return fail('bond-position', 'Revisá los localizadores de los enlaces múltiples.');
+    return fail('connectivity', 'Revisá dónde se unen los radicales y las conexiones del esqueleto.');
+  }
+
+  return Object.freeze({ empty, fromMol, validate, apply, hydrogens, equivalent, check });
+})();
+/* NQ_FORMULA_CORE_END */
+
+
+/* NQ_FORMULA_SESSION_START */
+// Exercise accounting is deliberately outside the editor's undo history.
+const NQFormulaSession = (() => {
+  const copy = value => JSON.parse(JSON.stringify(value));
+  function create(config, target) {
+    return {
+      unit: config.unit || 'hc', level: config.level || 'facil',
+      custom: copy(config.custom || {fams: {}, cx: 'media'}), target, draft: NQFormula.empty(), history: [],
+      feedback: null, counted: false, solution: false,
+      stats: {ok: 0, total: 0, streak: 0, record: 0, ...config.stats}
+    };
+  }
+  function edit(session, action) {
+    const result = NQFormula.apply(session.draft, action, session.unit);
+    if (!result.ok) return {...result, session};
+    if (JSON.stringify(result.draft) === JSON.stringify(session.draft)) {
+      return {...result, session};
+    }
+    return {...result, session: {...session, draft: result.draft,
+      history: [...session.history, copy(session.draft)], feedback: null, solution: false}};
+  }
+  function undo(session) {
+    if (!session.history.length) return session;
+    return {...session, draft: copy(session.history[session.history.length - 1]),
+      history: session.history.slice(0, -1), feedback: null, solution: false};
+  }
+  function verify(session) {
+    const result = NQFormula.check(session.draft, session.target.mol, session.unit);
+    const stats = {...session.stats};
+    let counted = session.counted;
+    if (!counted && session.draft.n > 0) {
+      if (result.ok) {
+        stats.ok++; stats.total++; stats.streak++;
+        stats.record = Math.max(stats.record, stats.streak);
+        counted = true;
+      } else stats.streak = 0;
+    }
+    return {...session, stats, counted, solution: false,
+      feedback: {kind: result.ok ? 'ok' : 'hint', message: result.ok
+        ? '¡Correcto! La molécula que construiste corresponde al nombre solicitado.'
+        : result.message}};
+  }
+  function solve(session) {
+    const stats = {...session.stats};
+    if (!session.counted) {stats.total++; stats.streak = 0;}
+    return {...session, stats, counted: true, solution: true,
+      feedback: {kind: 'sol', message: 'Esta es la fórmula solicitada. Puedes volver a editar tu construcción o pasar a otro ejercicio.'}};
+  }
+  function resume(session) {
+    return {...session, solution: false, feedback: null};
+  }
+  return Object.freeze({create, edit, undo, verify, solve, resume});
+})();
+/* NQ_FORMULA_SESSION_END */
+
+
+/* Constructor guiado: interfaz sin persistencia; la sesión y el historial pertenecen al integrador. */
+const NQBuilderUI = (() => {
+  'use strict';
+  const GROUPS = {ol:{label:'–OH · Alcohol',short:'–OH',name:'Alcohol'},al:{label:'–CHO · Aldehído',short:'–CHO',name:'Aldehído'},ona:{label:'=O · Cetona',short:'=O',name:'Cetona'},oico:{label:'–COOH · Ácido',short:'–COOH',name:'Ácido'}};
+  const subscript = value => String(value).replace(/[0-9]/g, digit => '₀₁₂₃₄₅₆₇₈₉'[Number(digit)]);
+  const fragment = length => Array.from({length},(_,i) => i === length-1 ? 'CH₃' : 'CH₂').join('–');
+  const leftFragment = length => Array.from({length},(_,i) => i === 0 ? 'CH₃' : 'CH₂').join('–');
+  function el(tag, className, text) { const node=document.createElement(tag); if(className)node.className=className; if(text!==undefined)node.textContent=text; return node; }
+  function button(text, key) { const node=el('button','',text); node.type='button'; if(key)node.dataset.focusKey=key; return node; }
+  function option(value,text) { const node=el('option','',text); node.value=value; return node; }
+  function copy(value) { return JSON.parse(JSON.stringify(value)); }
+  function mount(root, options) {
+    if(!root || !root.querySelector('[data-fb-scene]'))throw new Error('Falta el panel del constructor.');
+    if(root._nqBuilderUI)return root._nqBuilderUI;
+    const $=selector=>root.querySelector(selector), $$=selector=>Array.from(root.querySelectorAll(selector));
+    const scene=$('[data-fb-scene]'), molecule=$('[data-fb-molecule]');
+    const ui={session:null,target:null,tab:'skeleton',kind:'chain',n:3,tool:null,inspected:null,local:null,gesture:null,frame:0,highlight:null,suppressClickUntil:0,replaceValue:null};
+    const current=()=> options.getSession ? (options.getSession()||ui.session) : ui.session;
+    const editable=()=>!!current() && !current().solution;
+    function announce(message) { $('[data-fb-live]').textContent=''; requestAnimationFrame(()=>{$('[data-fb-live]').textContent=message;}); }
+    function localFeedback(message,kind='hint') { ui.local={message,kind}; renderFeedback(); announce(message); }
+    function clearHighlight() { if(ui.highlight){ui.highlight.classList.remove('fb-drop-ok','fb-drop-bad'); ui.highlight=null;} }
+    function cancelGesture() {
+      const g=ui.gesture; ui.gesture=null;
+      if(ui.frame)cancelAnimationFrame(ui.frame); ui.frame=0; clearHighlight();
+      if(!g)return;
+      if(g.ghost)g.ghost.remove();
+      try { if(g.source.hasPointerCapture(g.id))g.source.releasePointerCapture(g.id); } catch(_) { /* El navegador puede haber liberado la captura. */ }
+    }
+    function cancelSelection() { cancelGesture(); ui.tool=null; ui.inspected=null; ui.replaceValue=null; ui.local=null; render(current()); announce('Selección cancelada.'); }
+    function focusKey(key) { if(!key)return; const node=$$('[data-focus-key]').find(n=>n.dataset.focusKey===key); if(node&&!node.disabled)node.focus({preventScroll:true}); }
+    function commit(action,focus) {
+      if(!editable())return {ok:false,message:'La solución se muestra como referencia. Inicia otro ejercicio para construir.'};
+      cancelGesture();
+      const result=options.onAction(action)||{ok:false,message:'No se pudo colocar la pieza.'};
+      if(result.ok) {
+        ui.tool=null; ui.inspected=null; ui.replaceValue=null; ui.local=null;
+        if(action.type==='skeleton')ui.tab=current().unit==='ox'?'groups':'subs';
+        render(current()); if(focus)focusKey(focus);
+        announce(action.type==='remove'?'Pieza quitada. Puedes deshacer.':action.type==='skeleton'?'Esqueleto creado. Ya puedes colocar piezas.':'Estructura actualizada. Puedes deshacer.');
+      } else localFeedback(result.message||'Esa pieza no puede colocarse aquí.');
+      return result;
+    }
+    function draftForDisplay(session) { return session.solution ? NQFormula.fromMol(session.target.mol) : session.draft; }
+    function renderConfig(session) {
+      const unit=$('[data-fb-config="unit"]'), level=$('[data-fb-config="level"]');
+      unit.replaceChildren(...Object.keys(UNITS).map(k=>option(k,UNITS[k].label))); unit.value=session.unit;
+      level.replaceChildren(...['facil','medio','dificil'].map(k=>option(k,UNITS[session.unit].levels[k].label)),option('custom','A tu medida')); level.value=session.level;
+      $('[data-fb-config-summary]').textContent=UNITS[session.unit].label+' · '+(session.level==='custom'?'A tu medida':UNITS[session.unit].levels[session.level].label);
+      $('[data-fb-custom]').hidden=session.level!=='custom';
+      const fams=$('[data-fb-families]'); fams.replaceChildren();
+      CUSTOM_FAMS[session.unit].forEach(f=>{ const label=el('label'); const input=el('input'); input.type='checkbox'; input.checked=!!session.custom.fams[f.f]; input.dataset.fbFamily=f.f; input.dataset.focusKey='family-'+f.f; label.append(input,document.createTextNode(f.t)); fams.append(label); });
+      $('[data-fb-config="cx"]').value=session.custom.cx;
+    }
+    function renderFeedback() {
+      const session=current(); if(!session)return;
+      const feedback=ui.local||session.feedback, box=$('[data-fb-feedback]');
+      box.hidden=!feedback; box.textContent=feedback?feedback.message:'';
+      box.dataset.kind=feedback?feedback.kind:'';
+    }
+    function atomLabel(draft,pos) {
+      const h=NQFormula.hydrogens(draft,pos), group=(draft.groups||[]).find(g=>g.pos===pos);
+      let base='C'+(h>0?'H'+(h>1?subscript(h):''):'');
+      if(group&&group.type==='oico')return h>0?'HCOOH':pos===1&&draft.n>1?'HOOC':'COOH';
+      if(group&&(group.type==='al'||group.type==='ona'))return group.type==='al'&&pos===1&&draft.n>1?'O='+base:base+'=O';
+      return base;
+    }
+    function addLine(svg,x1,y1,x2,y2) { const line=document.createElementNS('http://www.w3.org/2000/svg','line'); ['x1','y1','x2','y2'].forEach((key,i)=>line.setAttribute(key,[x1,y1,x2,y2][i])); svg.append(line); }
+    function makePlaced(text,id,label,kind) {
+      const node=button(text,'piece-'+id); node.className='fb-attached'+(kind==='group'?' fb-functional':''); node.dataset.fbInspect=id;
+      node.setAttribute('aria-label',label+'; tocar para editar');
+      if(editable())node.dataset.fbDrag=JSON.stringify({type:'move',id,label});
+      else node.disabled=true;
+      if(ui.inspected===id)node.classList.add('fb-selected');
+      return node;
+    }
+    function renderScene(session) {
+      const draft=draftForDisplay(session), readonly=!!session.solution;
+      molecule.replaceChildren();
+      if(!draft||!draft.n) {
+        molecule.style.width='100%';molecule.style.height='100%';
+        const empty=el('div','fb-empty');empty.append(el('strong','','Empieza por el esqueleto'),el('span','','Elige cadena, ciclo o benceno en la bandeja y pulsa Crear.'));molecule.append(empty);return;
+      }
+      const nodes=[],placed=[],edges=[],n=draft.n,ring=draft.kind!=='chain';
+      const maxSubs=Math.max(1,...Array.from({length:n},(_,i)=>(draft.subs||[]).filter(s=>s.pos===i+1).length));
+      const gap=Math.max(148,maxSubs*74+44);
+      for(let i=1;i<=n;i++) {
+        if(ring) { const angle=-Math.PI/2+(i-1)*Math.PI*2/n;nodes.push({pos:i,x:220+138*Math.cos(angle),y:220+138*Math.sin(angle),ux:Math.cos(angle),uy:Math.sin(angle)}); }
+        else nodes.push({pos:i,x:100+(i-1)*gap,y:115,ux:0,uy:1});
+      }
+      const edgeCount=ring?n:n-1;
+      for(let pos=1;pos<=edgeCount;pos++) {
+        const a=nodes[pos-1],b=nodes[pos%n],order=draft.kind==='aromatic'?(pos%2?2:1):((draft.bonds||[]).find(x=>x.pos===pos)?.order||1);
+        edges.push({pos,x:(a.x+b.x)/2,y:(a.y+b.y)/2,a,b,order});
+      }
+      nodes.forEach(node=>{
+        const subs=(draft.subs||[]).filter(s=>s.pos===node.pos), groups=(draft.groups||[]).filter(g=>g.pos===node.pos);
+        subs.forEach((sub,index)=>{
+          if(ring) {
+            const angle=Math.atan2(node.uy,node.ux)+(index-(subs.length-1)/2)*.75, width=Math.max(70,sub.len*54+10);
+            placed.push({kind:'sub',data:sub,x:node.x+Math.cos(angle)*(108+width/3),y:node.y+Math.sin(angle)*108,width,height:48,node,vertical:false,reverse:Math.cos(angle)<-.1});
+          } else {
+            placed.push({kind:'sub',data:sub,x:node.x+(index-(subs.length-1)/2)*74,y:node.y+66+(sub.len*36-4)/2,width:66,height:sub.len*36+12,node,vertical:true});
+          }
+        });
+        groups.forEach(group=>placed.push({kind:'group',data:group,x:node.x,y:node.y-76,width:112,height:44,node,vertical:false}));
+      });
+      const points=[...nodes.map(x=>({x:x.x,y:x.y,width:82,height:78})),...placed];
+      const minX=Math.min(0,...points.map(p=>p.x-p.width/2-20)),minY=Math.min(0,...points.map(p=>p.y-p.height/2-20));
+      const dx=-minX,dy=-minY,width=Math.max(scene.clientWidth-2,...points.map(p=>p.x+p.width/2+30))+dx,height=Math.max(190,...points.map(p=>p.y+p.height/2+30))+dy;
+      molecule.style.width=width+'px';molecule.style.height=height+'px';
+      const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('fb-lines');svg.setAttribute('width',width);svg.setAttribute('height',height);svg.setAttribute('aria-hidden','true');molecule.append(svg);
+      edges.forEach(edge=>{
+        addLine(svg,edge.a.x+dx,edge.a.y+dy,edge.b.x+dx,edge.b.y+dy);
+        const bond=button('','bond-'+edge.pos);bond.className='fb-bond';bond.dataset.fbBond=edge.pos;
+        bond.setAttribute('aria-label','Enlace entre S'+edge.pos+' y S'+(edge.pos===n?1:edge.pos+1)+', '+({1:'simple',2:'doble',3:'triple'}[edge.order]));
+        const symbol=el('span','',edge.order===1?'—':edge.order===2?'=':'≡');symbol.style.transform='rotate('+Math.atan2(edge.b.y-edge.a.y,edge.b.x-edge.a.x)*180/Math.PI+'deg)';bond.append(symbol);
+        bond.style.left=edge.x+dx+'px';bond.style.top=edge.y+dy+'px';
+        bond.disabled=readonly||ring;molecule.append(bond);
+      });
+      placed.forEach(piece=>{
+        // –CHO, =O y –COOH ya están contenidos en la etiqueta del carbono; el botón es su editor.
+        if(piece.kind==='sub'||piece.data.type==='ol')addLine(svg,piece.node.x+dx,piece.node.y+dy,piece.x+dx,piece.y+dy);
+        const data=piece.data,isSub=piece.kind==='sub';
+        const label=isSub?ALKYL[data.len]+' en sitio '+data.pos:GROUPS[data.type].name+' en sitio '+data.pos;
+        const node=makePlaced(isSub?(piece.reverse?leftFragment(data.len):fragment(data.len)):data.type==='ol'?'–OH':GROUPS[data.type].name,data.id,label,piece.kind);
+        if(piece.vertical){node.classList.add('fb-vertical');node.replaceChildren();for(let j=0;j<data.len;j++){if(j)node.append(el('span','fb-branch-bond'));node.append(el('span','fb-branch-atom',j===data.len-1?'CH₃':'CH₂'));}}
+        node.style.left=piece.x+dx+'px';node.style.top=piece.y+dy+'px';molecule.append(node);
+      });
+      nodes.forEach(node=>{
+        const atom=button('','carbon-'+node.pos),label=atomLabel(draft,node.pos);atom.className='fb-node'+(label.length>3?' fb-condensed':'');atom.dataset.fbPos=node.pos;
+        atom.style.left=node.x+dx+'px';atom.style.top=node.y+dy+'px';atom.setAttribute('aria-label','Sitio '+node.pos+', carbono: '+label+(readonly?'':'. Destino para una pieza.'));
+        atom.append(el('span','fb-loc','S'+node.pos),el('span','fb-atom',label));if(readonly)atom.disabled=true;molecule.append(atom);
+      });
+    }
+    function toolButton(text,tool,key) {
+      const node=button(text,key);node.dataset.fbTool=JSON.stringify({...tool,label:text});node.setAttribute('aria-pressed',String(!!ui.tool&&ui.tool.type===tool.type&&ui.tool.len===tool.len&&ui.tool.groupType===tool.groupType&&ui.tool.order===tool.order));
+      if(!editable())node.disabled=true;
+      return node;
+    }
+    function renderPalette(session) {
+      const palette=$('[data-fb-palette]');palette.replaceChildren();
+      if(session.unit==='ox'&&ui.tab==='bonds')ui.tab='groups';
+      if(session.unit==='hc'&&ui.tab==='groups')ui.tab='bonds';
+      palette.dataset.mode=ui.tab;
+      $$('[data-fb-tab]').forEach(tab=>{tab.setAttribute('aria-pressed',String(tab.dataset.fbTab===ui.tab));tab.hidden=(tab.dataset.fbTab==='groups'&&session.unit==='hc')||(tab.dataset.fbTab==='bonds'&&session.unit==='ox');});
+      $('[data-fb-tab="skeleton"]').textContent=session.unit==='ox'?'Cadena':'Cadena / anillo';
+      if(ui.tab==='skeleton') {
+        const kinds=el('div','fb-skeleton-kinds');
+        (session.unit==='hc'?[['chain','Cadena'],['cycle','Ciclo'],['aromatic','Benceno']]:[['chain','Cadena']]).forEach(([kind,text])=>{const node=button(text,'kind-'+kind);node.dataset.fbKind=kind;node.setAttribute('aria-pressed',String(ui.kind===kind));node.disabled=!!session.solution;kinds.append(node);});palette.append(kinds);
+        const label=el('label','','Carbonos del esqueleto'),select=el('select');select.dataset.fbLength='';select.dataset.focusKey='skeleton-length';
+        const values=ui.kind==='chain'?Array.from({length:15},(_,i)=>i+1):ui.kind==='cycle'?[3,4,5,6]:[6];
+        if(!values.includes(ui.n))ui.n=values[0];values.forEach(n=>select.append(option(n,n+' · '+(ROOTS[n]||n))));select.value=ui.n;select.disabled=!!session.solution;label.append(select);palette.append(label);
+        const create=button('Crear '+(ui.kind==='chain'?'cadena':ui.kind==='cycle'?'ciclo':'benceno'),'create-skeleton');create.className='fb-create';create.dataset.fbCommand='create';create.disabled=!!session.solution;palette.append(create);
+        if(session.draft.n)palette.append(el('p','fb-skeleton-note','Crear otro esqueleto reemplaza tu construcción. Puedes recuperarla con Deshacer.'));
+      } else if(ui.tab==='bonds') {
+        [1,2,3].forEach(order=>palette.append(toolButton(({1:'— Simple',2:'= Doble',3:'≡ Triple'})[order],{type:'bond',order},'tool-bond-'+order)));
+        palette.append(el('p','fb-skeleton-note','Selecciona un enlace y toca el espacio entre dos carbonos. Los anillos de esta etapa conservan sus enlaces.'));
+      } else if(ui.tab==='groups') {
+        Object.keys(GROUPS).forEach(type=>palette.append(toolButton(GROUPS[type].label,{type:'addGroup',groupType:type},'tool-group-'+type)));
+        palette.append(el('p','fb-skeleton-note','El carbono de –CHO y –COOH es uno de los carbonos del esqueleto; no se agrega otro.'));
+      } else {
+        [1,2,3,4,5].forEach(len=>palette.append(toolButton(ALKYL[len]+' · '+fragment(len),{type:'addSub',len},'tool-sub-'+len)));
+      }
+      const tool=ui.tool;
+      $('[data-fb-command="cancel"]').hidden=!tool&&!ui.inspected;
+      $('[data-fb-selection]').textContent=session.solution?'Solución de referencia. Pulsa Volver a mi construcción para seguir editando.':tool?(tool.type==='bond'?'Toca el enlace entre carbonos para colocar: ':'Toca el carbono de destino para colocar: ')+tool.label:!session.draft.n?'Elige el esqueleto y pulsa Crear.':'Toca una pieza de la bandeja y su destino. Para editar una pieza colocada, tócala.';
+    }
+    function renderInspector(session) {
+      const box=$('[data-fb-inspector]');box.replaceChildren();box.hidden=true;
+      if(session.solution||!ui.inspected)return;
+      const draft=session.draft,id=ui.inspected,sub=draft.subs.find(s=>s.id===id),group=draft.groups.find(g=>g.id===id),bond=id.startsWith('bond:')?Number(id.slice(5)):null;
+      if(!sub&&!group&&!bond){ui.inspected=null;return;}
+      box.hidden=false;const actions=el('div','fb-inspector-actions');
+      if(bond) {
+        box.append(el('p','','Enlace entre S'+bond+' y S'+(bond+1)+'. Elige su orden.'));
+        const select=el('select');select.dataset.fbReplace='bond';select.dataset.focusKey='inspect-replace';[1,2,3].forEach(order=>select.append(option(order,({1:'Simple',2:'Doble',3:'Triple'})[order])));select.value=ui.replaceValue||((draft.bonds.find(b=>b.pos===bond)||{}).order||1);actions.append(select);
+        const replace=button('Aplicar enlace','inspect-apply');replace.dataset.fbCommand='replace';actions.append(replace);
+      } else {
+        const item=sub||group;box.append(el('p','',(sub?ALKYL[sub.len]:GROUPS[group.type].name)+' en sitio '+item.pos+'. Puedes mover esta pieza arrastrándola o elegir Mover.'));
+        const move=button('Mover','inspect-move');move.dataset.fbCommand='move';const remove=button('Quitar pieza','inspect-remove');remove.dataset.fbCommand='remove';actions.append(move,remove);
+        const select=el('select');select.dataset.fbReplace=sub?'sub':'group';select.dataset.focusKey='inspect-replace';select.setAttribute('aria-label','Pieza de reemplazo');
+        if(sub)[1,2,3,4,5].forEach(len=>select.append(option(len,ALKYL[len]+' · '+fragment(len))));else Object.keys(GROUPS).forEach(type=>select.append(option(type,GROUPS[type].label)));
+        select.value=ui.replaceValue||(sub?sub.len:group.type);actions.append(select);
+        const replace=button('Reemplazar','inspect-apply');replace.dataset.fbCommand='replace';actions.append(replace);
+      }
+      const close=button('Cerrar edición','inspect-close');close.dataset.fbCommand='close-inspector';actions.append(close);box.append(actions);
+    }
+    function render(session) {
+      if(!session)return;
+      const active=document.activeElement,focused=active&&root.contains(active)?active.dataset.focusKey:null;
+      const scrollX=scene.scrollLeft,scrollY=scene.scrollTop;
+      const changedTarget=ui.target!==session.target;
+      const oldFeedback=ui.session&&ui.session.feedback;
+      cancelGesture();ui.session=session;
+      if(changedTarget){ui.target=session.target;ui.tool=null;ui.inspected=null;ui.local=null;ui.tab='skeleton';ui.kind='chain';ui.n=3;ui.replaceValue=null;}
+      else if(oldFeedback!==session.feedback)ui.local=null;
+      if(session.unit==='ox')ui.kind='chain';
+      if(session.solution){ui.tool=null;ui.inspected=null;}
+      renderConfig(session);
+      $$('[data-fb-stat]').forEach(node=>node.textContent=session.stats[node.dataset.fbStat]||0);
+      $('[data-fb-target]').textContent=session.target.name;
+      $('[data-fb-family-label]').textContent=(session.unit==='ox'&&session.level==='dificil'?'Compuesto oxigenado':session.target.famLabel||'Nombre objetivo')+' · nombre objetivo';
+      $('[data-fb-target-state]').textContent=session.solution?'Solución mostrada · este ejercicio ya no suma aciertos.':session.feedback&&session.feedback.kind==='ok'?'Respuesta correcta · puedes seguir editando o iniciar otro ejercicio.':'Construye y verifica tu respuesta.';
+      $('[data-fb-command="undo"]').disabled=!session.history.length;
+      $('[data-fb-command="reset"]').disabled=session.solution||!session.draft.n;
+      $('[data-fb-command="verify"]').disabled=session.solution||!session.draft.n;
+      $('[data-fb-command="solve"]').disabled=session.solution;
+      $('[data-fb-command="resume"]').hidden=!session.solution;
+      renderScene(session);renderPalette(session);renderInspector(session);renderFeedback();
+      scene.scrollLeft=changedTarget?0:scrollX;scene.scrollTop=changedTarget?0:scrollY;
+      focusKey(focused);
+      if(session.feedback&&oldFeedback!==session.feedback)announce(session.feedback.message);
+    }
+    function actionFor(tool,destination) {
+      if(tool.type==='bond')return destination.dataset.fbBond?{type:'bond',pos:Number(destination.dataset.fbBond),order:tool.order}:null;
+      if(!destination.dataset.fbPos)return null;
+      const pos=Number(destination.dataset.fbPos);
+      if(tool.type==='move')return {type:'move',id:tool.id,pos};
+      if(tool.type==='addSub')return {type:'addSub',pos,len:tool.len};
+      if(tool.type==='addGroup')return {type:'addGroup',pos,groupType:tool.groupType};
+      return null;
+    }
+    function preview(tool,destination) {
+      const action=actionFor(tool,destination);
+      if(!action)return {ok:false,message:tool.type==='bond'?'Elige el espacio entre dos carbonos para cambiar un enlace.':'Elige un carbono para colocar esa pieza.'};
+      const session=current();return NQFormula.apply(session.draft,action,session.unit);
+    }
+    function place(tool,destination) {
+      const action=actionFor(tool,destination);
+      if(!action){localFeedback(tool.type==='bond'?'Toca el espacio entre dos carbonos para colocar el enlace.':'Toca un carbono para colocar esa pieza.');return;}
+      commit(action,action.type==='bond'?'bond-'+action.pos:'carbon-'+action.pos);
+    }
+    function inspect(id) {
+      ui.inspected=ui.inspected===id?null:id;ui.tool=null;ui.replaceValue=null;ui.local=null;render(current());
+      const box=$('[data-fb-inspector]');
+      if(!box.hidden){const control=box.querySelector('button,select');if(control)control.focus({preventScroll:true});box.scrollIntoView({block:'nearest'});}
+    }
+    function runCommand(command) {
+      const session=current();if(!session)return;
+      if(command==='cancel'){cancelSelection();return;}
+      if(command==='create'){commit({type:'skeleton',kind:ui.kind,n:Number(ui.n)},'carbon-1');return;}
+      if(command==='undo'){cancelSelection();options.onUndo();return;}
+      if(command==='reset'){cancelSelection();options.onReset();return;}
+      if(command==='verify'){cancelGesture();ui.local=null;options.onVerify();return;}
+      if(command==='solve'){cancelSelection();options.onSolve();return;}
+      if(command==='resume'){cancelSelection();options.onResume();return;}
+      if(command==='next'){cancelSelection();options.onNext();return;}
+      if(command==='close-inspector'){ui.inspected=null;render(current());return;}
+      if(!editable())return;
+      const id=ui.inspected,item=session.draft.subs.find(s=>s.id===id)||session.draft.groups.find(g=>g.id===id);
+      if(command==='remove'&&item){commit({type:'remove',id},'carbon-'+item.pos);return;}
+      if(command==='move'&&item){ui.tool={type:'move',id,label:(item.len?ALKYL[item.len]:GROUPS[item.type].short)+' desde sitio '+item.pos};ui.inspected=null;render(current());announce('Selecciona el carbono de destino para mover la pieza.');return;}
+      if(command==='replace') {
+        const select=$('[data-fb-replace]');if(!select)return;
+        if(select.dataset.fbReplace==='bond')commit({type:'bond',pos:Number(id.slice(5)),order:Number(select.value)},'bond-'+id.slice(5));
+        else if(select.dataset.fbReplace==='sub')commit({type:'replaceSub',id,len:Number(select.value)},'piece-'+id);
+        else commit({type:'replaceGroup',id,groupType:select.value},'piece-'+id);
+      }
+    }
+    root.addEventListener('click',event=>{
+      const node=event.target.closest('button');if(!node||!root.contains(node)||node.disabled)return;
+      if(performance.now()<ui.suppressClickUntil){event.preventDefault();return;}
+      if(node.dataset.fbCommand){runCommand(node.dataset.fbCommand);return;}
+      if(node.dataset.fbTab){ui.tab=node.dataset.fbTab;render(current());return;}
+      if(node.dataset.fbKind){ui.kind=node.dataset.fbKind;if(ui.kind==='aromatic')ui.n=6;else if(ui.kind==='cycle')ui.n=Math.max(3,Math.min(6,ui.n));render(current());return;}
+      if(node.dataset.fbTool){if(!editable())return;const tool=JSON.parse(node.dataset.fbTool);ui.tool=ui.tool&&ui.tool.label===tool.label?null:tool;ui.inspected=null;ui.local=null;render(current());announce(ui.tool?'Seleccionaste '+ui.tool.label+'. Ahora elige su destino.':'Selección cancelada.');return;}
+      if(node.dataset.fbInspect){if(editable())inspect(node.dataset.fbInspect);return;}
+      if(node.dataset.fbPos){if(ui.tool)place(ui.tool,node);else {const pos=Number(node.dataset.fbPos),items=[...current().draft.subs,...current().draft.groups].filter(p=>p.pos===pos);if(items.length===1)inspect(items[0].id);else localFeedback(items.length?'Toca una de las piezas conectadas al sitio '+pos+' para editarla.':'Sitio '+pos+' seleccionado. Elige una pieza de la bandeja y toca este carbono para colocarla.');}return;}
+      if(node.dataset.fbBond){if(ui.tool)place(ui.tool,node);else if(editable())inspect('bond:'+node.dataset.fbBond);}
+    });
+    root.addEventListener('change',event=>{
+      const node=event.target,session=current();if(!session)return;
+      if(node.dataset.fbLength!==undefined){ui.n=Number(node.value);return;}
+      if(node.dataset.fbReplace){ui.replaceValue=node.value;return;}
+      if(node.dataset.fbConfig||node.dataset.fbFamily) {
+        const unit=node.dataset.fbConfig==='unit'?node.value:session.unit,level=node.dataset.fbConfig==='level'?node.value:session.level;
+        const custom=unit===session.unit?copy(session.custom):{fams:Object.fromEntries(CUSTOM_FAMS[unit].map(f=>[f.f,true])),cx:session.custom.cx};
+        if(node.dataset.fbConfig==='cx')custom.cx=node.value;
+        if(node.dataset.fbFamily){custom.fams[node.dataset.fbFamily]=node.checked;if(!Object.values(custom.fams).some(Boolean)){node.checked=true;localFeedback('Elige al menos una familia para practicar.');return;}}
+        cancelSelection();options.onConfig(unit,level,custom);
+      }
+    });
+    function hitAt(g) {
+      const x=g.x,y=g.y-(g.pointerType==='touch'?48:0);
+      const under=document.elementFromPoint(x,y),destination=under&&under.closest('[data-fb-pos],[data-fb-bond]');
+      clearHighlight();g.destination=null;
+      if(destination&&scene.contains(destination)&&!destination.disabled){g.destination=destination;const result=preview(g.tool,destination);destination.classList.add(result.ok?'fb-drop-ok':'fb-drop-bad');ui.highlight=destination;}
+      return {x,y};
+    }
+    function dragFrame() {
+      const g=ui.gesture;if(!g||!g.dragging){ui.frame=0;return;}
+      const point=hitAt(g),rect=scene.getBoundingClientRect(),edge=24;
+      function speed(value,min,max){if(value<min||value>max)return 0;if(value<min+edge)return -Math.ceil(8*(min+edge-value)/edge);if(value>max-edge)return Math.ceil(8*(value-(max-edge))/edge);return 0;}
+      scene.scrollLeft+=speed(point.x,rect.left,rect.right);scene.scrollTop+=speed(point.y,rect.top,rect.bottom);
+      if(g.y<edge)window.scrollBy(0,-7);else if(g.y>window.innerHeight-edge)window.scrollBy(0,7);
+      if(g.ghost){g.ghost.style.left=point.x+'px';g.ghost.style.top=point.y+'px';}
+      ui.frame=requestAnimationFrame(dragFrame);
+    }
+    root.addEventListener('pointerdown',event=>{
+      if(!editable()||ui.gesture||!event.isPrimary||(event.pointerType==='mouse'&&event.button!==0))return;
+      const source=event.target.closest('[data-fb-tool],[data-fb-drag]');if(!source||source.disabled)return;
+      const tool=JSON.parse(source.dataset.fbTool||source.dataset.fbDrag);
+      ui.gesture={id:event.pointerId,source,tool,x0:event.clientX,y0:event.clientY,x:event.clientX,y:event.clientY,pointerType:event.pointerType,dragging:false,ghost:null,destination:null};
+      try{source.setPointerCapture(event.pointerId);}catch(_){cancelGesture();}
+    });
+    root.addEventListener('pointermove',event=>{
+      const g=ui.gesture;if(!g||event.pointerId!==g.id)return;g.x=event.clientX;g.y=event.clientY;
+      if(!g.dragging&&Math.hypot(g.x-g.x0,g.y-g.y0)>=8){g.dragging=true;g.ghost=el('div','fb-drag-ghost',g.tool.label);g.ghost.setAttribute('aria-hidden','true');document.body.append(g.ghost);ui.frame=requestAnimationFrame(dragFrame);}
+      if(g.dragging)event.preventDefault();
+    });
+    root.addEventListener('pointerup',event=>{
+      const g=ui.gesture;if(!g||event.pointerId!==g.id)return;g.x=event.clientX;g.y=event.clientY;
+      if(!g.dragging){cancelGesture();return;}
+      event.preventDefault();ui.suppressClickUntil=performance.now()+450;hitAt(g);const destination=g.destination,tool=g.tool;cancelGesture();
+      if(destination)place(tool,destination);else localFeedback('Pieza devuelta a la bandeja: suéltala sobre un destino del lienzo. La estructura no cambió.');
+    });
+    root.addEventListener('pointercancel',event=>{if(ui.gesture&&event.pointerId===ui.gesture.id){ui.suppressClickUntil=performance.now()+250;cancelGesture();announce('Gesto cancelado. La estructura no cambió.');}});
+    root.addEventListener('lostpointercapture',event=>{if(ui.gesture&&event.pointerId===ui.gesture.id)cancelGesture();});
+    root.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();cancelSelection();}});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelGesture();});
+    window.addEventListener('blur',cancelGesture);
+    const controller={render,cancelGesture};root._nqBuilderUI=controller;
+    if(options.getSession&&options.getSession())render(options.getSession());
+    return controller;
+  }
+  return {mount};
+})();
+
+
+/* NQ_FORMULA_INTEGRATION_START */
+(() => {
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const recordKeyFor = (unit, level) => 'nq_formula_record_' + unit + '_' + level;
+  function savedCustom(unit) {
+    const all = CUSTOM_FAMS[unit].map(x => x.f);
+    let data;
+    try { data = JSON.parse(LS.get('nq_formula_custom_' + unit, 'null')); } catch (_) {}
+    const fams = Object.fromEntries(all.map(f => [f, data?.fams?.[f] ?? true]));
+    if (!Object.values(fams).some(Boolean)) all.forEach(f => fams[f] = true);
+    return {fams, cx: ['baja', 'media', 'alta'].includes(data?.cx) ? data.cx : 'media'};
+  }
+  function targetFor(unit, level, custom) {
+    const arg = level === 'custom'
+      ? customCfg(unit, CUSTOM_FAMS[unit].filter(x => custom.fams[x.f]).map(x => x.f), custom.cx)
+      : level;
+    return UNITS[unit].gen(arg);
+  }
+  let unit = LS.get('nq_formula_unit', 'hc');
+  if (!UNITS[unit]) unit = 'hc';
+  let level = LS.get('nq_formula_level', 'facil');
+  if (!['facil', 'medio', 'dificil', 'custom'].includes(level)) level = 'facil';
+  let session = NQFormulaSession.create({unit, level, custom: savedCustom(unit), stats: {
+    ok: Math.max(0, parseInt(LS.get('nq_formula_ok', '0'), 10) || 0),
+    total: Math.max(0, parseInt(LS.get('nq_formula_total', '0'), 10) || 0),
+    record: Math.max(0, parseInt(LS.get(recordKeyFor(unit, level), '0'), 10) || 0)
+  }}, targetFor(unit, level, savedCustom(unit)));
+  function save() {
+    LS.set('nq_formula_unit', session.unit); LS.set('nq_formula_level', session.level);
+    LS.set('nq_formula_custom_' + session.unit, JSON.stringify(session.custom));
+    LS.set('nq_formula_ok', session.stats.ok); LS.set('nq_formula_total', session.stats.total);
+    LS.set(recordKeyFor(session.unit, session.level), session.stats.record);
+  }
+  function render() { ui.render(session); }
+  function edit(action) {
+    const result = NQFormulaSession.edit(session, action);
+    if (result.ok) { session = result.session; render(); }
+    return result;
+  }
+  function next(configChanged = false) {
+    const stats = {...session.stats};
+    if (configChanged) stats.streak = 0;
+    session = NQFormulaSession.create({...session, stats}, targetFor(session.unit, session.level, session.custom));
+    save(); render();
+  }
+  const ui = NQBuilderUI.mount(document.getElementById('formula-practice'), {
+    getSession: () => session,
+    onAction: edit,
+    onUndo() { session = NQFormulaSession.undo(session); render(); },
+    onReset() { edit({type: 'clear'}); },
+    onVerify() { session = NQFormulaSession.verify(session); save(); render(); },
+    onSolve() { session = NQFormulaSession.solve(session); save(); render(); },
+    onResume() { session = NQFormulaSession.resume(session); render(); },
+    onNext() { next(); },
+    onConfig(nextUnit, nextLevel, custom) {
+      if (!UNITS[nextUnit] || !['facil', 'medio', 'dificil', 'custom'].includes(nextLevel)) return;
+      save();
+      const nextCustom = nextUnit !== session.unit || !custom ? savedCustom(nextUnit) : clone(custom);
+      const valid = CUSTOM_FAMS[nextUnit].some(x => nextCustom.fams[x.f]);
+      if (!valid) return;
+      const record = Math.max(0, parseInt(LS.get(recordKeyFor(nextUnit, nextLevel), '0'), 10) || 0);
+      session = {...session, unit: nextUnit, level: nextLevel, custom: nextCustom,
+        stats: {...session.stats, record}};
+      next(true);
+    }
+  });
+  window.addEventListener('nq:practicechange', event => {
+    if (event.detail.mode !== 'formula') ui.cancelGesture();
+  });
+  render();
+  const config = document.querySelector('.nq-practice-config');
+  if (config && window.matchMedia('(max-width: 820px)').matches) config.open = false;
+})();
+/* NQ_FORMULA_INTEGRATION_END */
+
 </script>
 </body>
 </html>

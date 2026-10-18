@@ -1,79 +1,68 @@
 # NombraQuímica 🧪 — Juego de Nomenclatura IUPAC
 
-**▶️ [Jugar ahora en el navegador](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/)**
+**[Jugar en el navegador](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/)**
 
-Videojuego web educativo en 2D, estilo rompecabezas interactivo, para practicar la **nomenclatura IUPAC de química orgánica**. Un selector de **Unidad/Tema** permite elegir entre **Hidrocarburos (Cap. 1–2)** y **Compuestos oxigenados (Cap. 3)**, cada uno con su propia dificultad. Es un **proyecto escolar** desarrollado para la **Exposición Anual** del colegio san José.
+Juego educativo para practicar química orgánica en dos sentidos. Es un proyecto escolar para la Exposición Anual del colegio san José. Funciona en un único `index.html`, sin servidor ni dependencias externas.
 
-## ¿Qué es?
+## Dos formas de practicar
 
-El juego genera aleatoriamente una molécula válida y muestra su **fórmula semidesarrollada** (o su estructura de anillo dibujada). El jugador debe **construir el nombre IUPAC correcto por bloques** — sin escribir libremente, para evitar errores de tipeo — eligiendo:
+- **Construir el nombre:** el juego muestra una molécula y el estudiante arma su nombre mediante bloques de raíz, sufijo, radicales y localizadores.
+- **Construir la fórmula:** el juego muestra un nombre y el estudiante construye su fórmula **semidesarrollada**, eligiendo un esqueleto y colocando enlaces, radicales y grupos funcionales.
 
-1. El **tipo de estructura** (cadena abierta, cicloalcano o aromático)
-2. Los **radicales** (ramificaciones) con sus localizadores
-3. La **raíz** de la cadena principal (met, et, prop… hasta pentadec)
-4. El **sufijo** según el tipo de enlace (-ano, -eno, -ino, -dieno)
-5. Los **localizadores del enlace múltiple** cuando corresponde
+Ambos modos utilizan los mismos generadores y convenciones de nomenclatura. Las pistas orientan sobre qué revisar sin revelar la respuesta. **Ver solución** permite consultar la respuesta y cuenta el ejercicio como una jugada sin acierto.
 
-Al pulsar **Verificar**, si hay un error el juego **no revela la respuesta**: da una **pista socrática** que orienta hacia la regla que se está aplicando mal (Método Feynman: aprender razonando, no memorizando).
+Cambiar de sentido conserva durante la sesión el ejercicio y la configuración propios de cada modo. Los aciertos, las jugadas y los récords se guardan por separado en el navegador. Una respuesta ya contabilizada no suma puntos nuevamente al editarla o deshacer.
+
+## Constructor para móvil
+
+Se puede **arrastrar una pieza** o **tocarla y después tocar su destino**. Ambos métodos aplican las mismas reglas químicas. El lienzo permite desplazarse para trabajar con cadenas largas. Los controles admiten teclado y el navegador conserva su zoom.
+
+1. Elegir una cadena abierta de 1–15 carbonos, un ciclo de 3–6 carbonos o un benceno.
+2. Colocar enlaces simples, dobles o triples, radicales lineales y, en la unidad de oxigenados, el grupo funcional.
+3. Inspeccionar una pieza colocada para moverla, reemplazarla o quitarla. **Deshacer** restaura las acciones completas, incluido el reinicio o el cambio de esqueleto.
+4. Pulsar **Verificar**. Se acepta la misma molécula orientada al revés, con un anillo rotado o reflejado, o construida mediante otro recorrido válido de la cadena.
+
+Los hidrógenos se calculan automáticamente. CHO y COOH transforman un carbono existente: **no agregan otro carbono**. Solo se admite un grupo funcional, conforme al alcance de los ejercicios. Las colocaciones que exceden la valencia o incumplen las restricciones se rechazan sin modificar la construcción.
+
+La construcción y su historial se conservan durante la sesión; no se recuperan al recargar. Las preferencias y los resultados sí se guardan en `localStorage`.
 
 ## Alcance químico
 
-| Regla | Detalle |
+| Unidad | Familias |
 |---|---|
-| **Familias** | Alcanos, alquenos (incluye dienos), alquinos, cicloalcanos (ciclopropano a ciclohexano) y aromáticos básicos (benceno y derivados) |
-| **Cadena principal** | De 1 a 15 carbonos (metano → pentadecano) |
-| **Radicales** | Solo alquilo **lineales**: metil, etil, propil, butil, pentil |
-| **Multiplicidad** | Dienos permitidos (dos dobles enlaces); **nunca** se mezclan enlaces dobles y triples en la misma molécula |
+| **Hidrocarburos (Cap. 1–2)** | Alcanos, alquenos, dienos, alquinos, cicloalcanos y aromáticos básicos derivados del benceno. |
+| **Compuestos oxigenados (Cap. 3)** | Alcoholes, aldehídos, cetonas y **ácidos carboxílicos**, saturados y de cadena abierta. |
 
-### Reglas IUPAC que aplica el motor de validación
-
-- **Prioridad de numeración:** el enlace múltiple siempre recibe el localizador más bajo, por encima de los radicales. En alcanos, se numera desde el extremo más cercano a la primera ramificación (regla del primer punto de diferencia).
-- **Orden alfabético:** los radicales se ordenan alfabéticamente **ignorando** los prefijos multiplicadores (*di-*, *tri-*, *tetra-*). Ejemplo: *etil* va antes que *dimetil* (se alfabetiza por «metil»).
-- **Anillos:** numeración que da el conjunto de localizadores más bajo; en anillos monosustituidos el localizador se omite.
-
-El nombre correcto se **calcula algorítmicamente** desde el grafo molecular (no hay respuestas memorizadas), y cada molécula generada pasa un filtro anti-ambigüedad: solo se aceptan ejercicios con una única respuesta correcta.
-
-## Unidades / Temas
-
-El selector superior separa el contenido en unidades independientes (cada una con su marcador y récord propios):
-
-| Unidad | Contenido |
+| Elemento | Restricción |
 |---|---|
-| **Hidrocarburos (Cap. 1–2)** | Alcanos, alquenos, dienos, alquinos, cicloalcanos y aromáticos (lo descrito arriba). |
-| **Compuestos oxigenados (Cap. 3)** | **Alcoholes** (`-ol`), **aldehídos** (`-al`) y **cetonas** (`-ona`) de cadena abierta, estilo escolar (`2-butanol`, `propanal`, `2-pentanona`). El **grupo funcional tiene prioridad** para el localizador más bajo, por encima de los radicales. El **carbonilo (C=O)** se enseña por contraste: terminal → aldehído; interno → cetona. El `-CHO` va siempre en C1 (sin número); `metanol`/`etanol` y `propanona`/`butanona` tampoco llevan localizador. En **Difícil** las tres familias se mezclan y el alumno debe identificar el grupo. |
+| Cadena abierta | 1–15 carbonos en el esqueleto. |
+| Radicales | Alquilo lineales: metil, etil, propil, butil y pentil. |
+| Insaturaciones | Hasta dos dobles enlaces no adyacentes o un triple; no se mezclan dobles y triples. |
+| Anillos | Cicloalcanos de 3–6 carbonos o benceno; radicales lineales. |
+| Grupos funcionales | OH, CHO, carbonilo interno de cetona y COOH; uno por molécula. |
 
-> **Roadmap Cap. 3:** una familia por entrega, reusando el mismo motor algorítmico — alcoholes ✓, aldehídos ✓, cetonas ✓; falta ácidos carboxílicos.
+El motor calcula los nombres desde la estructura y filtra ejercicios ambiguos. Sigue las convenciones escolares utilizadas por el proyecto, como `2-butanol`, `2-pentanona` y `ácido etanoico`. El grupo funcional tiene prioridad en la numeración de los oxigenados. La corrección del constructor compara la conectividad completa y los enlaces, sin depender de la orientación ni de los números mostrados en pantalla.
 
-## Niveles de dificultad
+Las representaciones desarrollada completa, molecular, global funcional y zigzag quedan para una etapa posterior. **Aprender** conserva por ahora su actividad conceptual sobre etanol; su reorganización por familias y fuentes bibliográficas no forma parte de esta ampliación.
 
-El jugador elige contra qué se enfrenta, con una progresión pedagógica (el nombre de cada nivel homenajea a un químico + una frase de guiño):
+## Dificultad y práctica personalizada
 
-| Nivel | Homenaje | Qué genera |
-|---|---|---|
-| **Fácil** | Nivel Wöhler | Solo alcanos cortos (1–6 C), sin ramificar o con un único radical metil. Sin anillos ni enlaces múltiples. |
-| **Medio** | Nivel Kekulé | Alcanos, alquenos, alquinos y cicloalcanos. Cadenas de 4–10 C, 1–2 radicales, un solo enlace múltiple. |
-| **Difícil** | Nivel Le Bel–Van't Hoff | Todo el alcance: dienos, aromáticos, cadenas de hasta 15 C, 2–3 radicales y casos con conflicto de numeración. |
+Los niveles **Fácil (Wöhler)**, **Medio (Kekulé)** y **Difícil (Le Bel–Van't Hoff)** conservan sus generadores originales. El alcance de cada nivel depende de la unidad elegida.
 
-El marcador (aciertos, jugadas) y el **récord de racha por nivel** se guardan en el navegador (`localStorage`), así que no se pierden al recargar.
+**A tu medida** permite seleccionar las familias y una complejidad baja, media o alta, incluso en combinaciones que no ofrecen los niveles predeterminados. Se mantiene disponible en los dos sentidos de práctica. Los récords se separan por modo, unidad y nivel; los resultados anteriores de construir nombres se conservan.
 
-## ¿Cómo ayuda a practicar?
+## Ejecutar y comprobar
 
-- **Práctica infinita:** el generador crea moléculas nuevas cada vez, dentro del alcance del curso.
-- **Feedback formativo:** las pistas señalan *qué regla* revisar (sufijo, numeración, radicales…), no la solución.
-- **Marcador de aciertos y racha** para motivar la repetición espaciada.
-- **Botón "Ver solución"** con explicación razonada, para cuando el estudiante decide rendirse.
-- **Recordatorio de reglas** integrado (sección plegable) para consultar sin salir del juego.
+- **En línea:** abrir la [página del juego](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/).
+- **Sin conexión:** descargar `index.html` y abrirlo con un navegador moderno. El archivo contiene HTML, estilos y JavaScript; no realiza descargas para jugar. Esta versión no incorpora todavía instalación PWA ni publicación en Google Play.
+- **Pruebas automatizadas:** con Node.js instalado, ejecutar `node --test tests/formula.test.cjs` desde la carpeta del proyecto. No se necesitan paquetes adicionales.
 
-## Cómo ejecutarlo
-
-- **Online:** entra a la [página del juego](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/).
-- **Local:** descarga `index.html` y ábrelo con doble clic en cualquier navegador moderno. Es un único archivo autocontenido (HTML + CSS + JavaScript), sin dependencias externas y funciona sin internet.
+Las **93 comprobaciones existentes** del motor y de la selección personalizada continúan ejecutándose al cargar la página. Las pruebas nuevas del constructor se ejecutan por separado, con aleatoriedad reproducible: cubren las diez familias y las tres complejidades, estructuras equivalentes, isómeros distintos, funciones y valencias, y acciones que no deben modificar una construcción inválida. Las verificaciones automáticas no sustituyen la comprobación de gestos en dispositivos Android e iOS reales.
 
 ## Equipo
 
-**Integrantes:** Carlos Martín, Alex Jehan, Benjamín Olivera, Valentino Navarro, Zaira Pereyra.
+**Integrantes:** Carlos Martín, Alex Jehan, Benjamín Olivera, Valentino Navarro y Zaira Pereyra.
+
 **Institución:** colegio san José · **Evento:** Exposición Anual.
 
----
-
-*Proyecto educativo sin fines de lucro. El motor de nomenclatura incluye baterías de auto-tests (19 casos de hidrocarburos + 11 de alcoholes + 22 de aldehídos y cetonas, todos verificados a mano) que se ejecutan al cargar la página; el resultado se muestra al pie.*
+Proyecto educativo sin fines de lucro.
