@@ -13,6 +13,14 @@ Ambos modos utilizan los mismos generadores y convenciones de nomenclatura. Las 
 
 Cambiar de sentido conserva durante la sesión el ejercicio y la configuración propios de cada modo. Los aciertos, las jugadas y los récords se guardan por separado en el navegador. Una respuesta ya contabilizada no suma puntos nuevamente al editarla o deshacer.
 
+## Construir el nombre con una molécula legible
+
+La molécula ocupa primero todo el ancho disponible y el constructor del nombre aparece debajo. En pantallas de al menos **900 px**, los campos internos del constructor se distribuyen en dos columnas; en pantallas más pequeñas se apilan. La estructura objetivo conserva su tamaño y se puede recorrer horizontalmente cuando es larga, sin reducirla hasta volverla ilegible.
+
+Las fórmulas usan letras de **24 px en pantallas pequeñas y 32 px en pantallas amplias**. Los controles del modo de nombres tienen un tamaño táctil mínimo de **48 × 48 px**. La opción **Ver molécula** permite regresar a la estructura mientras se construye el nombre.
+
+**Unidad y dificultad** se presenta plegado, con la unidad y el nivel activos visibles en el resumen. Se puede desplegar para cambiar de tema, dificultad o selección personalizada. La navegación contiene únicamente **Construir el nombre** y **Construir la fórmula**; el prototipo Aprender y sus fichas de propiedades se retiraron de esta versión.
+
 ## Constructor para móvil
 
 Se puede **arrastrar una pieza** o **tocarla y después tocar su destino**. Ambos métodos aplican las mismas reglas químicas. El lienzo permite desplazarse para trabajar con cadenas largas. Los controles admiten teclado y el navegador conserva su zoom.
@@ -43,7 +51,7 @@ La construcción y su historial se conservan durante la sesión; no se recuperan
 
 El motor calcula los nombres desde la estructura y filtra ejercicios ambiguos. Sigue las convenciones escolares utilizadas por el proyecto, como `2-butanol`, `2-pentanona` y `ácido etanoico`. El grupo funcional tiene prioridad en la numeración de los oxigenados. La corrección del constructor compara la conectividad completa y los enlaces, sin depender de la orientación ni de los números mostrados en pantalla.
 
-Las representaciones desarrollada completa, molecular, global funcional y zigzag quedan para una etapa posterior. **Aprender** conserva por ahora su actividad conceptual sobre etanol; su reorganización por familias y fuentes bibliográficas no forma parte de esta ampliación.
+Las representaciones desarrollada completa, molecular, global funcional y zigzag quedan para una etapa posterior.
 
 ## Dificultad y práctica personalizada
 
@@ -55,9 +63,9 @@ Los niveles **Fácil (Wöhler)**, **Medio (Kekulé)** y **Difícil (Le Bel–Van
 
 - **En línea:** abrir la [página del juego](https://muclacic3-star.github.io/juego-nomenclatura-iupac-mvp/).
 - **Sin conexión:** descargar `index.html` y abrirlo con un navegador moderno. El archivo contiene HTML, estilos y JavaScript; no realiza descargas para jugar. Esta versión no incorpora todavía instalación PWA ni publicación en Google Play.
-- **Pruebas automatizadas:** con Node.js instalado, ejecutar `node --test tests/formula.test.cjs` desde la carpeta del proyecto. No se necesitan paquetes adicionales.
+- **Pruebas automatizadas:** con Node.js instalado, ejecutar `node --test tests/formula.test.cjs tests/name-layout.test.cjs` desde la carpeta del proyecto. No se necesitan paquetes adicionales.
 
-Las **93 comprobaciones existentes** del motor y de la selección personalizada continúan ejecutándose al cargar la página. Las pruebas nuevas del constructor se ejecutan por separado, con aleatoriedad reproducible: cubren las diez familias y las tres complejidades, estructuras equivalentes, isómeros distintos, funciones y valencias, y acciones que no deben modificar una construcción inválida. Las verificaciones automáticas no sustituyen la comprobación de gestos en dispositivos Android e iOS reales.
+Las **93 comprobaciones existentes** del motor y de la selección personalizada continúan ejecutándose al cargar la página. Las pruebas del constructor se ejecutan por separado, con aleatoriedad reproducible: cubren las diez familias y las tres complejidades, estructuras equivalentes, isómeros distintos, funciones y valencias, y acciones que no deben modificar una construcción inválida. Las pruebas de navegación comprueban el cambio entre los dos modos, la recuperación del foco y las preferencias guardadas, incluido el regreso al modo de nombres desde una antigua preferencia de Aprender. Las verificaciones automáticas no sustituyen la comprobación visual ni de gestos en dispositivos Android e iOS reales.
 
 ## Equipo
 
