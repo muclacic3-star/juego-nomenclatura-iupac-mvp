@@ -209,11 +209,12 @@ test('units, ring dimensions and allowed unsaturations are enforced', () => {
     ['hc', draft(5, [], [{pos: 1, order: 2}, {pos: 3, order: 3}])],
     ['hc', draft(5, [], [{pos: 1, order: 2}, {pos: 2, order: 2}])],
     ['hc', draft(8, [], [{pos: 1, order: 2}, {pos: 3, order: 2}, {pos: 5, order: 2}])],
-    ['ox', draft(3, [], [{pos: 1, order: 2}])],
+    ['ox', draft(3, [], [{pos: 1, order: 3}])],
     ['ox', F.fromMol({kind: 'cycle', n: 4, subs: []})],
     ['hc', draft(3, [], [], {type: 'ol', pos: 1})]
   ];
   for (const [unit, current] of invalid) assert.equal(F.validate(current, unit).ok, false, JSON.stringify(current));
+  assert.equal(F.validate(draft(3, [], [{pos: 1, order: 2}]), 'ox').ok, true, 'A double bond may be placed before OH while building an enol');
   for (const [kind, n] of [['chain', 16], ['cycle', 2], ['cycle', 7], ['aromatic', 5]]) {
     assert.equal(F.apply(F.empty(), {type: 'skeleton', kind, n}, 'hc').ok, false);
   }

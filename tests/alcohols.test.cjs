@@ -198,7 +198,7 @@ test('the OH count and positions must match, rather than just the molecular form
   assert.equal(F.check(F.fromMol(chain(5,[1,2,4])),chain(5,[1,2,3]),'ox').ok,false);
 });
 
-test('repeated OH on one carbon, four OH and mixed oxygen functions are rejected atomically',()=>{
+test('repeated OH on one carbon, four OH and unsupported oxygen combinations are rejected atomically',()=>{
   const {F}=load(),current=construct(F,chain(4,[1,2,3]));
   for(const action of [{type:'addGroup',pos:1,groupType:'ol'},{type:'addGroup',pos:4,groupType:'ol'},
     {type:'addGroup',pos:4,groupType:'al'},{type:'addGroup',pos:4,groupType:'oico'},{type:'addGroup',pos:3,groupType:'ona'}]){
@@ -226,7 +226,7 @@ test('phenyl is six aromatic carbons and beta-phenylethanol is distinct from the
   assert.equal(F.apply(noOH,{type:'addSub',kind:'phenyl',pos:2},'ox').ok,true,'A builder may place phenyl before OH');
 });
 
-test('phenols, several phenyls, aromatic polyols and phenyl-carbonyl mixtures are outside this scope',()=>{
+test('phenols, several phenyls, aromatic polyols and mixed aromatic functions are outside this scope',()=>{
   const {F}=load(),current=construct(F,chain(2,[1],[phenyl(2)]));
   for(const action of [{type:'addSub',kind:'phenyl',pos:1},{type:'addGroup',groupType:'ol',pos:2},
     {type:'addGroup',groupType:'al',pos:2}])assert.equal(F.apply(current,action,'ox').ok,false);
@@ -330,7 +330,8 @@ function namingUI() {
   const engine=load(),nodes=new Map();
   class Element {
     constructor(){this.children=[];this.attrs={};this.style={};this.classes=new Set();this.textContent='';
-      this.classList={add:value=>this.classes.add(value),remove:value=>this.classes.delete(value),contains:value=>this.classes.has(value)};}
+      this.classList={add:value=>this.classes.add(value),remove:value=>this.classes.delete(value),contains:value=>this.classes.has(value),
+        toggle:(value,force)=>{const include=force===undefined?!this.classes.has(value):force;if(include)this.classes.add(value);else this.classes.delete(value);return include;}};}
     set innerHTML(value){this.markup=String(value);this.children=[];}
     get innerHTML(){return this.markup||'';}
     appendChild(child){this.children.push(child);return child;}
