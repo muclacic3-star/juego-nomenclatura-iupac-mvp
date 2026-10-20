@@ -227,7 +227,7 @@ test('every group participates in valence and terminality; invalid combinations 
     chain(4,[group('al',1),group('ol',2),group('ol',3)]),
     chain(3,[group('ol',1)],[{pos:1,order:3}]),
     chain(5,[group('ol',1)],[{pos:1,order:2},{pos:3,order:2}]),
-    chain(3,[group('al',1)],[{pos:2,order:2}]),
+    chain(3,[group('al',1)],[{pos:1,order:2}]),
     chain(3,[group('ol',1),group('ol',3)],[{pos:1,order:2}]),
     chain(2,[group('ol',1)],[{pos:1,order:2}],[phenyl(2)]),
     chain(3,[group('ol',1)],[{pos:2,order:2}])

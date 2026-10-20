@@ -2,6 +2,8 @@
 
 Fecha: **19 de octubre de 2026**. Base revisada: `main`, `0ad1b0b6`.
 
+Este informe conserva los resultados de la primera ampliación. La entrega posterior, que incorpora 2-butenal, alcanfor, el catálogo de 20 moléculas y las fórmulas desarrolladas completas, se documenta en [Las 20 referencias del curso](veinte-referencias-verificacion.md).
+
 ## Cobertura y fuentes del curso
 
 Se utiliza el material del proyecto basado en *Química 5 — Aula Taller*, José María Mautino, Editorial Stella, 2.ª edición, capítulo 4. Los nombres de archivo siguientes identifican el corpus local de estudio; este repositorio no redistribuye los documentos completos.

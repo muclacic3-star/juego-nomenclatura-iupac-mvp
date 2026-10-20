@@ -319,6 +319,18 @@ button,select{font:inherit}
 #formula-practice [data-fb-feedback]{overflow-wrap:anywhere;line-height:1.6}
 
 /* NQ_ALCOHOL_CSS_END */
+.course-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;padding:14px;min-width:0}
+.course-controls label,.formula-view{display:flex;flex-direction:column;gap:5px;font-size:14px;min-width:0}
+.course-controls select,.formula-view select{font:inherit;color:var(--text,#e6edf3);background:#17232e;border:1px solid #52616d;border-radius:8px;padding:10px;min-height:44px;max-width:100%}
+.course-controls label{flex:1 1 220px}.course-controls p{flex-basis:100%;margin:0;color:var(--muted,#9facba);line-height:1.5}
+.course-controls [hidden],.levelbar[hidden]{display:none!important}
+.formula-view{margin:10px 0;max-width:300px}.course-status{font-size:13px;color:var(--muted,#9facba);line-height:1.5}
+#nq-practice #mol-display.developed{width:max-content;max-width:none;flex-shrink:0}
+#nq-practice #mol-display svg[data-developed]{width:auto;max-width:none;height:auto}
+#formula-practice .fb-developed-site{position:absolute;transform:translate(-50%,-50%);border:1px dashed #527f8c;border-radius:50%;background:transparent;color:transparent;padding:0;width:44px;height:44px;min-width:44px;z-index:3}
+#formula-practice .fb-developed-site:focus-visible,#formula-practice .fb-developed-site:hover{background:#2dd4bf22;outline:2px solid #2dd4bf}
+#formula-practice .fb-developed-piece{position:absolute;transform:translate(-50%,-50%);font-size:12px;z-index:4;max-width:120px}
+#formula-practice .fb-developed-bond{position:absolute;transform:translate(-50%,-50%);opacity:.25;min-width:44px;min-height:36px;z-index:2}
 </style>
 </head>
 <body>
@@ -346,6 +358,11 @@ button,select{font:inherit}
 
   <details class="nq-practice-config">
   <summary>Unidad y dificultad <span id="name-config-summary"></span></summary>
+  <div class="course-controls">
+    <label>Práctica<select id="name-practice-source"><option value="random">Práctica aleatoria</option><option value="course">Ejemplos de las fuentes</option></select></label>
+    <label id="name-course-filter-label" hidden>Recorrido<select id="name-course-filter"></select></label>
+    <p id="name-course-status" hidden></p>
+  </div>
   <section class="levelbar" id="unitbar">
     <div class="lvl-title">Unidad / Tema</div>
     <div class="lvl-chips" id="unit-chips"></div>
@@ -373,6 +390,7 @@ button,select{font:inherit}
     <section class="card name-target" id="name-target" aria-labelledby="name-target-title">
       <div class="name-target-heading"><h2 id="name-target-title">Molécula objetivo</h2>
       <span class="tag" id="fam-tag">—</span></div>
+      <label class="formula-view">Representación<select id="name-formula-view"><option value="semi">Semidesarrollada</option><option value="developed">Desarrollada completa</option></select></label>
       <div class="mol-box" id="name-molecule-viewport" tabindex="0" role="region" aria-label="Fórmula de la molécula objetivo" aria-describedby="name-molecule-hint"><div id="mol-display" class="formula">…</div></div>
       <p class="name-scroll-hint" id="name-molecule-hint" hidden role="status">Desliza para ver la fórmula completa</p>
       <div class="mol-meta" id="mol-meta">Observa la estructura e identifica la cadena principal.</div>
@@ -444,7 +462,7 @@ button,select{font:inherit}
   <details class="rules">
     <summary>📘 Reglas IUPAC que aplica el motor (recordatorio)</summary>
     <ul>
-      <li><b>Prioridad de numeración:</b> el <b>enlace múltiple</b> (doble/triple) siempre recibe el localizador más bajo, por encima de los radicales. En alcanos, se numera desde el extremo más cercano a la primera ramificación.</li>
+      <li><b>Prioridad de numeración:</b> en hidrocarburos, el <b>enlace múltiple</b> recibe el localizador más bajo antes que los radicales. En oxigenados manda el grupo principal: en <b>2-butenal</b>, el CHO fija C1 antes de localizar C=C. En alcanos se compara la primera ramificación.</li>
       <li><b>Orden alfabético:</b> los radicales se ordenan alfabéticamente <b>ignorando</b> los prefijos multiplicadores (<code>di-</code>, <code>tri-</code>, <code>tetra-</code>). Ej.: <code>etil</code> va antes que <code>dimetil</code> (se compara por «metil»).</li>
       <li><b>Alcance:</b> alcanos, alquenos, dienos, alquinos, cicloalcanos (hasta ciclohexano) y bencenos sustituidos. Cadenas de 1 a 15 C. Radicales lineales: metil, etil, propil, butil, pentil.</li>
       <li><b>Sin mezclar</b> dobles y triples en la misma molécula. Los dienos llevan dos dobles enlaces.</li>
@@ -479,17 +497,22 @@ button,select{font:inherit}
     <header class="fb-heading"><div><h1 id="formula-heading" tabindex="-1">Construye la fórmula</h1><p>Del nombre a la estructura · Constructor guiado</p></div></header>
     <dl class="fb-stats" aria-label="Resultados del modo Construye"><div><dt>Aciertos</dt><dd data-fb-stat="ok">0</dd></div><div><dt>Jugadas</dt><dd data-fb-stat="total">0</dd></div><div><dt>Racha</dt><dd data-fb-stat="streak">0</dd></div><div><dt>Récord</dt><dd data-fb-stat="record">0</dd></div></dl>
     <details class="fb-config"><summary>Familias y dificultad <span data-fb-config-summary></span></summary><div class="fb-config-body"><p class="fb-muted">Cambiar estas opciones inicia un ejercicio nuevo.</p><div class="fb-config-selects"><label>Unidad<select data-fb-config="unit" data-focus-key="config-unit"></select></label><label>Dificultad<select data-fb-config="level" data-focus-key="config-level"></select></label></div><fieldset data-fb-custom hidden><legend>Familias a practicar</legend><div class="fb-family-options" data-fb-families></div><label>Complejidad<select data-fb-config="cx" data-focus-key="config-cx"><option value="baja">Baja</option><option value="media">Media</option><option value="alta">Alta</option></select></label></fieldset></div></details>
+    <div class="course-controls">
+      <label>Práctica<select data-fb-source data-focus-key="practice-source"><option value="random">Práctica aleatoria</option><option value="course">Ejemplos de las fuentes</option></select></label>
+      <label data-fb-course-filter-label hidden>Recorrido<select data-fb-course-filter data-focus-key="course-filter"></select></label>
+      <p data-fb-course-status hidden></p>
+    </div>
     <div class="fb-workspace">
       <header class="fb-target"><span class="fb-eyebrow" data-fb-family-label>Nombre objetivo</span><h2 data-fb-target></h2><p class="fb-target-state" data-fb-target-state>Construye y verifica tu respuesta.</p></header>
       <div class="fb-feedback" data-fb-feedback hidden></div>
-      <div class="fb-scene-toolbar"><span>Tu estructura semidesarrollada</span><span class="fb-scene-tools"><button type="button" data-fb-command="undo" data-focus-key="undo">↶ Deshacer</button><button type="button" data-fb-command="reset" data-focus-key="reset">Reiniciar</button></span></div>
+      <div class="fb-scene-toolbar"><label class="formula-view">Tu estructura<select data-fb-view data-focus-key="formula-view"><option value="semi">Semidesarrollada</option><option value="developed">Desarrollada completa</option></select></label><span class="fb-scene-tools"><button type="button" data-fb-command="undo" data-focus-key="undo">↶ Deshacer</button><button type="button" data-fb-command="reset" data-focus-key="reset">Reiniciar</button></span></div>
       <p class="fb-scene-help" id="fb-scene-help">Desliza el lienzo para recorrer la molécula. Toca una pieza y después su destino, o arrástrala. S1, S2… identifican sitios del dibujo; no son localizadores IUPAC.</p>
       <section class="fb-tray" aria-label="Piezas de construcción"><div class="fb-tray-top"><strong data-fb-tray-title>Bandeja de construcción</strong><button type="button" data-fb-command="cancel" data-focus-key="cancel" hidden>Cancelar selección</button></div><p class="fb-selection" data-fb-selection>Empieza eligiendo el esqueleto.</p><div class="fb-tabs" role="group" aria-label="Tipo de piezas"><button type="button" data-fb-tab="skeleton" aria-pressed="true" data-focus-key="tab-skeleton">Cadena / anillo</button><button type="button" data-fb-tab="bonds" aria-pressed="false" data-focus-key="tab-bonds">Enlaces</button><button type="button" data-fb-tab="groups" aria-pressed="false" data-focus-key="tab-groups">Grupo funcional</button><button type="button" data-fb-tab="subs" aria-pressed="false" data-focus-key="tab-subs">Radicales</button></div><div class="fb-palette" data-fb-palette></div></section>
       <div class="fb-scene" data-fb-scene tabindex="0" aria-label="Lienzo de construcción molecular, desplazable" aria-describedby="fb-scene-help"><div class="fb-molecule" data-fb-molecule></div></div>
       <section class="fb-inspector" data-fb-inspector hidden aria-label="Editar pieza colocada"></section>
 
       <div class="fb-main-actions"><button type="button" class="fb-primary" data-fb-command="verify" data-focus-key="verify">Verificar estructura</button><button type="button" data-fb-command="solve" data-focus-key="solve">Mostrar solución</button><button type="button" data-fb-command="resume" data-focus-key="resume" hidden>Volver a mi construcción</button><button type="button" data-fb-command="next" data-focus-key="next">Otro ejercicio →</button></div>
-      <details class="fb-help"><summary>Cómo construir</summary><ol><li>Elige la longitud de la cadena o el anillo que corresponde al nombre.</li><li>Coloca los enlaces, el grupo funcional y los radicales en sus posiciones. El carbono de –CHO o –COOH pertenece a la cadena elegida.</li><li>Toca una pieza colocada para moverla, cambiarla o quitarla. Tocar un carbono no borra nada.</li><li>Verifica tu respuesta. Puedes usar Deshacer y recorrer el lienzo sin perder tu construcción.</li></ol><p>Con teclado: Tab para recorrer controles, Enter o Espacio para seleccionar y colocar, Escape para cancelar. Esta etapa practica una representación semidesarrollada.</p></details>
+      <details class="fb-help"><summary>Cómo construir</summary><ol><li>Elige la longitud de la cadena o el esqueleto que corresponde al nombre. El biciclo tiene siete carbonos antes de añadir los radicales.</li><li>Coloca los enlaces, el grupo funcional y los radicales en sus posiciones. El carbono de –CHO o –COOH pertenece al esqueleto elegido.</li><li>Toca una pieza colocada para moverla, cambiarla o quitarla. Tocar un carbono no borra nada.</li><li>Verifica tu respuesta. Puedes usar Deshacer y recorrer el lienzo sin perder tu construcción.</li></ol><p>Con teclado: Tab para recorrer controles, Enter o Espacio para seleccionar y colocar, Escape para cancelar. Puedes alternar la vista semidesarrollada y la desarrollada completa sin perder tu trabajo.</p></details>
     </div>
     <div class="fb-live" role="status" aria-live="polite" aria-atomic="true" data-fb-live></div>
   </div>
@@ -507,6 +530,13 @@ const ROOTS = {1:'met',2:'et',3:'prop',4:'but',5:'pent',6:'hex',7:'hept',8:'oct'
 const ALKYL = {1:'metil',2:'etil',3:'propil',4:'butil',5:'pentil'};
 const ALKYL_FORMULA = {1:'CH3',2:'C2H5',3:'C3H7',4:'C4H9',5:'C5H11'};
 const MULT = {1:'',2:'di',3:'tri',4:'tetra',5:'penta'};
+/* Numbered norbornane skeleton: the two bridgeheads are C1/C4 and C7
+   is the one-carbon bridge. Camphor adds methyl groups, never extra bridges. */
+const BICYCLO221_EDGES = Object.freeze([[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],[1,7],[7,4]].map(edge=>Object.freeze(edge)));
+const BICYCLO221_NUMBERINGS = Object.freeze([
+  [1,2,3,4,5,6,7],[1,6,5,4,3,2,7],
+  [4,3,2,1,6,5,7],[4,5,6,1,2,3,7]
+].map(mapping=>Object.freeze(mapping)));
 
 /* A present groups collection is authoritative, including an empty array.
    Legacy monol/carbonyl targets retain fg; adapters never invent a second C. */
@@ -541,7 +571,9 @@ function buildGraph(mol){
   const link = (a,b,order) => { adj[a].push({to:b,order}); adj[b].push({to:a,order}); };
   const main = [];
   for(let i=0;i<mol.n;i++) main.push(addNode());
-  for(let i=0;i<mol.n-1;i++){
+  if(mol.kind==='bicyclo221'){
+    for(const [a,b] of BICYCLO221_EDGES) link(main[a-1],main[b-1],1);
+  } else for(let i=0;i<mol.n-1;i++){
     let order = 1;
     const b = (mol.bonds||[]).find(x=>x.pos===i+1);
     if(b) order = b.order;
@@ -797,7 +829,10 @@ function nameCarbonylChain(adj, path, fgNode, type){
   const dir = (forward)=>{
     const fgLoc = forward ? fgIndex+1 : (k-fgIndex);
     const subs = subsRaw.map(s=>({name:ALKYL[s.len], loc: forward ? s.index+1 : (k-s.index)}));
-    return {fgLoc, subs};
+    const bondLocants=[];
+    for(let index=0;index<k-1;index++) if(edgeOrder(adj,path[index],path[index+1])===2)
+      bondLocants.push(forward?index+1:k-index-1);
+    return {fgLoc, subs,bondLocants:bondLocants.sort((a,b)=>a-b)};
   };
   const fwd=dir(true), rev=dir(false);
   const subLocs = d => d.subs.map(s=>s.loc).sort((a,b)=>a-b);
@@ -808,6 +843,7 @@ function nameCarbonylChain(adj, path, fgNode, type){
   };
   let useFwd;
   if(fwd.fgLoc!==rev.fgLoc){ useFwd = fwd.fgLoc < rev.fgLoc; }        // prioridad del carbonilo
+  else if(cmpList(fwd.bondLocants,rev.bondLocants)!==0) useFwd=cmpList(fwd.bondLocants,rev.bondLocants)<0;
   else { const c2=cmpList(subLocs(fwd),subLocs(rev));
     useFwd = c2!==0 ? c2<0 : firstAlpha(fwd)<=firstAlpha(rev); }
   const chosen = useFwd ? fwd : rev;
@@ -815,12 +851,14 @@ function nameCarbonylChain(adj, path, fgNode, type){
   for(const s of chosen.subs){ (map[s.name]=map[s.name]||[]).push(s.loc); }
   const substituents = Object.keys(map).sort()
     .map(name=>({name, locants: map[name].sort((a,b)=>a-b)}));
-  return {kind:'chain', root:k, suffix:type, fgLocant:chosen.fgLoc, bondLocants:[], substituents};
+  return {kind:'chain', root:k, suffix:type==='al'&&chosen.bondLocants.length?'enal':type,
+    fgLocant:chosen.fgLoc, bondLocants:chosen.bondLocants, substituents};
 }
 
 /* ---------- Analyze a carbonyl compound: parent = longest chain THROUGH the C=O ---------- */
 function analyzeCarbonyl(mol){
   if(!oxValenceOK(mol)) return null;
+  if(mol.kind==='bicyclo221') return analyzeBicycloCarbonyl(mol);
   const groups=molGroups(mol), primary=groups.filter(g=>g.type!=='ol');
   if(!primary.length) return null;
   const type=primary[0].type;
@@ -850,6 +888,22 @@ function analyzeCarbonyl(mol){
   const names = cand.map(p=>assembleName(namePath(p)));
   if(new Set(names).size!==1) return null;
   return {struct:namePath(main)};
+}
+
+/* The four automorphisms preserve the two equal bridges and the short bridge.
+   Carbonyl numbering takes priority over methyl locants. No spatial chirality
+   is inferred from a source drawing that does not specify an enantiomer. */
+function analyzeBicycloCarbonyl(mol){
+  if(!oxValenceOK(mol)||mol.kind!=='bicyclo221') return null;
+  const group=molGroups(mol)[0];
+  const candidates=BICYCLO221_NUMBERINGS.map(mapping=>({
+    fgLocant:mapping[group.pos-1],
+    locants:(mol.subs||[]).map(sub=>mapping[sub.pos-1]).sort((a,b)=>a-b)
+  }));
+  candidates.sort((a,b)=>a.fgLocant-b.fgLocant||cmpList(a.locants,b.locants));
+  const chosen=candidates[0];
+  return {struct:{kind:'bicyclo221',root:7,suffix:'ona',fgLocant:chosen.fgLocant,bondLocants:[],
+    substituents:chosen.locants.length?[{name:'metil',locants:chosen.locants}]:[]}};
 }
 
 /* Principal carbonyl locants take precedence over hydroxyl and branch locants.
@@ -920,6 +974,14 @@ function nameRing(mol){
 /* ---------- Assemble final name string from a structured answer ---------- */
 function assembleName(s){
   const rootSyl = ROOTS[s.root];
+  if(s.kind==='bicyclo221'){
+    const prefix=alkylPrefix(s.substituents||[]);
+    return (prefix?prefix+'':'')+'biciclo[2.2.1]heptan-'+s.fgLocant+'-ona';
+  }
+  if(s.kind==='chain' && s.suffix==='enal'){
+    const prefix=alkylPrefix(s.substituents||[]);
+    return (prefix?prefix+'-':'')+s.bondLocants.join(',')+'-'+rootSyl+'enal';
+  }
   if(s.kind==='chain' && ['dial','diona'].includes(s.suffix)){
     const locants=[...(s.fgLocants||[])].sort((a,b)=>a-b).join(',');
     const prefix=alkylPrefix(s.substituents||[]);
@@ -1065,7 +1127,12 @@ function oxygenateEquivalents(target){
   if(['ol','diol','triol'].includes(s.suffix)) return alcoholEquivalents({...target,struct:s});
   const canonical=target.name||assembleName(s), aliases=[];
   const simple=!(s.substituents||[]).length;
-  if(s.suffix==='dial'||s.suffix==='diona') aliases.push(ROOTS[s.root]+'ano-'+s.fgLocants.join(',')+'-'+s.suffix);
+  if(s.suffix==='dial'||s.suffix==='diona'){
+    aliases.push(ROOTS[s.root]+'ano-'+s.fgLocants.join(',')+'-'+s.suffix);
+    if(s.suffix==='dial') aliases.push(ROOTS[s.root]+'anodial');
+  }
+  if(s.kind==='bicyclo221' && canonical==='1,7,7-trimetilbiciclo[2.2.1]heptan-2-ona') aliases.push('alcanfor');
+  if(s.suffix==='enal') aliases.push(alkylPrefix(s.substituents||[])+ROOTS[s.root]+'-'+s.bondLocants.join(',')+'-enal');
   if(s.suffix==='enol'){
     if(s.root===2) aliases.push('eten-1-ol','alcohol vinílico');
     if(s.root===3) aliases.push('alcohol isopropenílico');
@@ -1078,7 +1145,10 @@ function oxygenateEquivalents(target){
     }
     if(s.root===4 && (s.hydroxyLocants||[]).join(',')==='3' && simple) aliases.push('aldol');
   }
-  if(s.suffix==='ona' && simple && s.root===3) aliases.push('acetona');
+  if(s.kind==='chain'&&s.suffix==='ona'){
+    aliases.push(alkylPrefix(s.substituents||[])+ROOTS[s.root]+'an-'+s.fgLocant+'-ona');
+    if(simple&&s.root===3) aliases.push('acetona');
+  }
   return [...new Set(aliases)].filter(name=>name!==canonical);
 }
 
@@ -1191,7 +1261,9 @@ const LEVELS_OX = {
     id:'dificil', label:'Difícil',
     name:"Nivel Le Bel–Van't Hoff",
     quip:'Si llegaste acá, ya no necesitás la tabla de reglas.',
-    families:['alcohol','aldehido','cetona','acido','diol','triol','alcohol_aromatico','aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido'],
+    families:['alcohol','aldehido','cetona','acido','diol','triol','alcohol_aromatico','aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido','aldehido_insaturado','cetona_biciclica'],
+    aldehido_insaturado:{ n:[4,4], subChance:0, sub:[0,0], cap:0 },
+    cetona_biciclica:{ n:[7,7], subChance:0, sub:[0,0], cap:0 },
     aldehido_aromatico:{ n:[1,1], subChance:0, sub:[0,0], cap:0 },
     dialdehido:{ n:[4,12], subChance:0, sub:[0,0], cap:0 },
     dicetona:{ n:[5,12], subChance:0, sub:[0,0], cap:0 },
@@ -1236,6 +1308,8 @@ const CUSTOM_FAMS = {
     {f:'dicetona', t:'Dicetonas'},
     {f:'enol', t:'Enoles'},
     {f:'hidroxialdehido', t:'Hidroxi-aldehídos'},
+    {f:'aldehido_insaturado', t:'Aldehídos insaturados'},
+    {f:'cetona_biciclica', t:'Cetona bicíclica (alcanfor)'},
     {f:'acido',    t:'Ácido'}
   ]
 };
@@ -1277,6 +1351,8 @@ const COMPLEXITY = {
    Espejan Fácil/Medio/Difícil, que ya traen las 4 familias en los 3 niveles. */
 const COMPLEXITY_OX = {
   baja: {
+    aldehido_insaturado:{ n:[4,4], subChance:0, sub:[0,0], cap:0 },
+    cetona_biciclica:{ n:[7,7], subChance:0, sub:[0,0], cap:0 },
     aldehido_aromatico:{ n:[1,1], subChance:0, sub:[0,0], cap:0 },
     dialdehido:{ n:[2,5], subChance:0, sub:[0,0], cap:0 },
     dicetona:{ n:[4,5], subChance:0, sub:[0,0], cap:0 },
@@ -1291,6 +1367,8 @@ const COMPLEXITY_OX = {
     acido:{ n:[1,5], subChance:0,   sub:[0,0], cap:1 }
   },
   media: {
+    aldehido_insaturado:{ n:[4,4], subChance:0, sub:[0,0], cap:0 },
+    cetona_biciclica:{ n:[7,7], subChance:0, sub:[0,0], cap:0 },
     aldehido_aromatico:{ n:[1,1], subChance:0, sub:[0,0], cap:0 },
     dialdehido:{ n:[3,8], subChance:0, sub:[0,0], cap:0 },
     dicetona:{ n:[5,8], subChance:0, sub:[0,0], cap:0 },
@@ -1305,6 +1383,8 @@ const COMPLEXITY_OX = {
     acido:{ n:[2,8], subChance:0.6, sub:[1,1], cap:2 }
   },
   alta: {
+    aldehido_insaturado:{ n:[4,4], subChance:0, sub:[0,0], cap:0 },
+    cetona_biciclica:{ n:[7,7], subChance:0, sub:[0,0], cap:0 },
     aldehido_aromatico:{ n:[1,1], subChance:0, sub:[0,0], cap:0 },
     dialdehido:{ n:[4,12], subChance:0, sub:[0,0], cap:0 },
     dicetona:{ n:[5,12], subChance:0, sub:[0,0], cap:0 },
@@ -1429,6 +1509,19 @@ function alcoholValenceOK(mol){
 /* Every group contributes to valence. Terminal CHO/COOH and internal ketones
    are structural requirements, independent of the drawn chain orientation. */
 function oxValenceOK(mol){
+  if(mol&&mol.kind==='bicyclo221'){
+    if(mol.n!==7||!Array.isArray(mol.bonds||[])||(mol.bonds||[]).length||!Array.isArray(mol.subs||[])) return false;
+    const groups=molGroups(mol),subs=mol.subs||[];
+    if(groups.length!==1||!groups[0]||groups[0].type!=='ona'||!Number.isInteger(groups[0].pos)||![2,3,5,6].includes(groups[0].pos)||subs.length>3) return false;
+    const order=Array(8).fill(0);
+    for(const [a,b] of BICYCLO221_EDGES){order[a]++;order[b]++;}
+    for(const sub of subs){
+      if(!sub||!Number.isInteger(sub.pos)||sub.pos<1||sub.pos>7||substituentKind(sub)!=='alkyl'||sub.len!==1) return false;
+      order[sub.pos]++;
+    }
+    order[groups[0].pos]+=2;
+    return order.every(used=>used<=4);
+  }
   if(!mol||mol.kind!=='chain'||!Number.isInteger(mol.n)||mol.n<1||mol.n>15) return false;
   if(mol.bonds && !Array.isArray(mol.bonds) || mol.subs && !Array.isArray(mol.subs)) return false;
   const groups=molGroups(mol),subs=mol.subs||[],bonds=mol.bonds||[];
@@ -1451,7 +1544,8 @@ function oxValenceOK(mol){
     if(!bonds.length) return alcoholValenceOK(mol);
     if(groups.length!==1||subs.length||bonds.length!==1||bonds[0].order!==2) return false;
   } else {
-    if(bonds.length) return false;
+    // The carbonyl remains the principal group in enals; C=C cannot replace it.
+    if(bonds.length && !(groups.length===1&&types==='al'&&bonds.every(b=>b.order===2)&&bonds.length===1&&subs.every(s=>substituentKind(s)==='alkyl'))) return false;
     if(groups.length>1 && (!['al,al','ona,ona','al,ol'].includes(types)||subs.length)) return false;
     const phenyl=subs.filter(s=>substituentKind(s)==='phenyl');
     if(phenyl.length && !(groups.length===1&&types==='al'&&mol.n===1&&phenyl.length===1&&subs.length===1)) return false;
@@ -1472,6 +1566,8 @@ function oxValenceOK(mol){
    hydroxy-aldehydes and the two enols explicitly described in the sources. */
 function carbonylReference(fam,index=0){
   const chain=(n,groups,bonds=[],subs=[])=>({kind:'chain',n,bonds,subs,groups});
+  if(fam==='aldehido_insaturado') return chain(4,[{type:'al',pos:1}],[{pos:2,order:2}]);
+  if(fam==='cetona_biciclica') return {kind:'bicyclo221',n:7,bonds:[],groups:[{type:'ona',pos:2}],subs:[1,7,7].map(pos=>({kind:'alkyl',pos,len:1}))};
   if(fam==='aldehido_aromatico') return chain(1,[{type:'al',pos:1}],[],[{kind:'phenyl',pos:1}]);
   if(fam==='dialdehido') return chain(5,[{type:'al',pos:1},{type:'al',pos:5}]);
   if(fam==='dicetona') return chain(5,[{type:'ona',pos:2},{type:'ona',pos:4}]);
@@ -1481,6 +1577,8 @@ function carbonylReference(fam,index=0){
 }
 function carbonylReferenceStruct(fam,index=0){
   const common={kind:'chain',bondLocants:[],substituents:[]};
+  if(fam==='aldehido_insaturado') return {...common,root:4,suffix:'enal',fgLocant:1,bondLocants:[2]};
+  if(fam==='cetona_biciclica') return {...common,kind:'bicyclo221',root:7,suffix:'ona',fgLocant:2,substituents:[{name:'metil',locants:[1,7,7]}]};
   if(fam==='aldehido_aromatico') return {...common,root:1,suffix:'al',fgLocant:1,substituents:[{name:'fenil',locants:[1]}]};
   if(fam==='dialdehido') return {...common,root:5,suffix:'dial',fgLocants:[1,5]};
   if(fam==='dicetona') return {...common,root:5,suffix:'diona',fgLocants:[2,4]};
@@ -1494,16 +1592,17 @@ function carbonylReferenceStruct(fam,index=0){
 function generateOx(level,sourceProgress){
   const cfg=(level && typeof level==='object') ? level : (LEVELS_OX[level]||LEVELS_OX.facil);
   const LABEL={alcohol:'Alcohol',diol:'Diol',triol:'Triol',alcohol_aromatico:'Alcohol aromático',aldehido:'Aldehído',cetona:'Cetona',acido:'Ácido carboxílico',
-    aldehido_aromatico:'Aldehído aromático',dialdehido:'Dialdehído',dicetona:'Dicetona',enol:'Enol',hidroxialdehido:'Hidroxi-aldehído'};
+    aldehido_aromatico:'Aldehído aromático',dialdehido:'Dialdehído',dicetona:'Dicetona',enol:'Enol',hidroxialdehido:'Hidroxi-aldehído',
+    aldehido_insaturado:'Aldehído insaturado',cetona_biciclica:'Cetona bicíclica'};
   const enabled=(cfg.families||['alcohol']).filter(f=>Object.prototype.hasOwnProperty.call(LABEL,f));
   // Select once: rejected attempts cannot silently change the selected family.
   const fam=pick(enabled.length?enabled:['alcohol']);
   const a=cfg[fam]||COMPLEXITY_OX.media[fam];
-  const isNew=['aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido'].includes(fam);
+  const isNew=['aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido','aldehido_insaturado','cetona_biciclica'].includes(fam);
   const progress=sourceProgress&&typeof sourceProgress==='object'?sourceProgress:null;
   const seen=progress&&Number.isInteger(progress[fam])&&progress[fam]>=0?progress[fam]:0;
   const referenceIndex=fam==='enol'?(progress?seen%2:rnd(0,1)):0;
-  const useReference=isNew && (fam==='aldehido_aromatico'||fam==='enol'||(progress&&seen===0)||Math.random()<1/3);
+  const useReference=isNew && (['aldehido_aromatico','enol','aldehido_insaturado','cetona_biciclica'].includes(fam)||(progress&&seen===0)||Math.random()<1/3);
   const referenceName=isNew?assembleName(carbonylReferenceStruct(fam,referenceIndex)):null;
   function finish(mol,struct){
     const name=assembleName(struct);
@@ -1604,6 +1703,52 @@ function generateOx(level,sourceProgress){
   return finish(mol,{kind:'chain',root:n,suffix,fgLocant:fam==='cetona'?2:1,bondLocants:[],substituents:[]});
 }
 
+/* Twenty distinct carbonyl structures in their first-appearance order. The
+   label can retain a course/trivial name; name always uses the class convention
+   assembled from the same structure that both practice modes evaluate. */
+const COURSE_CARBONYLS = (()=>{
+  const chain=(n,type,pos=1,subs=[])=>({kind:'chain',n,bonds:[],subs,groups:[{type,pos}]});
+  const methyl=pos=>({kind:'alkyl',pos,len:1});
+  const records=[
+    {id:'metanal',family:'aldehido',fam:'aldehido',formula:'CH2O',source:'4.1, nota marginal y ejemplo a; p. 188',mol:chain(1,'al')},
+    {id:'etanal',family:'aldehido',fam:'aldehido',formula:'C2H4O',source:'4.1, ejemplo b; p. 188',mol:chain(2,'al')},
+    {id:'propanal',family:'aldehido',fam:'aldehido',formula:'C3H6O',source:'4.1, ejemplo c; p. 188',mol:chain(3,'al')},
+    {id:'butanal',family:'aldehido',fam:'aldehido',formula:'C4H8O',source:'4.1, ejemplo d; p. 188',mol:chain(4,'al')},
+    {id:'2-2-dimetilbutanal',family:'aldehido',fam:'aldehido',formula:'C6H12O',source:'4.1, ejemplo e; p. 188',mol:chain(4,'al',1,[methyl(2),methyl(2)])},
+    {id:'benzaldehido',family:'aldehido',fam:'aldehido_aromatico',formula:'C7H6O',source:'4.1, ejemplo f; p. 188',mol:carbonylReference('aldehido_aromatico')},
+    {id:'1-5-pentanodial',family:'aldehido',fam:'dialdehido',formula:'C5H8O2',source:'4.1, ejemplo g; p. 188',mol:carbonylReference('dialdehido')},
+    {id:'propanona',family:'cetona',fam:'cetona',formula:'C3H6O',source:'4.2, nota marginal y ejemplo a; p. 189',mol:chain(3,'ona',2)},
+    {id:'butanona',family:'cetona',fam:'cetona',formula:'C4H8O',source:'4.2, ejemplo b; pp. 189-190',mol:chain(4,'ona',2)},
+    {id:'2-pentanona',family:'cetona',fam:'cetona',formula:'C5H10O',source:'4.2, ejemplo c; pp. 189-190',mol:chain(5,'ona',2)},
+    {id:'3-pentanona',family:'cetona',fam:'cetona',formula:'C5H10O',source:'4.2, ejemplo d; pp. 189-190',mol:chain(5,'ona',3)},
+    {id:'3-hexanona',family:'cetona',fam:'cetona',formula:'C6H12O',source:'4.2, ejemplo e; pp. 189-190',mol:chain(6,'ona',3)},
+    {id:'2-4-pentanodiona',family:'cetona',fam:'dicetona',formula:'C5H8O2',source:'4.2, ejemplo f; pp. 189-190',mol:carbonylReference('dicetona')},
+    {id:'alcanfor',label:'Alcanfor',family:'cetona',fam:'cetona_biciclica',formula:'C10H16O',source:'4.4, nota marginal; p. 191',mol:carbonylReference('cetona_biciclica')},
+    {id:'4-metil-2-pentanona',family:'cetona',fam:'cetona',formula:'C6H12O',source:'Guía, actividad 2.2.d; p. 4',mol:chain(5,'ona',2,[methyl(4)])},
+    {id:'heptanal',family:'aldehido',fam:'aldehido',formula:'C7H14O',source:'Guía, actividad 4, introducción; p. 4',mol:chain(7,'al')},
+    {id:'octanal',family:'aldehido',fam:'aldehido',formula:'C8H16O',source:'Guía, actividad 4.b; p. 4',mol:chain(8,'al')},
+    {id:'pentanal',family:'aldehido',fam:'aldehido',formula:'C5H10O',source:'Guía, actividad 4.b; p. 4, después de octanal',mol:chain(5,'al')},
+    {id:'3-hidroxibutanal',family:'aldehido',fam:'hidroxialdehido',formula:'C4H8O2',source:'Guía, actividad 9.a; p. 6',mol:carbonylReference('hidroxialdehido')},
+    {id:'2-butenal',family:'aldehido',fam:'aldehido_insaturado',formula:'C4H6O',source:'Respuestas 1–9, p. 21; estructura en anexo, p. 36',mol:carbonylReference('aldehido_insaturado')}
+  ];
+  const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
+  return freeze(records.map((record,index)=>{
+    const struct=analyzeCarbonyl(record.mol).struct,name=assembleName(struct);
+    return {...record,order:index+1,name,label:record.label||name};
+  }));
+})();
+function courseTargets(filter='all'){
+  const selected=COURSE_CARBONYLS.filter(record=>filter==='all'||
+    filter==='aldehidos'&&record.family==='aldehido'||filter==='cetonas'&&record.family==='cetona'||record.id===filter);
+  return selected.map(record=>{
+    const mol=normalizeMolecule(record.mol),struct=analyzeCarbonyl(mol).struct;
+    return {mol,struct,name:assembleName(struct),fam:record.fam,
+      famLabel:record.family==='aldehido'?'Aldehído':'Cetona',label:record.label,
+      course:{id:record.id,order:record.order,family:record.family,source:record.source,formula:record.formula}};
+  });
+}
+function courseTarget(id){ return courseTargets(id).find(target=>target.course.id===id)||null; }
+
 /* Unidades/temas: cada una con su tabla de niveles y su generador. */
 const UNITS = {
   hc:{ id:'hc', label:'Hidrocarburos',        sub:'Cap. 1–2', levels:LEVELS,    gen:generate   },
@@ -1673,20 +1818,187 @@ function renderRingSVG(mol){
   return svg;
 }
 function renderMolecule(mol){
+  if(mol.kind==='bicyclo221') return {html:renderBicyclicSVG(mol),isSvg:true};
   if((mol.subs||[]).some(s=>substituentKind(s)==='phenyl')) return {html:renderAromaticAlcoholSVG(mol),isSvg:true};
   if(mol.kind==='chain') return {html:renderChainFormula(mol), isSvg:false};
   return {html:renderRingSVG(mol), isSvg:true};
 }
 
+/* Fórmula desarrollada: un átomo por vértice y todos los H explícitos.
+   Este adaptador no depende del constructor, que se inicializa después de UI.
+   a/b son índices 0-based; site conserva la posición 1-based del esqueleto. */
+function developedGraph(input){
+  const mol=normalizeMolecule(input), atoms=[],bonds=[],issues=[];
+  const atom=(symbol,x,y,metadata={})=>{atoms.push({symbol,x,y,...metadata});return atoms.length-1;};
+  const link=(a,b,order=1,metadata={})=>{bonds.push({a,b,order,...metadata});};
+  const at=(pos)=>atoms[pos-1];
+  const radialAngle=(point)=>Math.atan2(point.y,point.x);
+  const main=[];
+  const bicyclePoints=[[0,-260],[-260,-130],[-260,130],[0,260],[260,130],[260,-130],[0,0]];
+  const ringRadius=mol.kind==='aromatic'?110:Math.max(105,mol.n*21);
+  for(let index=0;index<mol.n;index++){
+    let x=index*155,y=0;
+    if(mol.kind==='bicyclo221') [x,y]=bicyclePoints[index]||[index*155,0];
+    else if(mol.kind==='cycle'||mol.kind==='aromatic'){
+      const angle=-Math.PI/2+index*2*Math.PI/mol.n;
+      x=ringRadius*Math.cos(angle);y=ringRadius*Math.sin(angle);
+    }
+    main.push(atom('C',x,y,{site:index+1,isSkeleton:true}));
+  }
+  if(mol.kind==='bicyclo221'){
+    if(mol.n!==7) issues.push('El esqueleto bicíclico requiere siete carbonos.');
+    else for(const [a,b] of BICYCLO221_EDGES) link(main[a-1],main[b-1]);
+  } else {
+    for(let index=0;index<mol.n-1;index++) link(main[index],main[index+1],
+      mol.kind==='aromatic'?(index%2===0?2:1):((mol.bonds||[]).find(b=>b.pos===index+1)||{order:1}).order,
+      mol.kind==='chain'?{skeletonBondPos:index+1}:{});
+    if((mol.kind==='cycle'||mol.kind==='aromatic')&&mol.n) link(main[mol.n-1],main[0],1);
+  }
+  const groups=molGroups(mol);
+  for(let index=0;index<mol.subs.length;index++){
+    const sub=mol.subs[index], parent=at(sub.pos),pieceId=sub.id||'s'+(index+1);
+    if(!parent){issues.push('Radical fuera del esqueleto.');continue;}
+    if(substituentKind(sub)==='phenyl'){
+      const centerX=parent.x,centerY=parent.y+235,radius=95,ring=[];
+      for(let j=0;j<6;j++){
+        const angle=-Math.PI/2+j*Math.PI/3;
+        ring.push(atom('C',centerX+radius*Math.cos(angle),centerY+radius*Math.sin(angle),{pieceId}));
+      }
+      link(main[sub.pos-1],ring[0]);
+      for(let j=0;j<6;j++) link(ring[j],ring[(j+1)%6],j%2===0?2:1);
+      continue;
+    }
+    const siblings=mol.subs.filter(s=>s.pos===sub.pos),ordinal=siblings.indexOf(sub);
+    let angle;
+    if(mol.kind==='bicyclo221'){
+      if(sub.pos===7) angle=ordinal%2===0?Math.PI:0;
+      else angle=radialAngle(parent)+(ordinal-(siblings.length-1)/2)*Math.PI/3;
+    } else if(mol.kind==='cycle'||mol.kind==='aromatic'){
+      angle=radialAngle(parent)+(ordinal-(siblings.length-1)/2)*Math.PI/3;
+    } else if(siblings.length===1) angle=Math.PI/2;
+    else if(siblings.length===2) angle=ordinal===0?Math.PI/2:-Math.PI/2;
+    else angle=Math.PI/2+ordinal*2*Math.PI/siblings.length;
+    /* Un grupo oxigenado usa el lado superior de la cadena. En un carbono
+       aislado con varios radicales, las ramas se abren hacia abajo. */
+    if(mol.kind==='chain'&&mol.n===1&&groups.some(g=>g.pos===sub.pos)&&siblings.length>1)
+      angle=Math.PI/2+(ordinal-(siblings.length-1)/2)*Math.PI/2;
+    else if(mol.kind==='chain'&&groups.some(g=>g.pos===sub.pos)&&siblings.length===2)
+      angle=ordinal===0?Math.PI/2:(sub.pos===1?Math.PI:0);
+    else if(mol.kind==='chain'&&mol.n>1&&siblings.length===3)
+      angle=(sub.pos===1?[Math.PI/2,Math.PI,3*Math.PI/2]:[0,Math.PI/2,3*Math.PI/2])[ordinal];
+    let previous=main[sub.pos-1];
+    for(let j=0;j<sub.len;j++){
+      const distance=(mol.kind==='bicyclo221'&&sub.pos===7?135:155)+j*140;
+      const current=atom('C',parent.x+Math.cos(angle)*distance,parent.y+Math.sin(angle)*distance,{pieceId});
+      link(previous,current);previous=current;
+    }
+  }
+  for(let index=0;index<groups.length;index++){
+    const group=groups[index],parent=at(group.pos),pieceId=group.id||'f'+(index+1);
+    if(!parent){issues.push('Grupo funcional fuera del esqueleto.');continue;}
+    const angle=mol.kind==='bicyclo221'||mol.kind==='cycle'||mol.kind==='aromatic'?radialAngle(parent):-Math.PI/2;
+    const addO=(direction,order)=>{
+      const oxygen=atom('O',parent.x+Math.cos(direction)*112,parent.y+Math.sin(direction)*112,{pieceId});
+      link(main[group.pos-1],oxygen,order);return oxygen;
+    };
+    if(group.type==='al'||group.type==='ona') addO(angle,2);
+    else if(group.type==='ol') addO(angle,1);
+    else if(group.type==='oico'){
+      addO(angle-Math.PI/4,2);addO(angle+Math.PI/4,1);
+    } else issues.push('Grupo funcional no representado.');
+  }
+  const heavyCount=atoms.length;
+  const wrap=angle=>Math.abs(Math.atan2(Math.sin(angle),Math.cos(angle)));
+  for(let index=0;index<heavyCount;index++){
+    const parent=atoms[index],neighbors=bonds.filter(b=>b.a===index||b.b===index);
+    const used=neighbors.reduce((sum,bond)=>sum+bond.order,0),valence=parent.symbol==='O'?2:4;
+    if(!Number.isInteger(used)||used>valence){issues.push('Valencia excedida en el átomo '+index+'.');continue;}
+    const occupied=neighbors.map(bond=>{
+      const neighbor=atoms[bond.a===index?bond.b:bond.a];return Math.atan2(neighbor.y-parent.y,neighbor.x-parent.x);
+    });
+    for(let h=0;h<valence-used;h++){
+      let chosen=0,best=-Infinity;
+      for(let step=0;step<24;step++){
+        const angle=step*Math.PI/12,x=parent.x+48*Math.cos(angle),y=parent.y+48*Math.sin(angle);
+        const gap=occupied.length?Math.min(...occupied.map(other=>wrap(angle-other))):Math.PI;
+        let clearance=Infinity;
+        for(let other=0;other<atoms.length;other++) if(other!==index)
+          clearance=Math.min(clearance,Math.hypot(x-atoms[other].x,y-atoms[other].y));
+        const score=gap*50+Math.min(clearance,48)-Math.max(0,32-clearance)*35;
+        if(score>best){best=score;chosen=angle;}
+      }
+      const hydrogen=atom('H',parent.x+48*Math.cos(chosen),parent.y+48*Math.sin(chosen),{isHydrogen:true,parent:index});
+      link(index,hydrogen);occupied.push(chosen);
+    }
+  }
+  const pad=44,minX=atoms.length?Math.min(...atoms.map(atom=>atom.x))-pad:0,
+    minY=atoms.length?Math.min(...atoms.map(atom=>atom.y))-pad:0;
+  const width=atoms.length?Math.ceil(Math.max(...atoms.map(atom=>atom.x))-minX+pad):240,
+    height=atoms.length?Math.ceil(Math.max(...atoms.map(atom=>atom.y))-minY+pad):140;
+  for(const atom of atoms){atom.x-=minX;atom.y-=minY;}
+  return {atoms,bonds,width,height,valid:issues.length===0,issues};
+}
+
+function developedSvgMarkup(model,semideveloped=false){
+  const {atoms,bonds}=model;
+  if(!atoms.length) return '<svg viewBox="0 0 240 140" width="240" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esqueleto vacío"></svg>';
+  const visible=atoms.map((atom,index)=>({atom,index})).filter(({atom})=>!semideveloped||atom.symbol!=='H');
+  const xs=visible.map(({atom})=>atom.x),ys=visible.map(({atom})=>atom.y),pad=44;
+  const minX=semideveloped?Math.min(...xs)-pad:0,minY=semideveloped?Math.min(...ys)-pad:0;
+  const width=semideveloped?Math.ceil(Math.max(...xs)-minX+pad):model.width,
+    height=semideveloped?Math.ceil(Math.max(...ys)-minY+pad):model.height;
+  const shown=new Set(visible.map(item=>item.index));
+  const hydrogenCount=index=>bonds.filter(b=>b.a===index&&atoms[b.b].symbol==='H'||b.b===index&&atoms[b.a].symbol==='H').length;
+  const textWidth=index=>semideveloped&&hydrogenCount(index)?(hydrogenCount(index)>1?29:24):14;
+  const round=value=>Number(value.toFixed(2));
+  let svg='<svg viewBox="'+[round(minX),round(minY),width,height].join(' ')+'" width="'+width+'" height="'+height+'" xmlns="http://www.w3.org/2000/svg" role="img" data-developed="'+!semideveloped+'" aria-label="'+(semideveloped?'Fórmula semidesarrollada bicíclica':'Fórmula desarrollada con todos los átomos y enlaces')+'">';
+  for(const bond of bonds){
+    if(!shown.has(bond.a)||!shown.has(bond.b)) continue;
+    const a=atoms[bond.a],b=atoms[bond.b],distance=Math.hypot(b.x-a.x,b.y-a.y)||1,ux=(b.x-a.x)/distance,uy=(b.y-a.y)/distance;
+    const start=textWidth(bond.a),end=textWidth(bond.b);
+    for(let line=0;line<bond.order;line++){
+      const offset=(line-(bond.order-1)/2)*6;
+      svg+='<line data-bond-a="'+bond.a+'" data-bond-b="'+bond.b+'" data-bond-order="'+bond.order+'"'+(bond.skeletonBondPos?' data-skeleton-bond-pos="'+bond.skeletonBondPos+'"':'')+' x1="'+round(a.x+ux*start-uy*offset)+'" y1="'+round(a.y+uy*start+ux*offset)+'" x2="'+round(b.x-ux*end-uy*offset)+'" y2="'+round(b.y-uy*end+ux*offset)+'" stroke="'+(bond.order>1?'#38bdf8':'#2dd4bf')+'" stroke-width="2" stroke-linecap="round"/>';
+    }
+  }
+  for(const {atom,index} of visible){
+    const hs=semideveloped?hydrogenCount(index):0;
+    const label=atom.symbol+(hs?'H'+(hs>1?'<tspan baseline-shift="sub" font-size="12">'+hs+'</tspan>':''):'');
+    const attrs=(atom.site?' data-site="'+atom.site+'"':'')+(atom.isSkeleton?' data-skeleton-carbon="true"':'')+(atom.pieceId?' data-piece-id="'+String(atom.pieceId).replace(/[^a-z0-9_-]/gi,'')+'"':'');
+    svg+='<text data-atom-index="'+index+'" data-element="'+atom.symbol+'"'+attrs+' x="'+round(atom.x)+'" y="'+round(atom.y)+'" fill="'+(atom.symbol==='O'?'#fda4af':atom.symbol==='H'?'#cbd5e1':'#eafff9')+'" font-family="monospace" font-size="'+(atom.symbol==='H'?18:20)+'" text-anchor="middle" dominant-baseline="central">'+label+'</text>';
+  }
+  return svg+'</svg>';
+}
+
+function renderDevelopedMolecule(mol){return {html:developedSvgMarkup(developedGraph(mol)),isSvg:true};}
+function renderBicyclicSVG(mol){return developedSvgMarkup(developedGraph(mol),true);}
+
 /* ============================================================
    ESTADO + UI
    ============================================================ */
+
+/* NQ_COURSE_START */
+// Each practice mode owns its in-memory traversal. Targets never share mutable data.
+const NQCourse = Object.freeze({
+  create(filter='all') {
+    const targets=courseTargets(filter);
+    return {filter,ids:targets.map(target=>target.course.id),index:0,round:1};
+  },
+  current(run) { return run&&run.ids.length ? courseTarget(run.ids[run.index]) : null; },
+  next(run) {
+    if(!run||!run.ids.length)return run;
+    const wrap=run.index+1>=run.ids.length;
+    return {...run,ids:run.ids.slice(),index:wrap?0:run.index+1,round:run.round+(wrap?1:0)};
+  },
+  summary(run) { return {position:run&&run.ids.length?run.index+1:0,total:run?run.ids.length:0,round:run?run.round:1}; }
+});
+/* NQ_COURSE_END */
 
 /* NQ_CUSTOM_PREFERENCES_START */
 // Missing new families stay off in an existing saved selection, in both modes.
 function normalizeCustomPreference(unit, saved) {
   const families=(CUSTOM_FAMS[unit]||CUSTOM_FAMS.hc).map(item=>item.f);
-  const additions=['diol','triol','alcohol_aromatico','aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido'];
+  const additions=['diol','triol','alcohol_aromatico','aldehido_aromatico','dialdehido','dicetona','enol','hidroxialdehido','aldehido_insaturado','cetona_biciclica'];
   const validObject=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
   const hasSelection=validObject(saved)&&validObject(saved.fams);
   const fams=Object.fromEntries(families.map(family=>[family,hasSelection?!!saved.fams[family]:true]));
@@ -1698,6 +2010,7 @@ function normalizeCustomPreference(unit, saved) {
 /* NQ_CUSTOM_PREFERENCES_END */
 
 
+const namePractice={source:'random',course:null,view:'semi',previousUnit:null};
 const state = {
   current:null,
   user:{ kind:'chain', root:null, suffix:null, bondLocants:[], subs:[], fg:{type:null, loc:null, locs:[],hydroxyLocants:[]} },
@@ -1717,11 +2030,11 @@ const LS = {
   get(k,def){ try{ const v=localStorage.getItem(k); return v===null?def:v; }catch(e){ return def; } },
   set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 };
-const recordKey = () => 'nq_record_'+state.unit+'_'+state.level;
+const recordKey = () => 'nq_record_'+state.unit+'_'+(namePractice.source==='course'?'course':state.level);
 function saveScore(){ LS.set('nq_ok', state.ok); LS.set('nq_total', state.total); }
 function loadRecord(){ state.record = parseInt(LS.get(recordKey(),'0'),10)||0; $('s-record').textContent=state.record; }
 
-const KINDS=[{k:'chain',t:'Cadena abierta'},{k:'cycle',t:'Cicloalcano'},{k:'aromatic',t:'Aromático'}];
+const KINDS=[{k:'chain',t:'Cadena abierta'},{k:'cycle',t:'Cicloalcano'},{k:'aromatic',t:'Aromático'},{k:'bicyclo221',t:'Biciclo[2.2.1]'}];
 const SUFFIXES=[{s:'ano',t:'-ano'},{s:'eno',t:'-eno'},{s:'ino',t:'-ino'},{s:'dieno',t:'-dieno'}];
 
 function resetUser(){ state.user={kind:'chain',root:null,suffix:null,bondLocants:[],subs:[],fg:{type:null,loc:null,locs:[],hydroxyLocants:[]}}; state.solved=false; }
@@ -1734,15 +2047,20 @@ function maxLocant(){
 
 function renderKindChips(){
   const c=$('kind-chips'); c.innerHTML='';
-  const kinds = state.unit==='ox' ? KINDS.filter(o=>o.k==='chain') : KINDS;  // alcoholes: solo cadena abierta
+  const kinds = KINDS.filter(o=>state.unit==='ox'?['chain','bicyclo221'].includes(o.k):o.k!=='bicyclo221');
   kinds.forEach(o=>{
     const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.kind===o.k?' on':'');
     el.textContent=state.unit==='ox'&&state.user.fg.type==='benzaldehido'&&o.k==='chain'?'Anillo aromático con CHO externo':o.t;
     el.onclick=()=>{
+      const wasBicyclic=state.user.kind==='bicyclo221';
       state.user.kind=o.k;
-      if(o.k!=='chain'){ state.user.suffix='ano'; state.user.bondLocants=[]; }
+      if(o.k==='bicyclo221'){
+        state.user.root=7;state.user.suffix='ona';state.user.bondLocants=[];state.user.subs=[];
+        state.user.fg={type:'ona',loc:null,locs:[],hydroxyLocants:[]};
+      } else if(o.k!=='chain'){ state.user.suffix='ano'; state.user.bondLocants=[]; }
       else state.user.suffix=null;
+      if(wasBicyclic&&o.k==='chain'){state.user.root=null;state.user.subs=[];state.user.fg={type:null,loc:null,locs:[],hydroxyLocants:[]};}
       if(o.k==='aromatic') state.user.root=6;
       renderBuilder(); updatePreview();
     };
@@ -1753,11 +2071,11 @@ function renderRootChips(){
   const wrap=$('root-field'), c=$('root-chips'); c.innerHTML='';
   if(state.user.kind==='aromatic'||state.user.fg.type==='benzaldehido'){ wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
-  const range = state.user.kind==='cycle' ? [3,4,5,6] : Array.from({length:15},(_,i)=>i+1);
+  const range = state.user.kind==='bicyclo221'?[7]:state.user.kind==='cycle' ? [3,4,5,6] : Array.from({length:15},(_,i)=>i+1);
   range.forEach(n=>{
     const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.root===n?' on':'');
-    el.textContent=ROOTS[n];
+    el.textContent=state.user.kind==='bicyclo221'?'biciclo[2.2.1]heptano':ROOTS[n];
     el.title=n+' carbono(s)';
     el.onclick=()=>{ state.user.root=n;
       state.user.bondLocants=state.user.bondLocants.filter(x=>x<n);
@@ -1787,7 +2105,7 @@ function renderSuffixChips(){
 }
 function renderBondField(){
   const wrap=$('bond-field'), c=$('bond-chips'); c.innerHTML='';
-  const need = state.user.kind==='chain' && ((state.unit==='ox' && state.user.fg.type==='enol') || (state.unit!=='ox' && ['eno','ino','dieno'].includes(state.user.suffix)));
+  const need = state.user.kind==='chain' && ((state.unit==='ox' && ['enol','enal'].includes(state.user.fg.type)) || (state.unit!=='ox' && ['eno','ino','dieno'].includes(state.user.suffix)));
   if(!need){ wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
   const want = state.user.suffix==='dieno'?2:1;
@@ -1833,7 +2151,7 @@ function renderSubs(){
     });
     row.appendChild(chips);
 
-    const ringMono = (state.user.kind!=='chain') && state.user.subs.length===1;
+    const ringMono = ['cycle','aromatic'].includes(state.user.kind) && state.user.subs.length===1;
     const locbar=document.createElement('div'); locbar.className='locbar';
     if(ringMono){
       const note=document.createElement('span'); note.className='locempty';
@@ -1867,7 +2185,7 @@ function renderSubs(){
   });
 }
 /* ---------- Grupo funcional (unidad Oxigenados) ---------- */
-const FGROUPS=[{f:'ol',t:'–ol (1 OH)'},{f:'diol',t:'–diol (2 OH)'},{f:'triol',t:'–triol (3 OH)'},{f:'al',t:'–al (aldehído)'},{f:'dial',t:'–dial (2 CHO)'},{f:'ona',t:'–ona (cetona)'},{f:'diona',t:'–diona (2 C=O)'},{f:'enol',t:'–en–ol (C=C y OH)'},{f:'hidroxial',t:'hidroxi…al (OH y CHO)'},{f:'benzaldehido',t:'Benzaldehído (base retenida)'},{f:'oico',t:'–oico (ácido)'}];
+const FGROUPS=[{f:'ol',t:'–ol (1 OH)'},{f:'diol',t:'–diol (2 OH)'},{f:'triol',t:'–triol (3 OH)'},{f:'al',t:'–al (aldehído)'},{f:'enal',t:'–enal (CHO y C=C)'},{f:'dial',t:'–dial (2 CHO)'},{f:'ona',t:'–ona (cetona)'},{f:'diona',t:'–diona (2 C=O)'},{f:'enol',t:'–en–ol (C=C y OH)'},{f:'hidroxial',t:'hidroxi…al (OH y CHO)'},{f:'benzaldehido',t:'Benzaldehído (base retenida)'},{f:'oico',t:'–oico (ácido)'}];
 /* ¿El grupo funcional elegido necesita que el alumno indique un localizador? */
 function fgNeedsLoc(type, root, nSubs){
   if(!root) return false;
@@ -1882,7 +2200,7 @@ function renderFgField(){
   const wrap=$('fg-field'), c=$('fg-chips'); c.innerHTML='';
   if(state.unit!=='ox'){ wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
-  FGROUPS.forEach(o=>{
+  FGROUPS.filter(o=>state.user.kind!=='bicyclo221'||o.f==='ona').forEach(o=>{
     const el=document.createElement('button'); el.type='button';
     el.className='chip'+(state.user.fg.type===o.f?' on':'');
     el.textContent=o.t;
@@ -1890,7 +2208,7 @@ function renderFgField(){
     el.onclick=()=>{
       const u=state.user,wasBenz=u.fg.type==='benzaldehido';
       u.fg.type=o.f;u.fg.loc=null;u.fg.locs=[];u.fg.hydroxyLocants=[];
-      if(o.f!=='enol')u.bondLocants=[];
+      if(!['enol','enal'].includes(o.f))u.bondLocants=[];
       if(o.f==='benzaldehido'){
         u.kind='chain';u.root=1;u.subs=[{name:'fenil',locants:[1]}];
       } else if(wasBenz){u.root=null;u.subs=[];}
@@ -1920,7 +2238,7 @@ function renderFgLocField(){
   c.appendChild(info);
   const ketone=t==='ona'||t==='diona';
   const lo = ketone ? 2 : 1;
-  const hi = ketone ? state.user.root-1 : state.user.root;
+  const hi = ketone&&state.user.kind!=='bicyclo221' ? state.user.root-1 : state.user.root;
   for(let n=lo;n<=hi;n++){
     const el=document.createElement('button'); el.type='button';
     const selected=multiple?(state.user.fg.locs||[]).includes(n):state.user.fg.loc===n;
@@ -1967,6 +2285,8 @@ function buildUserStruct(){
   const u=state.user;
   const kind=u.kind;
   let substituents=groupUserSubs();
+  if(state.unit==='ox'&&kind==='bicyclo221')return {kind,root:u.root,suffix:u.fg.type,fgLocant:u.fg.loc,bondLocants:[],substituents};
+  if(state.unit==='ox'&&u.fg.type==='enal')return {kind:'chain',root:u.root,suffix:'enal',fgLocant:1,bondLocants:u.bondLocants.slice().sort((a,b)=>a-b),substituents};
   if(state.unit==='ox' && ['diol','triol','dial','diona'].includes(u.fg.type)){
     return {kind:'chain',root:u.root,suffix:u.fg.type,fgLocants:(u.fg.locs||[]).slice().sort((a,b)=>a-b),bondLocants:[],substituents};
   }
@@ -2012,9 +2332,9 @@ function userComplete(){
     }
     const nSubs=u.subs.filter(s=>s.name).length;
     if(!multiple && fgNeedsLoc(u.fg.type, u.root, nSubs) && !u.fg.loc) return false;
-    if(u.fg.type==='enol'){
+    if(['enol','enal'].includes(u.fg.type)){
       if(u.bondLocants.length!==1||u.bondLocants.some(n=>!Number.isInteger(n)||n<1||n>=u.root))return false;
-      if(u.root>2&&(!Number.isInteger(u.fg.loc)||u.fg.loc<1||u.fg.loc>u.root))return false;
+      if(u.fg.type==='enol'&&u.root>2&&(!Number.isInteger(u.fg.loc)||u.fg.loc<1||u.fg.loc>u.root))return false;
     }
     if(u.fg.type==='hidroxial'){
       const locs=u.fg.hydroxyLocants||[];
@@ -2060,7 +2380,7 @@ function compareStructs(u,a){
   if(a.kind==='chain'){
     if(u.suffix!==a.suffix) return {ok:false, code:['ol','diol','triol'].includes(u.suffix)&&['ol','diol','triol'].includes(a.suffix)?'fgCount':(['al','dial'].includes(u.suffix)&&['al','dial'].includes(a.suffix)||['ona','diona'].includes(u.suffix)&&['ona','diona'].includes(a.suffix))?'fgCarbonylCount':'suffix'};
     if(u.root!==a.root) return {ok:false, code:'root'};
-    if(['eno','ino','dieno','enol'].includes(a.suffix)){
+    if(['eno','ino','dieno','enol','enal'].includes(a.suffix)){
       if(cmpList([...u.bondLocants].sort((x,y)=>x-y),[...a.bondLocants].sort((x,y)=>x-y))!==0)
         return {ok:false, code:'bond'};
     }
@@ -2080,6 +2400,10 @@ function compareStructs(u,a){
     if(uh.length!==ah.length)return {ok:false,code:'hydroxyCount'};
     if(cmpList([...uh].sort((x,y)=>x-y),[...ah].sort((x,y)=>x-y))!==0)return {ok:false,code:'hydroxyLoc'};
     // aldehído ('al'): el CHO va en C1, no se compara localizador
+  } else if(a.kind==='bicyclo221'){
+    if(u.root!==a.root)return {ok:false,code:'root'};
+    if(u.suffix!==a.suffix)return {ok:false,code:'suffix'};
+    if(u.fgLocant!==a.fgLocant)return {ok:false,code:'fgLoc'};
   } else if(a.kind==='cycle'){
     if(u.root!==a.root) return {ok:false, code:'root'};
   }
@@ -2117,6 +2441,8 @@ const HINTS={
   hydroxyCount:'Esta estructura contiene <b>CHO y OH</b>. El CHO fija –al y el OH se expresa como prefijo <b>hidroxi</b>. Cuenta ambos grupos.',
   hydroxyLoc:'Numera desde el <b>CHO, que es C1</b>, y revisa en qué carbono queda el OH del prefijo hidroxi.',
   enolBond:'Localiza el <b>C=C</b>. Numera dando prioridad al OH y conserva la posición del doble enlace. En un enol el OH se une directamente a uno de sus carbonos.',
+  enalBond:'El <b>CHO fija C1</b>. Desde ese extremo, localiza el enlace <b>C=C</b> y combina su número con <b>–enal</b>. El doble C=O del aldehído no cuenta como C=C.',
+  bicyclic:'El esqueleto <b>biciclo[2.2.1]heptano</b> tiene siete carbonos y tres caminos entre los carbonos cabeza de puente. En alcanfor coloca el carbonilo en C2 y los metilos en C1, C7 y C7.',
   rootAcid:'Ese carbono que sostiene al oxígeno del <b>–COOH también es parte de la cadena</b>. ¿Lo contaste al elegir la raíz (met, et, prop…)? En <code>ácido etanoico</code> (CH₃–COOH) hay <b>dos</b> carbonos, no uno.',
   incomplete:'Aún faltan campos por completar. Elige el tipo, la raíz, el sufijo y, si aplica, los localizadores del enlace múltiple y de cada radical.'
 };
@@ -2139,7 +2465,9 @@ function verify(){
     state.streak=0; updateScore();
     let code=res.code;
     let msg;
-    if(code==='subLoc'){
+    if(a.kind==='bicyclo221'&&['kind','root','subLoc','fgLoc'].includes(code)){
+      msg=HINTS.bicyclic;
+    } else if(code==='subLoc'){
       if(a.kind==='chain') msg = ['ol','diol','triol'].includes(a.suffix)?HINTS.fgLoc:['eno','ino','dieno'].includes(a.suffix)?HINTS.subLoc_unsat:HINTS.subLoc_sat;
       else msg = HINTS.ringLoc;
     } else if(code==='suffix' && state.unit==='ox'){
@@ -2152,6 +2480,8 @@ function verify(){
       msg = a.suffix==='ona' ? HINTS.fgLocCarbonyl : ['dial','diona'].includes(a.suffix)?HINTS.fgLocCarbonylMultiple:['diol','triol'].includes(a.suffix)?HINTS.fgLocMultiple:HINTS.fgLoc;
     } else if(code==='bond'&&a.suffix==='enol'){
       msg=HINTS.enolBond;
+    } else if(code==='bond'&&a.suffix==='enal'){
+      msg=HINTS.enalBond;
     } else msg = HINTS[code];
     showFeedback('hint','<span class="h">💡 Pista</span>'+msg);
   }
@@ -2163,7 +2493,7 @@ function solve(){
   }
   const a=state.current.struct;
   const benz=a.suffix==='al'&&a.root===1&&a.substituents.some(s=>s.name==='fenil');
-  const chosenChain = benz ? 'El nombre retenido es benzaldehído: seis carbonos del anillo y uno del CHO externo, <b>siete en total</b>.' : a.kind==='chain'
+  const chosenChain = a.kind==='bicyclo221' ? 'El biciclo aporta siete carbonos y los tres metilos otros tres: <b>diez en total</b>. El carbonilo está en C2. Su nombre común es <b>alcanfor</b>.' : benz ? 'El nombre retenido es benzaldehído: seis carbonos del anillo y uno del CHO externo, <b>siete en total</b>.' : a.kind==='chain'
     ? 'La cadena principal tiene <b>'+a.root+' carbonos</b> ('+ROOTS[a.root]+'…).' : '';
   const alfa = a.substituents.length>1
     ? ' Radicales en orden alfabético (ignorando di/tri): '+[...a.substituents].sort((x,y)=>x.name<y.name?-1:1).map(s=>s.name).join(', ')+'.' : '';
@@ -2301,23 +2631,41 @@ function renderUnitChips(){
 }
 
 const nameSourceProgress={};
-function newMolecule(){
+function populateCourseSelect(select,selected='all'){
+  select.replaceChildren();
+  [['all','Todos · 20 moléculas'],['aldehidos','Aldehídos · 12'],['cetonas','Cetonas · 8'],...COURSE_CARBONYLS.map(entry=>[entry.id,entry.order+'. '+(entry.id==='alcanfor'?'Alcanfor':entry.name)])].forEach(([value,text])=>{
+    const option=document.createElement('option');option.value=value;option.textContent=text;select.appendChild(option);
+  });
+  select.value=selected;
+}
+function renderNameCourseControls(){
+  const course=namePractice.source==='course';
+  $('name-practice-source').value=namePractice.source;
+  $('name-course-filter-label').hidden=!course;$('name-course-status').hidden=!course;
+  $('unitbar').hidden=course;$('levelbar').hidden=course;
+  populateCourseSelect($('name-course-filter'),namePractice.course?namePractice.course.filter:'all');
+  if(course){const p=NQCourse.summary(namePractice.course);$('name-course-status').textContent='Ejemplo '+p.position+' de '+p.total+' · recorrido '+p.round+'. Los aciertos se muestran por separado.';}
+}
+function renderNameMolecule(){
+  if(!state.current)return;
+  const mol=state.current.mol,developed=namePractice.view==='developed';
+  const disp=developed?renderDevelopedMolecule(mol):renderMolecule(mol),md=$('mol-display');
+  md.className=developed?'developed':disp.isSvg?'':'formula';md.innerHTML=disp.html;
+  const generic=state.unit==='ox'&&state.level==='dificil'&&namePractice.source!=='course';
+  $('fam-tag').textContent=generic?'Compuesto oxigenado':state.current.famLabel;
+  const description=developed?'Fórmula desarrollada completa: cada C, H y O y cada enlace se muestran explícitamente.':mol.kind==='bicyclo221'?'Esqueleto bicíclico con puentes. Los tres metilos se suman a los siete carbonos del biciclo.':molGroups(mol).length?'Fórmula semidesarrollada. Identifica todos los grupos. CHO fija C1 antes que OH o C=C. En enoles, OH determina la numeración.':mol.kind==='chain'?'Fórmula semidesarrollada. Identifica la cadena principal y numera correctamente.':'Estructura cíclica. Cada vértice es un carbono; numera para el menor conjunto de localizadores.';
+  $('mol-meta').textContent=description+(state.current.course?' Fuente: '+state.current.course.source+'.':'');
+}
+function newMolecule(advance=true){
   // En modo "A tu medida" se pasa un cfg armado al vuelo; si no, el string del preset.
   const arg = (state.level==='custom') ? buildCustomLevel(state.unit) : state.level;
-  state.current=UNITS[state.unit].gen(arg,nameSourceProgress);
+  if(namePractice.source==='course'){
+    if(!namePractice.course)namePractice.course=NQCourse.create('all');
+    else if(advance)namePractice.course=NQCourse.next(namePractice.course);
+    state.current=NQCourse.current(namePractice.course);
+  } else state.current=UNITS[state.unit].gen(arg,nameSourceProgress);
   resetUser();
-  const disp=renderMolecule(state.current.mol);
-  const md=$('mol-display');
-  md.className = disp.isSvg?'':'formula';
-  md.innerHTML = disp.html;
-  const generic = state.unit==='ox' && state.level==='dificil';   // Difícil: el alumno identifica el grupo
-  $('fam-tag').textContent = generic ? 'Compuesto oxigenado' : state.current.famLabel;
-  const mol=state.current.mol;
-  $('mol-meta').textContent = molGroups(mol).length
-    ? 'Fórmula semidesarrollada. Identifica todos los grupos funcionales y la cadena que los contiene. El CHO tiene prioridad sobre OH; en los enoles, OH determina la numeración antes que C=C.'
-    : (mol.kind==='chain'
-        ? 'Fórmula semidesarrollada. Identifica la cadena principal y numera correctamente.'
-        : 'Estructura cíclica. Cada vértice es un carbono; numera el anillo para el menor conjunto de localizadores.');
+  renderNameMolecule();renderNameCourseControls();
   $('feedback').className='feedback';
   renderBuilder(); updatePreview();
 }
@@ -2327,6 +2675,14 @@ $('add-sub').onclick=()=>{ state.user.subs.push({name:null,locants:[]}); renderS
 $('btn-verify').onclick=verify;
 $('btn-solve').onclick=solve;
 $('btn-next').onclick=newMolecule;
+$('name-formula-view').onchange=()=>{namePractice.view=$('name-formula-view').value;renderNameMolecule();};
+$('name-practice-source').onchange=()=>{
+  const source=$('name-practice-source').value;if(source===namePractice.source)return;
+  if(source==='course'){namePractice.previousUnit=state.unit;state.unit='ox';}
+  else state.unit=namePractice.previousUnit||state.unit;
+  namePractice.source=source;state.streak=0;loadRecord();renderUnitChips();renderLevelChips();updateAppSub();updateScore();newMolecule(false);
+};
+$('name-course-filter').onchange=()=>{namePractice.course=NQCourse.create($('name-course-filter').value);newMolecule(false);};
 
 /* ============================================================
    AUTO-TESTS (se ejecutan al cargar; resultado en consola)
@@ -2625,7 +2981,7 @@ boot();
 const NQFormula = (() => {
   'use strict';
 
-  const KINDS = ['chain', 'cycle', 'aromatic'];
+  const KINDS = ['chain', 'cycle', 'aromatic', 'bicyclo221'];
   const GROUPS = ['ol', 'al', 'ona', 'oico'];
   const FG_COST = { ol: 1, al: 2, ona: 2, oico: 3 };
   const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -2673,13 +3029,20 @@ const NQFormula = (() => {
       Array.isArray(draft.bonds) && Array.isArray(draft.subs) && Array.isArray(draft.groups);
   }
 
+  /* Enlaces del esqueleto, con posiciones 1-based. El biciclo tiene puentes
+     reales: no se representa como una cadena ni como un anillo de siete C. */
+  function skeletonEdges(draft) {
+    if (draft.kind === 'bicyclo221') return BICYCLO221_EDGES.map(([a, b]) => ({a, b, order: 1}));
+    const edges = [];
+    for (let pos = 1; pos < draft.n; pos++) edges.push({a: pos, b: pos + 1,
+      order: draft.kind === 'aromatic' ? 'a' : (draft.bonds.find(b => b.pos === pos) || {order: 1}).order});
+    if (draft.kind !== 'chain' && draft.n) edges.push({a: draft.n, b: 1, order: draft.kind === 'aromatic' ? 'a' : 1});
+    return edges;
+  }
+
   function carbonOrder(draft, pos) {
-    if (draft.kind === 'aromatic') return 3;
-    if (draft.kind === 'cycle') return 2;
-    let total = 0;
-    if (pos > 1) total += (draft.bonds.find(b => b.pos === pos - 1) || { order: 1 }).order;
-    if (pos < draft.n) total += (draft.bonds.find(b => b.pos === pos) || { order: 1 }).order;
-    return total;
+    return skeletonEdges(draft).filter(edge => edge.a === pos || edge.b === pos)
+      .reduce((total, edge) => total + (edge.order === 'a' ? 1.5 : edge.order), 0);
   }
 
   /* H ligados al carbono; no incluye el H unido al oxígeno del OH/COOH.
@@ -2704,8 +3067,12 @@ const NQFormula = (() => {
       return fail('skeleton', 'Elegí un ciclo de 3 a 6 carbonos.');
     if (draft.kind === 'aromatic' && draft.n !== 6)
       return fail('skeleton', 'El anillo de benceno tiene seis carbonos.');
-    if (unit === 'ox' && draft.kind !== 'chain')
-      return fail('scope', 'En esta unidad se construyen compuestos oxigenados de cadena abierta.');
+    if (draft.kind === 'bicyclo221' && draft.n !== 7)
+      return fail('skeleton', 'El esqueleto biciclo[2.2.1]heptano tiene siete carbonos.');
+    if (unit === 'ox' && !['chain', 'bicyclo221'].includes(draft.kind))
+      return fail('scope', 'Elegí una cadena abierta o el esqueleto bicíclico del alcanfor.');
+    if (unit === 'hc' && draft.kind === 'bicyclo221')
+      return fail('scope', 'El esqueleto bicíclico del alcanfor pertenece a la unidad de oxigenados.');
 
     const bondPositions = new Set();
     for (const bond of draft.bonds) {
@@ -2719,7 +3086,7 @@ const NQFormula = (() => {
     const doubles = draft.bonds.filter(b => b.order === 2).map(b => b.pos).sort((a, b) => a - b);
     const triples = draft.bonds.filter(b => b.order === 3);
     if (unit === 'ox' && (doubles.length > 1 || triples.length))
-      return fail('scope', 'En los enoles de esta etapa se admite un solo enlace C=C y ningún triple.');
+      return fail('scope', 'En los enoles y aldehídos insaturados de esta etapa se admite un solo C=C y ningún triple.');
     if (doubles.length > 2 || triples.length > 1 || (doubles.length && triples.length))
       return fail('scope', 'Usá hasta dos dobles enlaces o un triple, sin mezclarlos.');
     if (doubles.length === 2 && doubles[1] - doubles[0] === 1)
@@ -2750,6 +3117,8 @@ const NQFormula = (() => {
     const hydroxyls = draft.groups.filter(g => g.type === 'ol');
     const aldehydes = draft.groups.filter(g => g.type === 'al');
     const ketones = draft.groups.filter(g => g.type === 'ona');
+    if (draft.kind === 'bicyclo221' && (draft.groups.length > 1 || (draft.groups.length && ketones.length !== 1)))
+      return fail('group', 'En el esqueleto bicíclico de esta etapa se coloca un único carbonilo de cetona.');
     const allHydroxyls = hydroxyls.length === draft.groups.length;
     const allowedPair = draft.groups.length === 2 &&
       (aldehydes.length === 2 || ketones.length === 2 || (aldehydes.length === 1 && hydroxyls.length === 1));
@@ -2769,10 +3138,10 @@ const NQFormula = (() => {
         return fail('group', 'Con fenilo se incluyen los alcoholes de un OH y benzaldehído: un CHO unido directamente al anillo.');
     }
     /* Sin grupos todavía, C=C es un borrador válido. Así el enlace y el OH
-       pueden colocarse en cualquier orden al construir un enol. */
+       o CHO pueden colocarse en cualquier orden al construir el objetivo. */
     if (unit === 'ox' && doubles.length && (phenyls.length ||
-        (draft.groups.length && (draft.groups.length !== 1 || hydroxyls.length !== 1))))
-      return fail('group', 'El enlace C=C de esta unidad se combina con un único OH para construir un enol.');
+        (draft.groups.length && (draft.groups.length !== 1 || (hydroxyls.length !== 1 && aldehydes.length !== 1)))))
+      return fail('group', 'El enlace C=C se combina con un único OH para un enol o un único CHO para un aldehído insaturado.');
     if (unit === 'ox' && doubles.length && hydroxyls.length &&
         ![doubles[0], doubles[0] + 1].includes(hydroxyls[0].pos))
       return fail('group-position', 'En un enol, el OH se une directamente a uno de los carbonos del enlace C=C.');
@@ -2785,9 +3154,11 @@ const NQFormula = (() => {
       for (const group of groups) {
         /* Cuenta vecinos C reales, también los radicales. Así se admiten
            dibujos alternativos sin confundirlos con una nueva molécula. */
-        const neighbors = (pos > 1 ? 1 : 0) + (pos < draft.n ? 1 : 0) + arms;
+        const neighbors = skeletonEdges(draft).filter(edge => edge.a === pos || edge.b === pos).length + arms;
         if ((group.type === 'al' || group.type === 'oico') && neighbors > 1)
           return fail('group-position', 'El aldehído y el carboxilo deben quedar en un extremo del esqueleto carbonado.');
+        if (group.type === 'al' && carbonOrder(draft, pos) + arms > 1)
+          return fail('group-position', 'El CHO conserva su hidrógeno: el C=C debe estar entre otros carbonos de la cadena.');
         if (group.type === 'ona' && neighbors !== 2)
           return fail('group-position', 'El carbonilo de una cetona debe unirse a dos carbonos.');
       }
@@ -2874,12 +3245,7 @@ const NQFormula = (() => {
     const edge = (a, b, order) => {
       nodes[a].edges.set(b, order); nodes[b].edges.set(a, order);
     };
-    for (let i = 0; i < draft.n - 1; i++) {
-      const order = draft.kind === 'aromatic' ? 'a' :
-        (draft.bonds.find(b => b.pos === i + 1) || { order: 1 }).order;
-      edge(i, i + 1, order);
-    }
-    if (draft.kind !== 'chain' && draft.n) edge(draft.n - 1, 0, draft.kind === 'aromatic' ? 'a' : 1);
+    for (const bond of skeletonEdges(draft)) edge(bond.a - 1, bond.b - 1, bond.order);
     for (const sub of draft.subs) {
       if (isPhenyl(sub)) {
         const first = nodes.length;
@@ -2945,7 +3311,7 @@ const NQFormula = (() => {
   }
 
   function inferredUnit(draft) {
-    return draft.groups.length || draft.subs.some(isPhenyl) ? 'ox' : 'hc';
+    return draft.kind === 'bicyclo221' || draft.groups.length || draft.subs.some(isPhenyl) ? 'ox' : 'hc';
   }
 
   function equivalent(draft, targetDraft) {
@@ -2986,7 +3352,7 @@ const NQFormula = (() => {
     return fail('connectivity', 'Revisá dónde se unen los radicales y las conexiones del esqueleto.');
   }
 
-  return Object.freeze({ empty, fromMol, validate, apply, hydrogens, equivalent, check });
+  return Object.freeze({ empty, fromMol, validate, apply, hydrogens, equivalent, check, skeletonEdges, carbonOrder, graph });
 })();
 /* NQ_FORMULA_CORE_END */
 
@@ -3105,6 +3471,19 @@ const NQBuilderUI = (() => {
       const fams=$('[data-fb-families]'); fams.replaceChildren();
       CUSTOM_FAMS[session.unit].forEach(f=>{ const label=el('label'); const input=el('input'); input.type='checkbox'; input.checked=!!session.custom.fams[f.f]; input.dataset.fbFamily=f.f; input.dataset.focusKey='family-'+f.f; label.append(input,document.createTextNode(f.t)); fams.append(label); });
       $('[data-fb-config="cx"]').value=session.custom.cx;
+      const course=session.practiceSource==='course';
+      $('[data-fb-source]').value=course?'course':'random';
+      $('[data-fb-course-filter-label]').hidden=!course;
+      $('[data-fb-course-status]').hidden=!course;
+      unit.disabled=course;level.disabled=course;
+      if(course){
+        const p=NQCourse.summary(session.courseRun);
+        $('[data-fb-course-status]').textContent='Ejemplo '+p.position+' de '+p.total+' · recorrido '+p.round+'. Los aciertos se muestran por separado.';
+        $('[data-fb-custom]').hidden=true;
+        $('[data-fb-config-summary]').textContent='Ejemplos de las fuentes · '+p.total+(p.total===1?' molécula':' moléculas');
+      }
+      populateCourseSelect($('[data-fb-course-filter]'),session.courseRun?session.courseRun.filter:'all');
+      $('[data-fb-view]').value=session.formulaView||'semi';
     }
     function renderFeedback() {
       const session=current(); if(!session)return;
@@ -3128,6 +3507,31 @@ const NQBuilderUI = (() => {
       if(ui.inspected===id)node.classList.add('fb-selected');
       return node;
     }
+    function renderDevelopedScene(session,draft,readonly){
+      const graph=developedGraph(draft),display=renderDevelopedMolecule(draft);
+      const width=Math.max(graph.width,scene.clientWidth-2),items=[...draft.subs,...draft.groups];
+      molecule.style.width=width+'px';molecule.style.height=(graph.height+(items.length?100+Math.ceil(items.length/3)*52:0))+'px';
+      const visual=el('div');visual.innerHTML=display.html;visual.style.cssText='position:absolute;left:0;top:0;pointer-events:none';molecule.append(visual);
+      graph.bonds.filter(b=>b.skeletonBondPos).forEach(edge=>{
+        const a=graph.atoms[edge.a],b=graph.atoms[edge.b],pos=edge.skeletonBondPos;
+        const bond=button(edge.order===1?'—':edge.order===2?'=':'≡','bond-'+pos);bond.className='fb-developed-bond';bond.dataset.fbBond=pos;
+        bond.style.left=(a.x+b.x)/2+'px';bond.style.top=(a.y+b.y)/2+'px';bond.disabled=readonly;
+        bond.setAttribute('aria-label','Enlace entre S'+pos+' y S'+(pos+1)+', '+({1:'simple',2:'doble',3:'triple'}[edge.order]));molecule.append(bond);
+      });
+      graph.atoms.filter(atom=>atom.isSkeleton).forEach(atom=>{
+        const target=button('','carbon-'+atom.site);target.className='fb-developed-site';target.dataset.fbPos=atom.site;
+        target.style.left=atom.x+'px';target.style.top=atom.y+'px';target.disabled=readonly;
+        target.setAttribute('aria-label','Sitio '+atom.site+', carbono. Destino para una pieza.');
+        const loc=el('span','fb-loc','S'+atom.site);loc.style.cssText='position:absolute;top:-12px;left:4px;color:#9facba;font-size:10px';target.append(loc);molecule.append(target);
+      });
+      if(items.length){
+        const legend=el('div','fb-inspector-actions');legend.style.cssText='position:absolute;left:12px;top:'+(graph.height+6)+'px;width:'+(width-24)+'px;display:flex;gap:10px;flex-wrap:wrap';
+        items.forEach(item=>{
+          const isGroup=!!item.type,label=(isGroup?GROUPS[item.type].name:subName(item))+' · S'+item.pos;
+          const node=makePlaced('Editar '+label,item.id,label,isGroup?'group':'sub');node.style.cssText='position:static;transform:none;max-width:210px;min-height:44px';legend.append(node);
+        });molecule.append(legend);
+      }
+    }
     function renderScene(session) {
       const draft=draftForDisplay(session), readonly=!!session.solution;
       molecule.replaceChildren();
@@ -3135,24 +3539,27 @@ const NQBuilderUI = (() => {
         molecule.style.width='100%';molecule.style.height='100%';
         const empty=el('div','fb-empty');empty.append(el('strong','','Empieza por el esqueleto'),el('span','','Elige cadena, ciclo o benceno en la bandeja y pulsa Crear.'));molecule.append(empty);return;
       }
-      const nodes=[],placed=[],edges=[],n=draft.n,ring=draft.kind!=='chain';
+      if(session.formulaView==='developed'){renderDevelopedScene(session,draft,readonly);return;}
+      const nodes=[],placed=[],edges=[],n=draft.n,ring=draft.kind!=='chain',bicyclic=draft.kind==='bicyclo221';
+      const bicyclicPoints=[[360,90],[100,220],[100,480],[360,610],[620,480],[620,220],[360,350]];
       const maxSubs=Math.max(1,...Array.from({length:n},(_,i)=>(draft.subs||[]).filter(s=>s.pos===i+1).length));
       const branchPitch=draft.subs.some(isPhenyl)?132:74;
       const gap=Math.max(148,maxSubs*branchPitch+44);
       for(let i=1;i<=n;i++) {
-        if(ring) { const angle=-Math.PI/2+(i-1)*Math.PI*2/n;nodes.push({pos:i,x:220+138*Math.cos(angle),y:220+138*Math.sin(angle),ux:Math.cos(angle),uy:Math.sin(angle)}); }
+        if(bicyclic){const [x,y]=bicyclicPoints[i-1],len=Math.hypot(x-360,y-350)||1;nodes.push({pos:i,x,y,ux:(x-360)/len,uy:(y-350)/len});}
+        else if(ring) { const angle=-Math.PI/2+(i-1)*Math.PI*2/n;nodes.push({pos:i,x:220+138*Math.cos(angle),y:220+138*Math.sin(angle),ux:Math.cos(angle),uy:Math.sin(angle)}); }
         else nodes.push({pos:i,x:100+(i-1)*gap,y:115,ux:0,uy:1});
       }
-      const edgeCount=ring?n:n-1;
-      for(let pos=1;pos<=edgeCount;pos++) {
-        const a=nodes[pos-1],b=nodes[pos%n],order=draft.kind==='aromatic'?(pos%2?2:1):((draft.bonds||[]).find(x=>x.pos===pos)?.order||1);
-        edges.push({pos,x:(a.x+b.x)/2,y:(a.y+b.y)/2,a,b,order});
-      }
+      NQFormula.skeletonEdges(draft).forEach((edge,index)=>{
+        const a=nodes[edge.a-1],b=nodes[edge.b-1],pos=draft.kind==='chain'?edge.a:index+1;
+        const order=edge.order==='a'?(index%2?1:2):edge.order;
+        edges.push({pos,to:edge.b,x:(a.x+b.x)/2,y:(a.y+b.y)/2,a,b,order});
+      });
       nodes.forEach(node=>{
         const subs=(draft.subs||[]).filter(s=>s.pos===node.pos), groups=(draft.groups||[]).filter(g=>g.pos===node.pos);
         subs.forEach((sub,index)=>{
           if(ring) {
-            const angle=Math.atan2(node.uy,node.ux)+(index-(subs.length-1)/2)*.75, width=isPhenyl(sub)?120:Math.max(70,sub.len*54+10);
+            const angle=bicyclic&&node.pos===7?(index===0?Math.PI:0):Math.atan2(node.uy,node.ux)+(index-(subs.length-1)/2)*.75, width=isPhenyl(sub)?120:Math.max(70,sub.len*54+10);
             placed.push({kind:'sub',data:sub,x:node.x+Math.cos(angle)*(108+width/3),y:node.y+Math.sin(angle)*108,width,height:48,node,vertical:false,reverse:Math.cos(angle)<-.1});
           } else if(isPhenyl(sub)) {
             placed.push({kind:'sub',data:sub,x:node.x+(index-(subs.length-1)/2)*branchPitch,y:node.y+112,width:120,height:86,node,vertical:false});
@@ -3170,7 +3577,7 @@ const NQBuilderUI = (() => {
       edges.forEach(edge=>{
         addLine(svg,edge.a.x+dx,edge.a.y+dy,edge.b.x+dx,edge.b.y+dy);
         const bond=button('','bond-'+edge.pos);bond.className='fb-bond';bond.dataset.fbBond=edge.pos;
-        bond.setAttribute('aria-label','Enlace entre S'+edge.pos+' y S'+(edge.pos===n?1:edge.pos+1)+', '+({1:'simple',2:'doble',3:'triple'}[edge.order]));
+        bond.setAttribute('aria-label','Enlace entre S'+edge.a.pos+' y S'+edge.b.pos+', '+({1:'simple',2:'doble',3:'triple'}[edge.order]));
         const symbol=el('span','',edge.order===1?'—':edge.order===2?'=':'≡');symbol.style.transform='rotate('+Math.atan2(edge.b.y-edge.a.y,edge.b.x-edge.a.x)*180/Math.PI+'deg)';bond.append(symbol);
         bond.style.left=edge.x+dx+'px';bond.style.top=edge.y+dy+'px';
         bond.disabled=readonly||ring;molecule.append(bond);
@@ -3202,18 +3609,19 @@ const NQBuilderUI = (() => {
       if(session.unit==='hc'&&ui.tab==='groups')ui.tab='bonds';
       palette.dataset.mode=ui.tab;
       $$('[data-fb-tab]').forEach(tab=>{tab.setAttribute('aria-pressed',String(tab.dataset.fbTab===ui.tab));tab.hidden=tab.dataset.fbTab==='groups'&&session.unit==='hc';});
-      $('[data-fb-tab="skeleton"]').textContent=session.unit==='ox'?'Cadena':'Cadena / anillo';
+      $('[data-fb-tab="skeleton"]').textContent='Esqueleto';
       if(ui.tab==='skeleton') {
         const kinds=el('div','fb-skeleton-kinds');
-        (session.unit==='hc'?[['chain','Cadena'],['cycle','Ciclo'],['aromatic','Benceno']]:[['chain','Cadena']]).forEach(([kind,text])=>{const node=button(text,'kind-'+kind);node.dataset.fbKind=kind;node.setAttribute('aria-pressed',String(ui.kind===kind));node.disabled=!!session.solution;kinds.append(node);});palette.append(kinds);
+        (session.unit==='hc'?[['chain','Cadena'],['cycle','Ciclo'],['aromatic','Benceno']]:[['chain','Cadena'],['bicyclo221','Biciclo[2.2.1]']]).forEach(([kind,text])=>{const node=button(text,'kind-'+kind);node.dataset.fbKind=kind;node.setAttribute('aria-pressed',String(ui.kind===kind));node.disabled=!!session.solution;kinds.append(node);});palette.append(kinds);
         const label=el('label','','Carbonos del esqueleto'),select=el('select');select.dataset.fbLength='';select.dataset.focusKey='skeleton-length';
-        const values=ui.kind==='chain'?Array.from({length:15},(_,i)=>i+1):ui.kind==='cycle'?[3,4,5,6]:[6];
+        const values=ui.kind==='chain'?Array.from({length:15},(_,i)=>i+1):ui.kind==='cycle'?[3,4,5,6]:ui.kind==='bicyclo221'?[7]:[6];
         if(!values.includes(ui.n))ui.n=values[0];values.forEach(n=>select.append(option(n,n+' · '+(ROOTS[n]||n))));select.value=ui.n;select.disabled=!!session.solution;label.append(select);palette.append(label);
-        const create=button('Crear '+(ui.kind==='chain'?'cadena':ui.kind==='cycle'?'ciclo':'benceno'),'create-skeleton');create.className='fb-create';create.dataset.fbCommand='create';create.disabled=!!session.solution;palette.append(create);
+        const create=button('Crear '+(ui.kind==='chain'?'cadena':ui.kind==='cycle'?'ciclo':ui.kind==='bicyclo221'?'biciclo[2.2.1]heptano':'benceno'),'create-skeleton');create.className='fb-create';create.dataset.fbCommand='create';create.disabled=!!session.solution;palette.append(create);
+        if(ui.kind==='bicyclo221')palette.append(el('p','fb-skeleton-note','El esqueleto contiene siete carbonos. Añade los radicales y el carbonilo que indica el nombre; los puentes ya están conectados.'));
         if(session.draft.n)palette.append(el('p','fb-skeleton-note','Crear otro esqueleto reemplaza tu construcción. Puedes recuperarla con Deshacer.'));
       } else if(ui.tab==='bonds') {
         (session.unit==='ox'?[1,2]:[1,2,3]).forEach(order=>palette.append(toolButton(({1:'— Simple',2:'= Doble',3:'≡ Triple'})[order],{type:'bond',order},'tool-bond-'+order)));
-        palette.append(el('p','fb-skeleton-note',session.unit==='ox'?'Para un enol, coloca un C=C y un OH directamente sobre uno de sus carbonos. Puedes colocar primero el OH o el enlace.':'Selecciona un enlace y toca el espacio entre dos carbonos. Los anillos de esta etapa conservan sus enlaces.'));
+        palette.append(el('p','fb-skeleton-note',session.unit==='ox'?'En un enal combina C=C con CHO terminal; CHO fija C1. En un enol, el OH está directamente sobre C=C. Puedes colocar primero la función o el enlace. Los puentes del biciclo ya están definidos.':'Selecciona un enlace y toca el espacio entre dos carbonos. Los anillos de esta etapa conservan sus enlaces.'));
       } else if(ui.tab==='groups') {
         Object.keys(GROUPS).forEach(type=>palette.append(toolButton(GROUPS[type].label,{type:'addGroup',groupType:type},'tool-group-'+type)));
         palette.append(el('p','fb-skeleton-note','Cada función ocupa un carbono distinto. Puedes colocar hasta tres OH, dos CHO, dos carbonilos de cetona, o un CHO y un OH. CHO y COOH utilizan el carbono del esqueleto; no agregan otro carbono.'));
@@ -3261,13 +3669,13 @@ const NQBuilderUI = (() => {
       cancelGesture();ui.session=session;
       if(changedTarget){ui.target=session.target;ui.tool=null;ui.inspected=null;ui.local=null;ui.tab='skeleton';ui.kind='chain';ui.n=3;ui.replaceValue=null;}
       else if(oldFeedback!==session.feedback)ui.local=null;
-      if(session.unit==='ox')ui.kind='chain';
+      if(session.unit==='ox'&&!['chain','bicyclo221'].includes(ui.kind))ui.kind='chain';
       if(session.solution){ui.tool=null;ui.inspected=null;}
       renderConfig(session);
       $$('[data-fb-stat]').forEach(node=>node.textContent=session.stats[node.dataset.fbStat]||0);
       $('[data-fb-target]').textContent=session.target.name;
-      $('[data-fb-family-label]').textContent=(session.unit==='ox'&&session.level==='dificil'?'Compuesto oxigenado':session.target.famLabel||'Nombre objetivo')+' · nombre objetivo';
-      $('[data-fb-target-state]').textContent=session.solution?'Solución mostrada · este ejercicio ya no suma aciertos.':session.feedback&&session.feedback.kind==='ok'?'Respuesta correcta · puedes seguir editando o iniciar otro ejercicio.':'Construye y verifica tu respuesta.';
+      $('[data-fb-family-label]').textContent=(session.unit==='ox'&&session.level==='dificil'&&session.practiceSource!=='course'?'Compuesto oxigenado':session.target.famLabel||'Nombre objetivo')+' · nombre objetivo';
+      $('[data-fb-target-state]').textContent=(session.solution?'Solución mostrada · este ejercicio ya no suma aciertos.':session.feedback&&session.feedback.kind==='ok'?'Respuesta correcta · puedes seguir editando o iniciar otro ejercicio.':'Construye y verifica tu respuesta.')+(session.target.course?' Fuente: '+session.target.course.source+'.':'');
       $('[data-fb-command="undo"]').disabled=!session.history.length;
       $('[data-fb-command="reset"]').disabled=session.solution||!session.draft.n;
       $('[data-fb-command="verify"]').disabled=session.solution||!session.draft.n;
@@ -3329,7 +3737,7 @@ const NQBuilderUI = (() => {
       if(performance.now()<ui.suppressClickUntil){event.preventDefault();return;}
       if(node.dataset.fbCommand){runCommand(node.dataset.fbCommand);return;}
       if(node.dataset.fbTab){ui.tab=node.dataset.fbTab;render(current());return;}
-      if(node.dataset.fbKind){ui.kind=node.dataset.fbKind;if(ui.kind==='aromatic')ui.n=6;else if(ui.kind==='cycle')ui.n=Math.max(3,Math.min(6,ui.n));render(current());return;}
+      if(node.dataset.fbKind){ui.kind=node.dataset.fbKind;if(ui.kind==='aromatic')ui.n=6;else if(ui.kind==='bicyclo221')ui.n=7;else if(ui.kind==='cycle')ui.n=Math.max(3,Math.min(6,ui.n));render(current());return;}
       if(node.dataset.fbTool){if(!editable())return;const tool=JSON.parse(node.dataset.fbTool);ui.tool=ui.tool&&ui.tool.label===tool.label?null:tool;ui.inspected=null;ui.local=null;render(current());announce(ui.tool?'Seleccionaste '+ui.tool.label+'. Ahora elige su destino.':'Selección cancelada.');return;}
       if(node.dataset.fbInspect){if(editable())inspect(node.dataset.fbInspect);return;}
       if(node.dataset.fbPos){if(ui.tool)place(ui.tool,node);else {const pos=Number(node.dataset.fbPos),items=[...current().draft.subs,...current().draft.groups].filter(p=>p.pos===pos);if(items.length===1)inspect(items[0].id);else localFeedback(items.length?'Toca una de las piezas conectadas al sitio '+pos+' para editarla.':'Sitio '+pos+' seleccionado. Elige una pieza de la bandeja y toca este carbono para colocarla.');}return;}
@@ -3337,6 +3745,9 @@ const NQBuilderUI = (() => {
     });
     root.addEventListener('change',event=>{
       const node=event.target,session=current();if(!session)return;
+      if(node.matches('[data-fb-view]')){cancelGesture();options.onView(node.value);return;}
+      if(node.matches('[data-fb-source]')){const value=node.value;cancelSelection();options.onSource(value);return;}
+      if(node.matches('[data-fb-course-filter]')){const value=node.value;cancelSelection();options.onCourseFilter(value);return;}
       if(node.dataset.fbLength!==undefined){ui.n=Number(node.value);return;}
       if(node.dataset.fbReplace){ui.replaceValue=node.value;return;}
       if(node.dataset.fbConfig||node.dataset.fbFamily) {
@@ -3398,13 +3809,15 @@ const NQBuilderUI = (() => {
 (() => {
   const clone = value => JSON.parse(JSON.stringify(value));
   const sourceProgress = {};
-  const recordKeyFor = (unit, level) => 'nq_formula_record_' + unit + '_' + level;
+  const practice={source:'random',course:null,view:'semi',previousUnit:null,previousCustom:null};
+  const recordKeyFor = (unit, level) => 'nq_formula_record_' + unit + '_' + (practice.source==='course'?'course':level);
   function savedCustom(unit) {
     let data = null;
     try { data = JSON.parse(LS.get('nq_formula_custom_' + unit, 'null')); } catch (_) {}
     return normalizeCustomPreference(unit, data);
   }
   function targetFor(unit, level, custom) {
+    if(practice.source==='course')return NQCourse.current(practice.course);
     const arg = level === 'custom'
       ? customCfg(unit, CUSTOM_FAMS[unit].filter(x => custom.fams[x.f]).map(x => x.f), custom.cx)
       : level;
@@ -3420,25 +3833,32 @@ const NQBuilderUI = (() => {
     record: Math.max(0, parseInt(LS.get(recordKeyFor(unit, level), '0'), 10) || 0)
   }}, targetFor(unit, level, savedCustom(unit)));
   function save() {
-    LS.set('nq_formula_unit', session.unit); LS.set('nq_formula_level', session.level);
-    LS.set('nq_formula_custom_' + session.unit, JSON.stringify(session.custom));
+    if(practice.source!=='course'){
+      LS.set('nq_formula_unit', session.unit); LS.set('nq_formula_level', session.level);
+      LS.set('nq_formula_custom_' + session.unit, JSON.stringify(session.custom));
+    }
     LS.set('nq_formula_ok', session.stats.ok); LS.set('nq_formula_total', session.stats.total);
     LS.set(recordKeyFor(session.unit, session.level), session.stats.record);
   }
-  function render() { ui.render(session); }
+  const displayedSession=()=>({...session,practiceSource:practice.source,courseRun:practice.course,formulaView:practice.view});
+  function render() { ui.render(displayedSession()); }
   function edit(action) {
     const result = NQFormulaSession.edit(session, action);
     if (result.ok) { session = result.session; render(); }
     return result;
   }
-  function next(configChanged = false) {
+  function next(configChanged = false, advance=true) {
     const stats = {...session.stats};
     if (configChanged) stats.streak = 0;
+    if(practice.source==='course'){
+      if(!practice.course)practice.course=NQCourse.create('all');
+      else if(advance)practice.course=NQCourse.next(practice.course);
+    }
     session = NQFormulaSession.create({...session, stats}, targetFor(session.unit, session.level, session.custom));
     save(); render();
   }
   const ui = NQBuilderUI.mount(document.getElementById('formula-practice'), {
-    getSession: () => session,
+    getSession: displayedSession,
     onAction: edit,
     onUndo() { session = NQFormulaSession.undo(session); render(); },
     onReset() { edit({type: 'clear'}); },
@@ -3446,6 +3866,20 @@ const NQBuilderUI = (() => {
     onSolve() { session = NQFormulaSession.solve(session); save(); render(); },
     onResume() { session = NQFormulaSession.resume(session); render(); },
     onNext() { next(); },
+    onView(value){if(!['semi','developed'].includes(value))return;practice.view=value;render();},
+    onCourseFilter(value){practice.course=NQCourse.create(value);next(true,false);},
+    onSource(value){
+      if(!['random','course'].includes(value)||value===practice.source)return;
+      save();
+      if(value==='course'){
+        practice.previousUnit=session.unit;practice.previousCustom=clone(session.custom);
+        session={...session,unit:'ox',custom:savedCustom('ox')};
+        if(!practice.course)practice.course=NQCourse.create('all');
+      }else session={...session,unit:practice.previousUnit||session.unit,custom:practice.previousCustom||session.custom};
+      practice.source=value;
+      const record=Math.max(0,parseInt(LS.get(recordKeyFor(session.unit,session.level),'0'),10)||0);
+      session={...session,stats:{...session.stats,record}};next(true,false);
+    },
     onConfig(nextUnit, nextLevel, custom) {
       if (!UNITS[nextUnit] || !['facil', 'medio', 'dificil', 'custom'].includes(nextLevel)) return;
       save();
@@ -3485,7 +3919,9 @@ const NQBuilderUI = (() => {
     frame=0;
     const unit=UNITS[state.unit];
     const level=state.level==='custom'?'A tu medida':unit.levels[state.level].label;
-    summary.textContent=unit.label+' · '+level;
+    const courseMode=typeof namePractice!=='undefined'&&namePractice.source==='course';
+    const count=courseMode?NQCourse.summary(namePractice.course).total:0;
+    summary.textContent=courseMode?'Ejemplos de las fuentes · '+count+(count===1?' molécula':' moléculas'):unit.label+' · '+level;
     hint.hidden=practice.hidden||practice.classList.contains('hidden')||viewport.clientWidth===0||viewport.scrollWidth<=viewport.clientWidth+1;
   }
   function schedule(){if(!frame)frame=requestAnimationFrame(update);}
